@@ -1,0 +1,17 @@
+{
+  "/support": {
+    "target": "http://localhost:9091/",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/bkg/v2": {
+    "target": "http://localhost:9090/",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/ebl/v3": {
+    "target": "http://localhost:9090/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

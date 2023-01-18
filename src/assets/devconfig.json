@@ -1,0 +1,8 @@
+{
+  "dateTimeFormat": "dd MMM yyyy HH:mm",
+  "dateFormat": "dd MMM yyyy",
+  "supportBackendURL": null,
+  "eblBackendURL": "/ebl/v3",
+  "bkgBackendURL": "/bkg/v2",
+  "authentication": false
+}

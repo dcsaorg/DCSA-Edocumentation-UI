@@ -68,7 +68,8 @@
               "browserTarget": "DCSA-Edocumentation-UI:build:production"
             },
             "development": {
-              "browserTarget": "DCSA-Edocumentation-UI:build:development"
+              "browserTarget": "DCSA-Edocumentation-UI:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

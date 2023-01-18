@@ -1,0 +1,20 @@
+<ng-container *ngIf="location != null">
+  <ng-container *ngIf="location.locationName as locationName">
+    <p>Location name: {{locationName}}</p>
+  </ng-container>
+  <ng-container *ngIf="location.address as address">
+    <p>Address:</p>
+    <ul>
+      <li>{{address.name}}</li>
+      <li>{{address.street}} {{address.streetNumber}} {{address.floor}}</li>
+      <li>{{address.postCode}} {{address.stateRegion}}</li>
+      <li>{{address.country}}</li>
+    </ul>
+  </ng-container>
+  <ng-container *ngIf="location.UNLocationCode as UNLocationCode">
+    <p>UNLocationCode: {{UNLocationCode}}</p>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="!location">
+  <p>No location provided.</p>
+</ng-container>

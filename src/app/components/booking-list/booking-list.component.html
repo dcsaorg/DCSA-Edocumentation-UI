@@ -1,0 +1,37 @@
+<h1>Booking summaries</h1>
+
+<ng-container *ngIf="bookingSummaries$ | async as bookingSummaries; else loading">
+  <p>This page shows the most recently updated bookings:</p>
+  <p-table [value]="bookingSummaries">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Carrier Booking Request Reference</th>
+        <th>Expected Departure Date</th>
+        <th>Booking Status</th>
+        <th>Booking Status code</th>
+        <th>Latest update</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-b>
+      <ng-container *ngIf="t(b) as booking">
+        <tr>
+          <td><a [routerLink]="['/bookings', booking.carrierBookingRequestReference]">{{booking.carrierBookingRequestReference}}</a></td>
+          <td>{{booking.expectedDepartureDate | date: globals.config!.dateFormat }}</td>
+          <td>{{booking.uiDocumentStatus ?? "Unknown document status code"}}</td>
+          <td style="text-align: right">{{booking.documentStatus}}</td>
+          <td>{{booking.bookingRequestUpdatedDateTime | date: globals.config!.dateTimeFormat }}</td>
+        </tr>
+      </ng-container>
+    </ng-template>
+  </p-table>
+</ng-container>
+
+
+<ng-template #loading>
+  <ng-container *ngIf="!bookingSummariesLoadingError">
+    <p-progressSpinner></p-progressSpinner>
+  </ng-container>
+  <ng-container *ngIf="bookingSummariesLoadingError">
+    <p>Sorry, an error occurred while trying to load the data.  In some cases, refreshing may resolve the problem.</p>
+  </ng-container>
+</ng-template>

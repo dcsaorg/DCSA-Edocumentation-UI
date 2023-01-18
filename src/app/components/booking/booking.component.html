@@ -1,0 +1,24 @@
+<ng-container *ngIf="booking$ | async as booking; else loading">
+  <h1>Booking details for {{booking.carrierBookingRequestReference}}</h1>
+  <p-accordion [multiple]="true">
+    <p-accordionTab header="Basic details" [selected]="true">
+      <ul>
+        <li>Expected Departure date: {{booking.expectedDepartureDate | date: globals.config!.dateFormat }}</li>
+        <li>Booking status: {{booking.uiDocumentStatus ?? "Unknown document status code"}} (code: {{booking.documentStatus}})</li>
+        <li>Latest update: {{booking.bookingRequestUpdatedDateTime | date: globals.config!.dateTimeFormat }}</li>
+      </ul>
+    </p-accordionTab>
+    <p-accordionTab header="Invoice payable at:" *ngIf="booking.invoicePayableAt as loc">
+      <app-display-location [location]="loc"></app-display-location>
+    </p-accordionTab>
+  </p-accordion>
+</ng-container>
+
+<ng-template #loading>
+  <ng-container *ngIf="!bookingLoadingError">
+    <p-progressSpinner></p-progressSpinner>
+  </ng-container>
+  <ng-container *ngIf="bookingLoadingError">
+    <p>Sorry, an error occurred while trying to load the data.  In some cases, refreshing may resolve the problem.</p>
+  </ng-container>
+</ng-template>
