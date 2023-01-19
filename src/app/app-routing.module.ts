@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {BookingListComponent} from './components/booking-list/booking-list.component';
 import {BookingComponent} from './components/booking/booking.component';
+import {BookingEditorComponent} from './components/booking/booking-editor/booking-editor.component';
 
 
 const guards: any[] = [];
@@ -9,6 +10,8 @@ const guards: any[] = [];
 const routes: Routes = [
   {path: '', redirectTo: '/latest-bookings', pathMatch: 'full'},
   {path: 'latest-bookings', component: BookingListComponent, canActivate: guards},
+  {path: 'bookings/_/new', component: BookingEditorComponent, canActivate: guards},
+  {path: 'bookings/:cbrr/edit', component: BookingEditorComponent, canActivate: guards},
   {path: 'bookings/:cbrr', component: BookingComponent, canActivate: guards},
 ];
 

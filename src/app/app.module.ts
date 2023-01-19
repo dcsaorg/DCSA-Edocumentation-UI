@@ -16,6 +16,8 @@ import {DatePipe} from '@angular/common';
 import {CardModule} from 'primeng/card';
 import {AccordionModule} from 'primeng/accordion';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BookingEditorComponent } from './components/booking/booking-editor/booking-editor.component';
+import {FormsModule} from '@angular/forms';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -28,18 +30,20 @@ export function ConfigLoader(configService: ConfigService) {
     BookingComponent,
     BookingListComponent,
     DisplayLocationComponent,
+    BookingEditorComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    TableModule,
-    TooltipModule,
-    HttpClientModule,
-    ProgressSpinnerModule,
-    CardModule,
-    AccordionModule,
-    BrowserAnimationsModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        TableModule,
+        TooltipModule,
+        HttpClientModule,
+        ProgressSpinnerModule,
+        CardModule,
+        AccordionModule,
+        BrowserAnimationsModule,
+        FormsModule,
+    ],
   providers: [
     ConfigService,
     {

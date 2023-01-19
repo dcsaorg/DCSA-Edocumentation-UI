@@ -15,7 +15,7 @@
     <ng-template pTemplate="body" let-b>
       <ng-container *ngIf="t(b) as booking">
         <tr>
-          <td><a [routerLink]="['/bookings', booking.carrierBookingRequestReference]">{{booking.carrierBookingRequestReference}}</a></td>
+          <td><a [routerLink]="['/bookings/', booking.carrierBookingRequestReference]">{{booking.carrierBookingRequestReference}}</a></td>
           <td>{{booking.expectedDepartureDate | date: globals.config!.dateFormat }}</td>
           <td>{{booking.uiDocumentStatus ?? "Unknown document status code"}}</td>
           <td style="text-align: right">{{booking.documentStatus}}</td>
