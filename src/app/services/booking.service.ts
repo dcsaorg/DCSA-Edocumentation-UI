@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Globals} from '../models/globals';
 import {map, mergeMap, Observable, tap} from 'rxjs';
-import {Booking, BookingSummary} from '../models/booking';
+import {BookingEntity, BookingSummaryEntity} from '../models/booking';
 import {StaticDataServiceService} from './static-data-service.service';
 
 @Injectable({
@@ -22,8 +22,8 @@ export class BookingService {
     this.BOOKING_URL = globals.config!.bkgBackendURL + '/bookings';
   }
 
-  getBooking(carrierBookingRequestReference: string): Observable<Booking> {
-    return this.httpClient.get<Booking>(this.BOOKING_URL +'/' + carrierBookingRequestReference).pipe(
+  getBooking(carrierBookingRequestReference: string): Observable<BookingEntity> {
+    return this.httpClient.get<BookingEntity>(this.BOOKING_URL +'/' + carrierBookingRequestReference).pipe(
       mergeMap(booking => {
         return this.staticDataService.getBookingStatusMap().pipe(
           tap(statusMap => booking.uiDocumentStatus = statusMap.get(booking.documentStatus)),
@@ -33,12 +33,12 @@ export class BookingService {
     )
   }
 
-  getBookingSummaries(): Observable<BookingSummary[]> {
+  getBookingSummaries(): Observable<BookingSummaryEntity[]> {
     let httpParams = new HttpParams();
     httpParams = httpParams.set('limit', this.LIMIT);
     httpParams = httpParams.set('sort', 'bookingRequestUpdatedDateTime:DESC')
 
-    return this.httpClient.get<BookingSummary[]>(this.BOOKING_SUMMARY_URL, {
+    return this.httpClient.get<BookingSummaryEntity[]>(this.BOOKING_SUMMARY_URL, {
       params: httpParams
     }).pipe(
       mergeMap(summaries => {

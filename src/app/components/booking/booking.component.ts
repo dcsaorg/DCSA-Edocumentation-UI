@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {map, mergeMap, Observable, tap} from 'rxjs';
-import {Booking} from '../../models/booking';
+import {BookingEntity} from '../../models/booking';
 import {BookingService} from '../../services/booking.service';
 import {Globals} from '../../models/globals';
 import {ActivatedRoute} from '@angular/router';
@@ -11,7 +11,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./booking.component.scss']
 })
 export class BookingComponent implements OnInit {
-  booking$: Observable<Booking> | undefined;
+  booking$: Observable<BookingEntity> | undefined;
   bookingLoadingError: boolean = false;
 
   constructor(

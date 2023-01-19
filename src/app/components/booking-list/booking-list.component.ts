@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, tap} from 'rxjs';
-import {BookingSummary} from '../../models/booking';
+import {BookingSummaryEntity} from '../../models/booking';
 import {BookingService} from '../../services/booking.service';
 import {Globals} from '../../models/globals';
 
@@ -11,7 +11,7 @@ import {Globals} from '../../models/globals';
 })
 export class BookingListComponent implements OnInit {
 
-  bookingSummaries$: Observable<BookingSummary[]> | undefined;
+  bookingSummaries$: Observable<BookingSummaryEntity[]> | undefined;
   bookingSummariesLoadingError: boolean = false;
 
   constructor(private bookingService: BookingService,
@@ -32,6 +32,6 @@ export class BookingListComponent implements OnInit {
       );
   }
 
-  t = (booking: any): BookingSummary => booking;
+  t = (booking: any): BookingSummaryEntity => booking;
 
 }

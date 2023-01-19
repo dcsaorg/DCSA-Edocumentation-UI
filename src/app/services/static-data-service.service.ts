@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {BookingDocumentStatus} from '../models/booking-document-status';
+import {BookingDocumentStatus} from '../../../projects/bkg-swagger-client';
 
 @Injectable({
   providedIn: 'root'
