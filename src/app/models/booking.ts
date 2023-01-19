@@ -1,44 +1,14 @@
-import {BookingDocumentStatus} from './booking-document-status';
-import {EDocLocation} from './location';
-import {Commodity} from './commodity';
-
-export interface BookingBase {
-  carrierBookingRequestReference: string;
-  documentStatus: BookingDocumentStatus;
-  uiDocumentStatus: string | undefined;
-  bookingRequestUpdatedDateTime: Date;
-  expectedDepartureDate: Date;
-
-
-  receiptTypeAtOrigin: string; // FIXME enum
-  deliveryTypeAtDestination: string; // FIXME enum
-  cargoMovementTypeAtOrigin: string; // FIXME enum
-  cargoMovementTypeAtDestination: string; // FIXME: enum
-
-  isPartialLoadAllowed: boolean;
-  isExportDeclarationRequired: boolean;
-  isImportLicenseRequired: boolean;
-
-  communicationChannelCode: string; // FIXME enum
-  isEquipmentSubstitutionAllowed: boolean;
-}
+import {Booking} from '../auto-generated/model/booking';
+import {BookingDeep} from '../auto-generated/model/bookingDeep';
+import {BookingShallow} from '../auto-generated/model/bookingShallow';
+import {BookingShallowCore} from '../auto-generated/model/bookingShallowCore';
+import {BookingSummary} from '../auto-generated/model/bookingSummary';
 
 // Subset of the fields in the API.
-export interface BookingSummary extends BookingBase {
+export interface BookingSummaryEntity extends BookingSummary {
 
 }
 
-export interface Booking extends BookingBase {
+export interface BookingEntity extends Booking, BookingDeep, BookingShallow, BookingShallowCore  {
 
-  vesselName: string;
-  vesselIMONumber: string;
-  carrierServiceName: string;
-  carrierServiceCode: string;
-  universalServiceReference: string;
-  carrierExportVoyageNumber: string;
-  universalExportVoyageReference: string;
-
-  invoicePayableAt: EDocLocation|null;
-
-  commodities: Commodity[];
 }
