@@ -1,16 +1,11 @@
-export interface EdocAddress {
-  name: string|null|undefined;
-  street: string|null|undefined;
-  streetNumber: string|null|undefined;
-  floor: string|null|undefined;
-  postCode: string|null|undefined;
-  city: string|null|undefined;
-  stateRegion: string|null|undefined;
-  country: string|null|undefined;
+import {Address, AddressName, LocationName, UNLocationCode} from '../../../projects/bkg-swagger-client';
+
+export interface EdocAddress extends Address {
+  name?: AddressName;
 }
 
 export interface EDocLocation {
-  locationName: string|null|undefined;
-  address: EdocAddress|null|undefined;
-  UNLocationCode: string|null|undefined;
+  locationName?: LocationName;
+  address?: EdocAddress;
+  UNLocationCode?: UNLocationCode;
 }
