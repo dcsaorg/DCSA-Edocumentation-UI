@@ -1,6 +1,6 @@
 /**
  * DCSA OpenAPI specification for Booking v2 - Beta 1
- * API specification issued by DCSA.org.  For explanation to specific values or objects please refer to the *** [Information Model v2022.1]() *** Will be updated soon ***. This API does not define the business rules regarding what is allowed to update at what time. For this the [BKG IFS]() *** Will be updated soon *** should be consulted.  All other documents related to the Booking publication can be found [here](https://knowledge.dcsa.org/s/publication?publicationId=a0r7T000000L8mmQAC)  It is possible to use this API as a standalone API. In order to do so it is necessary to use the poll-endPoint - /v1/events  in order to poll event information.  It is recomended to implement the [DCSA Documentation Event Hub](https://app.swaggerhub.com/apis/dcsaorg/DOCUMENTATION_EVENT_HUB) in order to use the push model. Here events are pushed as they occur.  For a changelog please click [here](https://github.com/dcsaorg/DCSA-OpenAPI/tree/master/bkg/v1#v200B1). Please also [create a GitHub issue](https://github.com/dcsaorg/DCSA-OpenAPI/issues/new) if you have any questions/comments. 
+ * API specification issued by DCSA.org.  For explanation to specific values or objects please refer to the *** [Information Model v2022.1]() *** Will be updated soon ***. This API does not define the business rules regarding what is allowed to update at what time. For this the [BKG IFS]() *** Will be updated soon *** should be consulted.  All other documents related to the Booking publication can be found [here](https://knowledge.dcsa.org/s/publication?publicationId=a0r7T000000L8mmQAC)  It is possible to use this API as a standalone API. In order to do so it is necessary to use the poll-endPoint - /v2/events  in order to poll event information.  It is recomended to implement the [DCSA Documentation Event Hub](https://app.swaggerhub.com/apis/dcsaorg/DOCUMENTATION_EVENT_HUB) in order to use the push model. Here events are pushed as they occur.  For a changelog please click [here](https://github.com/dcsaorg/DCSA-OpenAPI/tree/master/bkg/v2#v200B1). Please also [create a GitHub issue](https://github.com/dcsaorg/DCSA-OpenAPI/issues/new) if you have any questions/comments. 
  *
  * OpenAPI spec version: 2.0.0-Beta-1
  * Contact: info@dcsa.org
@@ -66,13 +66,13 @@ export class CancellationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1BookingsCarrierBookingRequestReferencePatch(carrierBookingRequestReference: CarrierBookingRequestReference, body?: BookingsCarrierBookingRequestReferenceBody, aPIVersion?: string, observe?: 'body', reportProgress?: boolean): Observable<InlineResponse200>;
-    public v1BookingsCarrierBookingRequestReferencePatch(carrierBookingRequestReference: CarrierBookingRequestReference, body?: BookingsCarrierBookingRequestReferenceBody, aPIVersion?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<InlineResponse200>>;
-    public v1BookingsCarrierBookingRequestReferencePatch(carrierBookingRequestReference: CarrierBookingRequestReference, body?: BookingsCarrierBookingRequestReferenceBody, aPIVersion?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<InlineResponse200>>;
-    public v1BookingsCarrierBookingRequestReferencePatch(carrierBookingRequestReference: CarrierBookingRequestReference, body?: BookingsCarrierBookingRequestReferenceBody, aPIVersion?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public v2BookingsCarrierBookingRequestReferencePatch(carrierBookingRequestReference: CarrierBookingRequestReference, body?: BookingsCarrierBookingRequestReferenceBody, aPIVersion?: string, observe?: 'body', reportProgress?: boolean): Observable<InlineResponse200>;
+    public v2BookingsCarrierBookingRequestReferencePatch(carrierBookingRequestReference: CarrierBookingRequestReference, body?: BookingsCarrierBookingRequestReferenceBody, aPIVersion?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<InlineResponse200>>;
+    public v2BookingsCarrierBookingRequestReferencePatch(carrierBookingRequestReference: CarrierBookingRequestReference, body?: BookingsCarrierBookingRequestReferenceBody, aPIVersion?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<InlineResponse200>>;
+    public v2BookingsCarrierBookingRequestReferencePatch(carrierBookingRequestReference: CarrierBookingRequestReference, body?: BookingsCarrierBookingRequestReferenceBody, aPIVersion?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (carrierBookingRequestReference === null || carrierBookingRequestReference === undefined) {
-            throw new Error('Required parameter carrierBookingRequestReference was null or undefined when calling v1BookingsCarrierBookingRequestReferencePatch.');
+            throw new Error('Required parameter carrierBookingRequestReference was null or undefined when calling v2BookingsCarrierBookingRequestReferencePatch.');
         }
 
 
@@ -100,7 +100,7 @@ export class CancellationService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<InlineResponse200>('patch',`${this.basePath}/v1/bookings/${encodeURIComponent(String(carrierBookingRequestReference))}`,
+        return this.httpClient.request<InlineResponse200>('patch',`${this.basePath}/v2/bookings/${encodeURIComponent(String(carrierBookingRequestReference))}`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
