@@ -3,20 +3,11 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
-import { BookingEventsService } from './api/bookingEvents.service';
-import { BookingRequestService } from './api/bookingRequest.service';
-import { CancellationService } from './api/cancellation.service';
-import { ShipmentService } from './api/shipment.service';
-
 @NgModule({
   imports:      [],
   declarations: [],
   exports:      [],
-  providers: [
-    BookingEventsService,
-    BookingRequestService,
-    CancellationService,
-    ShipmentService ]
+  providers: []
 })
 export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders<ApiModule> {
