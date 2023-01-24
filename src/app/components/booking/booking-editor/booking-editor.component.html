@@ -142,12 +142,14 @@
                    [(ngModel)]="booking.vesselIMONumber"
                    [required]="!booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
                    appVesselIMONumber
+                   nullValue
                    type="text">
           </div>
           <div class="row">
             <label for="carrierExportVoyageNumber">Carrier Export Voyage Number</label>
             <input id="carrierExportVoyageNumber"
                    name="carrierExportVoyageNumber"
+                   maxlength="50"
                    [(ngModel)]="booking.carrierExportVoyageNumber"
                    [required]="!booking.vesselIMONumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
                    type="text">
@@ -164,8 +166,8 @@
                    [(ngModel)]="commodity.commodityType"
                    [required]="true"
                    type="text"
-                   pattern="^\S+(\s*\S+)*$"
                    maxlength="550">
+            <!-- pattern="^\S+(\s*\S+)*$" -->
           </div>
           <div class="row">
             <label for="commodities[{{i}}].cargoGrossWeight">Cargo Gross Weight</label>
@@ -173,9 +175,11 @@
                    name="commodities[{{i}}].cargoGrossWeight"
                    [(ngModel)]="commodity.cargoGrossWeight"
                    [required]="true"
-                   min="0"
-                   pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
+
                    type="number">
+            <!--   min="0"
+                   pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
+                   -->
             <p-dropdown [required]="true"
                         [(ngModel)]="commodity.cargoGrossWeightUnit"
                         id="commodities[{{i}}].cargoGrossWeightUnit"
@@ -184,14 +188,43 @@
                         appEnumDropDown>
             </p-dropdown>
           </div>
+
+          <div class="row">
+            <label for="commodities[{{i}}].cargoGrossVolume">Cargo Gross Volume</label>
+            <input id="commodities[{{i}}].cargoGrossVolume"
+                   name="commodities[{{i}}].cargoGrossVolume"
+                   [(ngModel)]="commodity.cargoGrossVolume"
+                   [required]="commodity.cargoGrossVolumeUnit !== undefined && commodity.cargoGrossVolumeUnit !== null"
+                   type="number">
+            <!-- min="0" pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$" -->
+            <p-dropdown [(ngModel)]="commodity.cargoGrossVolumeUnit"
+                        id="commodities[{{i}}].cargoGrossVolumeUnit"
+                        name="commodities[{{i}}].cargoGrossVolumeUnit"
+                        [values$]="weightUnitValues$"
+                        [required]="commodity.cargoGrossVolume !== undefined && commodity.cargoGrossVolume !== null"
+                        appEnumDropDown>
+            </p-dropdown>
+          </div>
+          <div class="row">
+            <label for="commodities[{{i}}].numberOfPackages">Number of Packages</label>
+            <input id="commodities[{{i}}].numberOfPackages"
+                   name="commodities[{{i}}].numberOfPackages"
+                   [(ngModel)]="commodity.numberOfPackages"
+                   pattern="^-?\d*$"
+                   type="number">
+            <!--
+                   pattern="^\d*$"
+                   min="0"
+              -->
+          </div>
           <div class="row">
             <label for="commodities[{{i}}].HSCode">HS Code</label>
             <input id="commodities[{{i}}].HSCode"
                    name="commodities[{{i}}].HSCode"
                    [(ngModel)]="commodity.HSCode"
                    type="text"
-                   pattern="^\S*$"
                    maxlength="10">
+            <!-- pattern="^\S*$" -->
           </div>
 
           <div class="row">
@@ -216,6 +249,53 @@
                   label="Add commodity">
         </p-button>
       </p-accordionTab>
+      <p-accordionTab [disabled]="!booking" header="References ({{this.booking.references?.length ?? 0}})">
+        <p-accordionTab *ngFor="let reference of this.booking.references; index as i"
+                        header="{{!!reference.type ? reference.type : '[Missing type]'}} {{!!reference.value ? reference.value : '[Missing value]'}}">
+
+          <div class="row">
+            <label for="references[{{i}}].type">Reference type</label>
+            <p-dropdown [required]="true"
+                        [(ngModel)]="reference.type"
+                        id="references[{{i}}].type"
+                        name="references[{{i}}].type"
+                        [values$]="referenceTypeValues$"
+                        appEnumDropDown>
+            </p-dropdown>
+          </div>
+          <div class="row">
+            <label for="references[{{i}}].value">Reference</label>
+            <input id="references[{{i}}].value"
+                   name="references[{{i}}].value"
+                   [(ngModel)]="reference.value"
+                   [required]="true"
+                   type="text"
+                   maxlength="100">
+          </div>
+
+          <div class="row">
+            <label for="references[{{i}}].remove">Remove reference</label>
+            <button pButton
+                    appDebounceClick
+                    [disabled]="(booking?.references?.length ?? 0) < 2"
+                    id="references[{{i}}].remove"
+                    class="p-button-danger"
+                    [debounceTime]="200"
+                    icon="pi pi-times"
+                    (debounceClick)="removeReference(i)">
+            </button>
+          </div>
+        </p-accordionTab>
+
+        <p-button appDebounceClick
+                  (debounceClick)="addReference()"
+                  [debounceTime]="200"
+                  iconPos="left"
+                  class="p-button-secondary"
+                  label="Add reference">
+        </p-button>
+      </p-accordionTab>
+
       <p-accordionTab [disabled]="bookingForm.valid ?? true" header="Validation issues: {{bookingForm.valid ? 'No' : 'Yes'}}">
         <ul>
           <ng-container *ngFor="let name of allFormControls(bookingForm)">

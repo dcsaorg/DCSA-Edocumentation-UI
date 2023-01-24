@@ -9,6 +9,7 @@ import {
   CommunicationChannelCode,
   DeliveryTypeAtDestination,
   ReceiptTypeAtOrigin,
+  ReferenceType,
   WeightUnit
 } from '../../../../../projects/bkg-swagger-client';
 import {NgForm} from '@angular/forms';
@@ -35,6 +36,8 @@ export class BookingEditorComponent implements OnInit {
 
   weightUnitValues$ = this.enumValues(WeightUnit);
   communicationChannelCodeValues$ = this.enumValues(CommunicationChannelCode);
+
+  referenceTypeValues$ = this.enumValues(ReferenceType);
 
   constructor(private route: ActivatedRoute,
               private bookingService: BookingService,
@@ -118,8 +121,26 @@ export class BookingEditorComponent implements OnInit {
     })
   }
 
+  addReference(): void {
+    const booking = this.booking;
+    if (!booking) {
+      return;
+    }
+    if (!booking.references) {
+      booking.references = []
+    }
+    booking.references.push({
+      type: ReferenceType.AAO,
+      value: ''
+    })
+  }
+
   removeCommodity(i: number): void {
     this.booking?.commodities.splice(i, 1);
+  }
+
+  removeReference(i: number): void {
+    this.booking?.references?.splice(i, 1);
   }
 
   /*

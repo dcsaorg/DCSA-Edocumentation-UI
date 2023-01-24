@@ -4,7 +4,7 @@ import {Dropdown} from 'primeng/dropdown';
 
 interface DropdownItem<E> {
   label: string;
-  value: E;
+  value: E|null;
 }
 
 @Directive({
@@ -46,6 +46,9 @@ export class EnumDropdownDirective<E> implements OnInit, OnDestroy, OnChanges {
         map(v => v.map(this.codeAsLabel))
       ).subscribe({
         next: v => {
+          if (!this.primeDropdown.required) {
+            v.push(this.nullValue());
+          }
           this.primeDropdown.options = v;
         }
       })
@@ -56,6 +59,13 @@ export class EnumDropdownDirective<E> implements OnInit, OnDestroy, OnChanges {
     return {
       label: `${e}`,
       value: e,
+    }
+  }
+
+  private nullValue(): DropdownItem<E> {
+    return {
+      label: "[unset]",
+      value: null,
     }
   }
 }
