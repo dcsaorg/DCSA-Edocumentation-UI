@@ -1,5 +1,11 @@
 <ng-container *ngIf="booking$ | async as booking; else loading">
   <h1>Booking details for {{booking.carrierBookingRequestReference}}</h1>
+  <p-button label="Edit/Amend Booking"
+            [routerLink]="['/bookings', booking.carrierBookingRequestReference, 'edit']"
+            iconPos="left"
+            class="p-button-primary">
+
+  </p-button>
   <p-accordion [multiple]="true">
     <p-accordionTab header="Basic details" [selected]="true">
       <ul>

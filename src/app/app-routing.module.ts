@@ -10,7 +10,7 @@ const guards: any[] = [];
 const routes: Routes = [
   {path: '', redirectTo: '/latest-bookings', pathMatch: 'full'},
   {path: 'latest-bookings', component: BookingListComponent, canActivate: guards},
-  {path: 'bookings/_/new', component: BookingEditorComponent, canActivate: guards},
+  {path: 'bookings/new', component: BookingEditorComponent, canActivate: guards},
   {path: 'bookings/:cbrr/edit', component: BookingEditorComponent, canActivate: guards},
   {path: 'bookings/:cbrr', component: BookingComponent, canActivate: guards},
 ];

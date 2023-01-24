@@ -1,19 +1,13 @@
-
 // Subset of the fields in the API.
 import {
   Booking,
-  BookingChannelReference,
-  BookingDeep,
-  BookingDocumentStatus,
   BookingRefStatus,
-  BookingShallow,
-  BookingShallowCore,
+  BookingRequest,
   BookingSummary,
   CargoMovementTypeAtDestination,
   CargoMovementTypeAtOrigin,
-  CarrierBookingRequestReference, CommunicationChannelCode,
-  VesselIMONumber,
-  VesselName
+  CommunicationChannelCode,
+  DeliveryTypeAtDestination, ReceiptTypeAtOrigin,
 } from '../../../projects/bkg-swagger-client';
 import {EDocLocation} from './location';
 
@@ -23,44 +17,36 @@ interface BookingUISupport {
   uiDocumentStatus?: string;
 }
 
-interface BookingSummaryAllOfWorkaround {
-  carrierBookingRequestReference: CarrierBookingRequestReference;
-}
-
-// Separate class for Booking to resolve subclass issues and attributes
-// specific to booking.
-interface BookingAllOfWorkaround extends Booking, BookingDeep {
+interface BookingAllOfWorkaround extends Booking{
   // Are present, but mangled into an `any` for some reason.
   invoicePayableAt?: EDocLocation;
   placeOfBLIssue?: EDocLocation;
 }
 
-export interface BookingSummaryEntity extends BookingSummary, BookingRefStatus, BookingSummaryAllOfWorkaround, BookingUISupport {
+export interface BookingSummaryEntity extends BookingSummary, BookingRefStatus, BookingUISupport {
 
 }
 
-interface BookingBaseEntity extends BookingShallow, BookingShallowCore, BookingAllOfWorkaround, BookingUISupport {
+
+export interface BookingEntity extends BookingRefStatus, BookingAllOfWorkaround, BookingUISupport {
 }
 
-export interface BookingEntity extends BookingBaseEntity, BookingRefStatus {
-  carrierBookingRequestReference: CarrierBookingRequestReference;
-}
-
-export interface MutableBookingEntity extends BookingBaseEntity {}
+export interface MutableBookingEntity extends BookingRequest {}
 
 export interface CreateBookingEntity extends MutableBookingEntity {
 
 }
 
 export interface UpdateBookingEntity extends MutableBookingEntity {
-  carrierBookingRequestReference: CarrierBookingRequestReference;
+  carrierBookingRequestReference: string;
 }
 
 export class UpdateBookingEntityImpl implements UpdateBookingEntity {
 
   bookingChannelReference = undefined;
-  cargoMovementTypeAtDestination = undefined;
-  cargoMovementTypeAtOrigin = undefined;
+  receiptTypeAtOrigin = ReceiptTypeAtOrigin.CFS;
+  cargoMovementTypeAtDestination = CargoMovementTypeAtDestination.BB;
+  cargoMovementTypeAtOrigin = CargoMovementTypeAtOrigin.BB;
   carrierBookingRequestReference = '';
   carrierExportVoyageNumber = undefined;
   carrierServiceCode = undefined;
@@ -68,10 +54,9 @@ export class UpdateBookingEntityImpl implements UpdateBookingEntity {
   commodities = [];
   communicationChannelCode = CommunicationChannelCode.AO;
   contractQuotationReference = undefined;
-  customsFilingSystems = [];
   declaredValue = undefined;
   declaredValueCurrency = undefined;
-  deliveryTypeAtDestination = undefined;
+  deliveryTypeAtDestination = DeliveryTypeAtDestination.CFS;
   documentParties = [];
   expectedArrivalAtPlaceOfDeliveryEndDate = undefined;
   expectedArrivalAtPlaceOfDeliveryStartDate = undefined;
@@ -93,10 +78,9 @@ export class UpdateBookingEntityImpl implements UpdateBookingEntity {
   shipmentLocations = [];
   transportDocumentReference = undefined;
   transportDocumentTypeCode = undefined;
-  uiDocumentStatus = undefined;
   universalExportVoyageReference = undefined;
   universalServiceReference = undefined;
-  valueAddedServices = [];
+  valueAddedServices? = [];
   vesselIMONumber = undefined;
   vesselName = undefined;
 
@@ -105,5 +89,7 @@ export class UpdateBookingEntityImpl implements UpdateBookingEntity {
   constructor(booking: Booking) {
     const o = Object.entries(booking).filter((kv) => this.hasOwnProperty(kv[0]))
     Object.assign(this, Object.fromEntries(o));
+    // FIXME: DDT-1498
+    this.valueAddedServices = undefined;
   }
 }

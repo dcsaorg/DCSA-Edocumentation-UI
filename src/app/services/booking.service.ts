@@ -5,10 +5,12 @@ import {map, mergeMap, Observable, tap} from 'rxjs';
 import {BookingEntity, BookingSummaryEntity, MutableBookingEntity, UpdateBookingEntityImpl} from '../models/booking';
 import {StaticDataServiceService} from './static-data-service.service';
 import {
+  BookingRefStatus,
   CargoMovementTypeAtDestination,
   CargoMovementTypeAtOrigin,
-  CarrierBookingRequestReference,
-  CommunicationChannelCode
+  CommunicationChannelCode,
+  DeliveryTypeAtDestination,
+  ReceiptTypeAtOrigin
 } from '../../../projects/bkg-swagger-client';
 
 @Injectable({
@@ -28,7 +30,7 @@ export class BookingService {
     this.BOOKING_URL = globals.config!.bkgBackendURL + '/bookings';
   }
 
-  getBooking(carrierBookingRequestReference: string|CarrierBookingRequestReference): Observable<BookingEntity> {
+  getBooking(carrierBookingRequestReference: string): Observable<BookingEntity> {
     return this.httpClient.get<BookingEntity>(this.BOOKING_URL +'/' + carrierBookingRequestReference).pipe(
       mergeMap(booking => {
         return this.staticDataService.getBookingStatusMap().pipe(
@@ -37,6 +39,15 @@ export class BookingService {
         )
       })
     )
+  }
+
+
+  postNewBooking(booking: MutableBookingEntity): Observable<BookingRefStatus> {
+    return this.httpClient.post<BookingRefStatus>(this.BOOKING_URL, booking);
+  }
+
+  putBooking(carrierBookingRequestReference: string, booking: MutableBookingEntity): Observable<BookingRefStatus> {
+    return this.httpClient.put<BookingRefStatus>(this.BOOKING_URL + '/' + carrierBookingRequestReference, booking);
   }
 
   getBookingSummaries(): Observable<BookingSummaryEntity[]> {
@@ -61,20 +72,16 @@ export class BookingService {
 
   createStubBooking(): MutableBookingEntity {
     return {
+      deliveryTypeAtDestination: DeliveryTypeAtDestination.CY,
+      receiptTypeAtOrigin: ReceiptTypeAtOrigin.CY,
       cargoMovementTypeAtDestination: CargoMovementTypeAtDestination.BB,
       cargoMovementTypeAtOrigin: CargoMovementTypeAtOrigin.BB,
       commodities: [],
-      customsFilingSystems: [],
-      documentParties: [],
-      references: [],
-      shipmentLocations: [],
-      valueAddedServices: [],
       communicationChannelCode: CommunicationChannelCode.AO,
       isEquipmentSubstitutionAllowed: false,
       isExportDeclarationRequired: false,
       isImportLicenseRequired: false,
       isPartialLoadAllowed: false
-
     }
   }
 }

@@ -1,23 +1,35 @@
 import {APP_INITIALIZER, NgModule} from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BookingComponent } from './components/booking/booking.component';
-import { BookingListComponent } from './components/booking-list/booking-list.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BookingComponent} from './components/booking/booking.component';
+import {BookingListComponent} from './components/booking-list/booking-list.component';
 import {ConfigService} from './services/config.service';
 import {TableModule} from 'primeng/table';
 import {TooltipModule} from 'primeng/tooltip';
 import {HttpClientModule} from '@angular/common/http';
 import {Globals} from './models/globals';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import { DisplayLocationComponent } from './components/display-location/display-location.component';
+import {DisplayLocationComponent} from './components/display-location/display-location.component';
 import {DatePipe} from '@angular/common';
 import {CardModule} from 'primeng/card';
 import {AccordionModule} from 'primeng/accordion';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { BookingEditorComponent } from './components/booking/booking-editor/booking-editor.component';
-import {FormsModule} from '@angular/forms';
+import {BookingEditorComponent} from './components/booking/booking-editor/booking-editor.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {DropdownModule} from 'primeng/dropdown';
+import {DebounceClickDirective} from './directives/debounce-click.directive';
+import {ButtonModule} from 'primeng/button';
+import {EnumDropdownDirective} from './directives/enum-dropdown.directive';
+import {CheckboxModule} from 'primeng/checkbox';
+import {NullDefaultValueDirective} from './directives/null-default-value.directive';
+import {VesselIMONumberDirective} from './validators/vessel-imo-number.directive';
+import {ToastModule} from 'primeng/toast';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -31,19 +43,31 @@ export function ConfigLoader(configService: ConfigService) {
     BookingListComponent,
     DisplayLocationComponent,
     BookingEditorComponent,
+    DebounceClickDirective,
+    EnumDropdownDirective,
+    NullDefaultValueDirective,
+    VesselIMONumberDirective,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        TableModule,
-        TooltipModule,
-        HttpClientModule,
-        ProgressSpinnerModule,
-        CardModule,
-        AccordionModule,
-        BrowserAnimationsModule,
-        FormsModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    TableModule,
+    TooltipModule,
+    HttpClientModule,
+    ProgressSpinnerModule,
+    CardModule,
+    AccordionModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    DropdownModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    CheckboxModule,
+    ToastModule,
+    MessagesModule,
+    MessageModule,
+    ConfirmDialogModule,
+  ],
   providers: [
     ConfigService,
     {
@@ -54,6 +78,8 @@ export function ConfigLoader(configService: ConfigService) {
     },
     Globals,
     DatePipe,
+    MessageService,
+    ConfirmationService,
   ],
   bootstrap: [AppComponent]
 })

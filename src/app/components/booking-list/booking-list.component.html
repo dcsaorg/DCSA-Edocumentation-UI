@@ -1,4 +1,10 @@
-<h1>Booking summaries</h1>
+<h1>Latest bookings</h1>
+<p-button label="Create new booking"
+          [routerLink]="['/bookings/new']"
+          iconPos="left"
+          class="p-button-primary">
+
+</p-button>
 
 <ng-container *ngIf="bookingSummaries$ | async as bookingSummaries; else loading">
   <p>This page shows the most recently updated bookings:</p>

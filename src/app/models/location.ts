@@ -1,11 +1,7 @@
-import {Address, AddressName, LocationName, UNLocationCode} from '../../../projects/bkg-swagger-client';
-
-export interface EdocAddress extends Address {
-  name?: AddressName;
-}
+import {Address} from '../../../projects/bkg-swagger-client';
 
 export interface EDocLocation {
-  locationName?: LocationName;
-  address?: EdocAddress;
-  UNLocationCode?: UNLocationCode;
+  locationName?: string;
+  address?: Address;
+  UNLocationCode?: string;
 }

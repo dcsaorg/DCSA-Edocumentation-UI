@@ -1,15 +1,242 @@
 <ng-container *ngIf="booking && !hadLoadError">
   <h1 *ngIf="!isCreateMode">Update/Amend booking details for {{carrierBookingRequestReference}}</h1>
   <h1 *ngIf="isCreateMode">New booking request</h1>
-  <form>
+  <form #bookingForm="ngForm">
     <p-accordion [multiple]="true">
       <p-accordionTab header="Basic details" [selected]="true">
-        <input [ngModel]="booking.expectedDepartureDate" name="expectedDepartureDateModel" type="date">
+        <div class="grid">
+          <div class="row">
+            <label for="receiptTypeAtOrigin">Receipt Type At Origin</label>
+            <p-dropdown [required]="true"
+                        [(ngModel)]="booking.receiptTypeAtOrigin"
+                        id="receiptTypeAtOrigin"
+                        name="receiptTypeAtOrigin"
+                        [values$]="receiptTypeAtOriginValues$"
+                        appEnumDropDown>
+            </p-dropdown>
+          </div>
+          <div class="row">
+            <label for="cargoMovementTypeAtOrigin">Cargo Movement Type At Origin</label>
+            <p-dropdown [required]="true"
+                        [(ngModel)]="booking.cargoMovementTypeAtOrigin"
+                        id="cargoMovementTypeAtOrigin"
+                        name="cargoMovementTypeAtOrigin"
+                        [values$]="cargoMovementTypeAtOriginValues$"
+                        appEnumDropDown>
+            </p-dropdown>
+          </div>
+          <div class="row">
+            <label for="deliveryTypeAtDestination">Delivery Type At Destination</label>
+            <p-dropdown [required]="true"
+                        [(ngModel)]="booking.deliveryTypeAtDestination"
+                        id="deliveryTypeAtDestination"
+                        name="deliveryTypeAtDestination"
+                        [values$]="deliveryTypeAtDestinationValues$"
+                        appEnumDropDown>
+            </p-dropdown>
+          </div>
+          <div class="row">
+            <label for="cargoMovementTypeAtDestination">Cargo Movement Type At Destination</label>
+            <p-dropdown [required]="true"
+                        [(ngModel)]="booking.cargoMovementTypeAtDestination"
+                        id="cargoMovementTypeAtDestination"
+                        name="cargoMovementTypeAtDestination"
+                        [values$]="cargoMovementTypeAtDestinationValues$"
+                        appEnumDropDown>
+            </p-dropdown>
+          </div>
+          <div class="row">
+            <label for="communicationChannelCode">Communication Channel Code</label>
+            <p-dropdown [required]="true"
+                        [(ngModel)]="booking.communicationChannelCode"
+                        id="communicationChannelCode"
+                        name="communicationChannelCode"
+                        [values$]="communicationChannelCodeValues$"
+                        appEnumDropDown>
+            </p-dropdown>
+          </div>
+          <div class="row">
+            <label for="isPartialLoadAllowed">Is Partial Load Allowed?</label>
+            <p-checkbox [required]="true"
+                        [binary]="true"
+                        [(ngModel)]="booking.isPartialLoadAllowed"
+                        id="isPartialLoadAllowed"
+                        name="isPartialLoadAllowed">
+            </p-checkbox>
+          </div>
+          <div class="row">
+            <label for="isExportDeclarationRequired">Is Export Declaration Required?</label>
+            <p-checkbox [required]="true"
+                        [binary]="true"
+                        [(ngModel)]="booking.isExportDeclarationRequired"
+                        id="isExportDeclarationRequired"
+                        name="isExportDeclarationRequired">
+            </p-checkbox>
+          </div>
+          <div class="row">
+            <label for="isImportLicenseRequired">Is Import License Required?</label>
+            <p-checkbox [required]="true"
+                        [binary]="true"
+                        [(ngModel)]="booking.isImportLicenseRequired"
+                        id="isImportLicenseRequired"
+                        name="isImportLicenseRequired">
+            </p-checkbox>
+          </div>
+          <div class="row">
+            <label for="isEquipmentSubstitutionAllowed">Is Equipment Substitution Allowed?</label>
+            <p-checkbox [required]="true"
+                        [binary]="true"
+                        [(ngModel)]="booking.isEquipmentSubstitutionAllowed"
+                        id="isEquipmentSubstitutionAllowed"
+                        name="isEquipmentSubstitutionAllowed">
+            </p-checkbox>
+          </div>
+          <div class="row">
+            <label for="contractQuotationReference">Contract Quotation Reference</label>
+            <input type="text"
+                   maxlength="35"
+                   [(ngModel)]="booking.contractQuotationReference"
+                   nullValue
+                   [required]="!booking.serviceContractReference"
+                   id="contractQuotationReference"
+                   name="contractQuotationReference">
+          </div>
+          <div class="row">
+            <label for="serviceContractReference">Service Contract Reference</label>
+            <input type="text"
+                   maxlength="30"
+                   [(ngModel)]="booking.serviceContractReference"
+                   nullValue
+                   [required]="!booking.contractQuotationReference"
+                   id="serviceContractReference"
+                   name="serviceContractReference">
+          </div>
+          <div class="row">
+            <label for="expectedDepartureDate">Expected Departure date</label>
+            <input id="expectedDepartureDate"
+                   name="expectedDepartureDate"
+                   [(ngModel)]="booking.expectedDepartureDate"
+                   [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                   type="date">
+          </div>
+          <div class="row">
+            <label for="expectedArrivalAtPlaceOfDeliveryStartDate">expectedArrivalAtPlaceOfDeliveryStartDate</label>
+            <input id="expectedArrivalAtPlaceOfDeliveryStartDate"
+                   name="expectedArrivalAtPlaceOfDeliveryStartDate"
+                   [(ngModel)]="booking.expectedArrivalAtPlaceOfDeliveryStartDate"
+                   [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                   type="date">
+          </div>
+          <div class="row">
+            <label for="expectedArrivalAtPlaceOfDeliveryEndDate">expectedArrivalAtPlaceOfDeliveryEndDate</label>
+            <input id="expectedArrivalAtPlaceOfDeliveryEndDate"
+                   name="expectedArrivalAtPlaceOfDeliveryEndDate"
+                   [(ngModel)]="booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                   [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryStartDate"
+                   type="date">
+          </div>
+          <div class="row">
+            <label for="vesselIMONumber">vesselIMONumber</label>
+            <input id="vesselIMONumber"
+                   name="vesselIMONumber"
+                   [(ngModel)]="booking.vesselIMONumber"
+                   [required]="!booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                   appVesselIMONumber
+                   type="text">
+          </div>
+          <div class="row">
+            <label for="carrierExportVoyageNumber">Carrier Export Voyage Number</label>
+            <input id="carrierExportVoyageNumber"
+                   name="carrierExportVoyageNumber"
+                   [(ngModel)]="booking.carrierExportVoyageNumber"
+                   [required]="!booking.vesselIMONumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                   type="text">
+          </div>
+        </div>
       </p-accordionTab>
-      <p-accordionTab header="Invoice payable at:" *ngIf="booking.invoicePayableAt as loc">
-        <app-display-location [location]="loc"></app-display-location>
+      <p-accordionTab [disabled]="!booking" header="Commodities ({{this.booking.commodities.length}})">
+        <p-accordionTab *ngFor="let commodity of this.booking.commodities; index as i"
+                        header="{{!!commodity.commodityType ? commodity.commodityType : 'Missing commodity type!' }}">
+          <div class="row">
+            <label for="commodities[{{i}}].commodityType">Commodity Type</label>
+            <input id="commodities[{{i}}].commodityType"
+                   name="commodities[{{i}}].commodityType"
+                   [(ngModel)]="commodity.commodityType"
+                   [required]="true"
+                   type="text"
+                   pattern="^\S+(\s*\S+)*$"
+                   maxlength="550">
+          </div>
+          <div class="row">
+            <label for="commodities[{{i}}].cargoGrossWeight">Cargo Gross Weight</label>
+            <input id="commodities[{{i}}].cargoGrossWeight"
+                   name="commodities[{{i}}].cargoGrossWeight"
+                   [(ngModel)]="commodity.cargoGrossWeight"
+                   [required]="true"
+                   min="0"
+                   pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
+                   type="number">
+            <p-dropdown [required]="true"
+                        [(ngModel)]="commodity.cargoGrossWeightUnit"
+                        id="commodities[{{i}}].cargoGrossWeightUnit"
+                        name="commodities[{{i}}].cargoGrossWeightUnit"
+                        [values$]="weightUnitValues$"
+                        appEnumDropDown>
+            </p-dropdown>
+          </div>
+          <div class="row">
+            <label for="commodities[{{i}}].HSCode">HS Code</label>
+            <input id="commodities[{{i}}].HSCode"
+                   name="commodities[{{i}}].HSCode"
+                   [(ngModel)]="commodity.HSCode"
+                   type="text"
+                   pattern="^\S*$"
+                   maxlength="10">
+          </div>
+
+          <div class="row">
+            <label for="commodities[{{i}}].remove">Remove commodity</label>
+            <button pButton
+                    appDebounceClick
+                    [disabled]="booking.commodities.length < 2"
+                    id="commodities[{{i}}].remove"
+                    class="p-button-danger"
+                    [debounceTime]="200"
+                    icon="pi pi-times"
+                    (debounceClick)="removeCommodity(i)">
+            </button>
+          </div>
+        </p-accordionTab>
+
+        <p-button appDebounceClick
+                  (debounceClick)="addCommodity()"
+                  [debounceTime]="200"
+                  iconPos="left"
+                  class="p-button-secondary"
+                  label="Add commodity">
+        </p-button>
+      </p-accordionTab>
+      <p-accordionTab [disabled]="bookingForm.valid ?? true" header="Validation issues: {{bookingForm.valid ? 'No' : 'Yes'}}">
+        <ul>
+          <ng-container *ngFor="let name of allFormControls(bookingForm)">
+            <li *ngIf="bookingForm.controls[name].errors as errors">{{name}}: {{errors | json}}</li>
+          </ng-container>
+        </ul>
       </p-accordionTab>
     </p-accordion>
+    <div class="row">
+      <p-button appDebounceClick (debounceClick)="submit()" [debounceTime]="200"
+                [disabled]="!bookingForm.valid || (bookingForm.pristine ?? true)" icon="pi pi-save"
+                label="{{isCreateMode ? 'Create' : 'Update/Amend'}}"
+                iconPos="left">
+      </p-button>
+      <p-button label="Cancel {{carrierBookingRequestReference ? 'edit' : 'creation'}}"
+                appDebounceClick
+                (debounceClick)="cancel()"
+                iconPos="left"
+                class="p-button-secondary">
+      </p-button>
+    </div>
   </form>
 </ng-container>
 
@@ -20,3 +247,9 @@
 <ng-container *ngIf="!booking && !hadLoadError">
   <p-progressSpinner></p-progressSpinner>
 </ng-container>
+
+<p-toast key="GenericSuccessToast" position="bottom-right"></p-toast>
+<p-toast key="GenericErrorToast" position="bottom-right"></p-toast>
+
+<p-confirmDialog [transitionOptions]="'0ms'">
+</p-confirmDialog>

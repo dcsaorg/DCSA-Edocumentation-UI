@@ -23,7 +23,6 @@ export class BookingComponent implements OnInit {
 
   ngOnInit(): void {
     this.booking$ = this.route.params.pipe(
-      tap(p => console.log(p)),
       map(params => params['cbrr']),
       mergeMap(carrierBookingRequestReference => {
         return this.bookingService.getBooking(carrierBookingRequestReference);
