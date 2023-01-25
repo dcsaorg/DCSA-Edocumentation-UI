@@ -3,13 +3,16 @@
     <p>Location name: {{locationName}}</p>
   </ng-container>
   <ng-container *ngIf="location.address as address">
-    <p>Address:</p>
-    <ul>
-      <li>{{address.name}}</li>
-      <li>{{address.street}} {{address.streetNumber}} {{address.floor}}</li>
-      <li>{{address.postCode}} {{address.stateRegion}}</li>
-      <li>{{address.country}}</li>
-    </ul>
+    <fieldset>
+      <legend>Address</legend>
+      <ul>
+        <li *ngIf="address.name">{{address.name}}</li>
+        <li *ngIf="address.street || address.streetNumber || address.floor">{{address.street}} {{address.streetNumber}} {{address.floor}}</li>
+        <li *ngIf="address.postCode || address.city">{{address.postCode}} {{address.city}}</li>
+        <li *ngIf="address.stateRegion">{{address.stateRegion}}</li>
+        <li *ngIf="address.country">{{address.country}}</li>
+      </ul>
+    </fieldset>
   </ng-container>
   <ng-container *ngIf="location.UNLocationCode as UNLocationCode">
     <p>UNLocationCode: {{UNLocationCode}}</p>
