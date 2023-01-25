@@ -1,0 +1,120 @@
+<fieldset>
+<mat-slide-toggle [ngModel]="hasValue"
+                  name="hasValue"
+                  (toggleChange)="onLocationSlideToggleChange()">
+  <mat-label>Define location</mat-label>
+</mat-slide-toggle>
+<div *ngIf="hasValue && location as l">
+  <div class="row">
+    <label>Location Name</label>
+    <input type="text"
+           [(ngModel)]="l.locationName"
+           nullValue
+           (change)="emitChange()"
+           (blur)="emitTouchedEvent()"
+           [ngModelOptions]="{standalone: true}">
+  </div>
+  <div class="row">
+    <label>UNLocationCode</label>
+    <input type="text"
+           [(ngModel)]="l.UNLocationCode"
+           nullValue
+           [required]="needAddressOrUNLocationCode"
+           (change)="emitChange()"
+           (blur)="emitTouchedEvent()"
+           [ngModelOptions]="{standalone: true}">
+  </div>
+
+  <mat-slide-toggle [ngModel]="hasAddress"
+                    (toggleChange)="onAddressSlideToggleChange()"
+                    name="hasAddress"
+                    [required]="needAddressOrUNLocationCode">
+    <mat-label>Define Address</mat-label>
+  </mat-slide-toggle>
+
+  <div *ngIf="hasAddress && address as a">
+    <fieldset>
+      <legend>Address</legend>
+      <div class="row">
+        <label>Name</label>
+        <input type="text"
+               [(ngModel)]="a.name"
+               nullValue
+               [required]="missingAddressContent"
+               (change)="emitChange()"
+               (blur)="emitTouchedEvent()"
+               [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="row">
+        <label>Street, street nr. and floor</label>
+        <input type="text"
+               placeholder="Street"
+               [(ngModel)]="a.street"
+               nullValue
+               [required]="missingAddressContent"
+               (change)="emitChange()"
+               (blur)="emitTouchedEvent()"
+               [ngModelOptions]="{standalone: true}">
+        <input type="text"
+               placeholder="Street number"
+               [(ngModel)]="a.streetNumber"
+               nullValue
+               [required]="missingAddressContent"
+               (change)="emitChange()"
+               (blur)="emitTouchedEvent()"
+               [ngModelOptions]="{standalone: true}">
+        <input type="text"
+               placeholder="Floor"
+               [(ngModel)]="a.floor"
+               nullValue
+               [required]="missingAddressContent"
+               (change)="emitChange()"
+               (blur)="emitTouchedEvent()"
+               [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="row">
+        <label>Post code and city</label>
+        <input type="text"
+               placeholder="Post code"
+               [(ngModel)]="a.postCode"
+               nullValue
+               [required]="missingAddressContent"
+               (change)="emitChange()"
+               (blur)="emitTouchedEvent()"
+               [ngModelOptions]="{standalone: true}">
+        <input type="text"
+               placeholder="City"
+               [(ngModel)]="a.city"
+               nullValue
+               [required]="missingAddressContent"
+               (change)="emitChange()"
+               (blur)="emitTouchedEvent()"
+               [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="row">
+        <label>State (if applicable)</label>
+        <input type="text"
+               placeholder="State"
+               [(ngModel)]="a.stateRegion"
+               nullValue
+               [required]="missingAddressContent"
+               (change)="emitChange()"
+               (blur)="emitTouchedEvent()"
+               [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="row">
+        <label>Country</label>
+        <input type="text"
+               placeholder="Country"
+               [(ngModel)]="a.country"
+               nullValue
+               [required]="missingAddressContent"
+               (change)="emitChange()"
+               (blur)="emitTouchedEvent()"
+               [ngModelOptions]="{standalone: true}">
+      </div>
+    </fieldset>
+  </div>
+
+</div>
+</fieldset>

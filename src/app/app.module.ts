@@ -30,6 +30,9 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { EditLocationComponent } from './components/display-location/edit-location/edit-location.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatInputModule} from '@angular/material/input';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -47,6 +50,7 @@ export function ConfigLoader(configService: ConfigService) {
     EnumDropdownDirective,
     NullDefaultValueDirective,
     VesselIMONumberDirective,
+    EditLocationComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +71,8 @@ export function ConfigLoader(configService: ConfigService) {
     MessagesModule,
     MessageModule,
     ConfirmDialogModule,
+    MatSlideToggleModule,
+    MatInputModule,
   ],
   providers: [
     ConfigService,

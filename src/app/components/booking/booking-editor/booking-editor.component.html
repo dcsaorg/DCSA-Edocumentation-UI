@@ -155,6 +155,20 @@
                    type="text">
           </div>
         </div>
+
+      </p-accordionTab>
+      <p-accordionTab [disabled]="!booking" header="Place of BL Issue">
+
+        <app-edit-location [(ngModel)]="booking.placeOfBLIssue"
+                           name="placeOfBLIssue">
+
+        </app-edit-location>
+      </p-accordionTab>
+      <p-accordionTab [disabled]="!booking" header="Invoice Payable At">
+        <app-edit-location [(ngModel)]="booking.invoicePayableAt"
+                           name="invoicePayableAt">
+
+        </app-edit-location>
       </p-accordionTab>
       <p-accordionTab [disabled]="!booking" header="Commodities ({{this.booking.commodities.length}})">
         <p-accordionTab *ngFor="let commodity of this.booking.commodities; index as i"
@@ -228,6 +242,23 @@
           </div>
 
           <div class="row">
+            <label for="commodities[{{i}}].exportLicenseIssueDate">Export License Issue date</label>
+            <input id="commodities[{{i}}].exportLicenseIssueDate"
+                   name="commodities[{{i}}].exportLicenseIssueDate"
+                   [(ngModel)]="commodity.exportLicenseIssueDate"
+                   type="date">
+          </div>
+
+
+          <div class="row">
+            <label for="commodities[{{i}}].exportLicenseExpiryDate">Export License Expiry date</label>
+            <input id="commodities[{{i}}].exportLicenseExpiryDate"
+                   name="commodities[{{i}}].exportLicenseExpiryDate"
+                   [(ngModel)]="commodity.exportLicenseExpiryDate"
+                   type="date">
+          </div>
+
+          <div class="row">
             <label for="commodities[{{i}}].remove">Remove commodity</label>
             <button pButton
                     appDebounceClick
@@ -277,7 +308,7 @@
             <label for="references[{{i}}].remove">Remove reference</label>
             <button pButton
                     appDebounceClick
-                    [disabled]="(booking?.references?.length ?? 0) < 2"
+                    [disabled]="(booking.references?.length ?? 0) < 2"
                     id="references[{{i}}].remove"
                     class="p-button-danger"
                     [debounceTime]="200"
@@ -306,16 +337,19 @@
     </p-accordion>
     <div class="row">
       <p-button appDebounceClick (debounceClick)="submit()" [debounceTime]="200"
-                [disabled]="!bookingForm.valid || (bookingForm.pristine ?? true)" icon="pi pi-save"
+                [disabled]="submissionInProgress || !bookingForm.valid || (bookingForm.pristine ?? true)" icon="pi pi-save"
                 label="{{isCreateMode ? 'Create' : 'Update/Amend'}}"
                 iconPos="left">
       </p-button>
       <p-button label="Cancel {{carrierBookingRequestReference ? 'edit' : 'creation'}}"
                 appDebounceClick
+                [disabled]="submissionInProgress"
                 (debounceClick)="cancel()"
                 iconPos="left"
                 class="p-button-secondary">
       </p-button>
+      <p-progressSpinner *ngIf="submissionInProgress">
+      </p-progressSpinner>
     </div>
   </form>
 </ng-container>

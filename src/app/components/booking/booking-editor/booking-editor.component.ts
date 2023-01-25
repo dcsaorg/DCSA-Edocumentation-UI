@@ -39,6 +39,8 @@ export class BookingEditorComponent implements OnInit {
 
   referenceTypeValues$ = this.enumValues(ReferenceType);
 
+  submissionInProgress = false;
+
   constructor(private route: ActivatedRoute,
               private bookingService: BookingService,
               private router: Router,
@@ -82,6 +84,7 @@ export class BookingEditorComponent implements OnInit {
   submit() {
     let bookingSubmission$;
     let errorTitle: string;
+    this.submissionInProgress = true;
     if (this.isCreateMode) {
       bookingSubmission$ = this.bookingService.postNewBooking(this.booking!);
       errorTitle = 'Error while creating a booking'
@@ -95,6 +98,7 @@ export class BookingEditorComponent implements OnInit {
             this.router.navigate(['/bookings', ref.carrierBookingRequestReference]).then()
           }, error: error => {
             const errorMessage = ErrorMessageExtractor.getConcreteErrorMessage(error);
+            this.submissionInProgress = false;
             this.messageService.add({
               key: 'GenericErrorToast',
               severity: 'error',
