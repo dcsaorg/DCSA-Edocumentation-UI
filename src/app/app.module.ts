@@ -33,6 +33,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { EditLocationComponent } from './components/display-location/edit-location/edit-location.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatInputModule} from '@angular/material/input';
+import {InputTextModule} from 'primeng/inputtext';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -73,6 +74,7 @@ export function ConfigLoader(configService: ConfigService) {
     ConfirmDialogModule,
     MatSlideToggleModule,
     MatInputModule,
+    InputTextModule,
   ],
   providers: [
     ConfigService,

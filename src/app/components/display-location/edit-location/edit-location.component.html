@@ -1,30 +1,35 @@
 <fieldset>
+  <legend>Location</legend>
 <mat-slide-toggle [ngModel]="hasValue"
                   name="hasValue"
                   (toggleChange)="onLocationSlideToggleChange()">
   <mat-label>Define location</mat-label>
 </mat-slide-toggle>
-<div *ngIf="hasValue && location as l">
+<ng-container *ngIf="hasValue && location as l">
   <div class="row">
-    <label>Location Name</label>
+    <label>Location Name: </label>
     <input type="text"
            [(ngModel)]="l.locationName"
            nullValue
-           (change)="emitChange()"
-           (blur)="emitTouchedEvent()"
-           [ngModelOptions]="{standalone: true}">
-  </div>
-  <div class="row">
-    <label>UNLocationCode</label>
-    <input type="text"
-           [(ngModel)]="l.UNLocationCode"
-           nullValue
-           [required]="needAddressOrUNLocationCode"
+           pInputText
+           maxlength="100"
            (change)="emitChange()"
            (blur)="emitTouchedEvent()"
            [ngModelOptions]="{standalone: true}">
   </div>
 
+  <div class="row">
+    <label>UNLocationCode: </label>
+    <input type="text"
+           [(ngModel)]="l.UNLocationCode"
+           nullValue
+           pInputText
+           maxlength="5"
+           [required]="needAddressOrUNLocationCode"
+           (change)="emitChange()"
+           (blur)="emitTouchedEvent()"
+           [ngModelOptions]="{standalone: true}">
+  </div>
   <mat-slide-toggle [ngModel]="hasAddress"
                     (toggleChange)="onAddressSlideToggleChange()"
                     name="hasAddress"
@@ -32,25 +37,29 @@
     <mat-label>Define Address</mat-label>
   </mat-slide-toggle>
 
-  <div *ngIf="hasAddress && address as a">
+  <ng-container *ngIf="hasAddress && address as a">
     <fieldset>
       <legend>Address</legend>
       <div class="row">
-        <label>Name</label>
+        <label>Name: </label>
         <input type="text"
                [(ngModel)]="a.name"
                nullValue
+               pInputText
+               maxlength="100"
                [required]="missingAddressContent"
                (change)="emitChange()"
                (blur)="emitTouchedEvent()"
                [ngModelOptions]="{standalone: true}">
       </div>
       <div class="row">
-        <label>Street, street nr. and floor</label>
+        <label>Street, street nr. and floor: </label>
         <input type="text"
                placeholder="Street"
                [(ngModel)]="a.street"
                nullValue
+               pInputText
+               maxlength="100"
                [required]="missingAddressContent"
                (change)="emitChange()"
                (blur)="emitTouchedEvent()"
@@ -59,6 +68,8 @@
                placeholder="Street number"
                [(ngModel)]="a.streetNumber"
                nullValue
+               pInputText
+               maxlength="50"
                [required]="missingAddressContent"
                (change)="emitChange()"
                (blur)="emitTouchedEvent()"
@@ -67,17 +78,21 @@
                placeholder="Floor"
                [(ngModel)]="a.floor"
                nullValue
+               pInputText
+               maxlength="50"
                [required]="missingAddressContent"
                (change)="emitChange()"
                (blur)="emitTouchedEvent()"
                [ngModelOptions]="{standalone: true}">
       </div>
       <div class="row">
-        <label>Post code and city</label>
+        <label>Post code and city: </label>
         <input type="text"
                placeholder="Post code"
                [(ngModel)]="a.postCode"
                nullValue
+               pInputText
+               maxlength="50"
                [required]="missingAddressContent"
                (change)="emitChange()"
                (blur)="emitTouchedEvent()"
@@ -86,35 +101,41 @@
                placeholder="City"
                [(ngModel)]="a.city"
                nullValue
+               pInputText
+               maxlength="65"
                [required]="missingAddressContent"
                (change)="emitChange()"
                (blur)="emitTouchedEvent()"
                [ngModelOptions]="{standalone: true}">
       </div>
       <div class="row">
-        <label>State (if applicable)</label>
+        <label>State (if applicable): </label>
         <input type="text"
                placeholder="State"
                [(ngModel)]="a.stateRegion"
                nullValue
+               pInputText
+               maxlength="65"
                [required]="missingAddressContent"
                (change)="emitChange()"
                (blur)="emitTouchedEvent()"
                [ngModelOptions]="{standalone: true}">
       </div>
       <div class="row">
-        <label>Country</label>
+        <label>Country: </label>
         <input type="text"
                placeholder="Country"
                [(ngModel)]="a.country"
                nullValue
+               pInputText
+               maxlength="75"
                [required]="missingAddressContent"
                (change)="emitChange()"
                (blur)="emitTouchedEvent()"
                [ngModelOptions]="{standalone: true}">
       </div>
     </fieldset>
-  </div>
+  </ng-container>
 
-</div>
+</ng-container>
 </fieldset>
