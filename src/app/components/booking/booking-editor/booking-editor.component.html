@@ -3,8 +3,8 @@
   <h1 *ngIf="isCreateMode">New booking request</h1>
   <form #bookingForm="ngForm">
     <p-accordion [multiple]="true">
-      <p-accordionTab header="Basic details" [selected]="true">
-        <div class="grid">
+      <p-accordionTab header="Mandatory details [Required]" [selected]="true">
+
           <div class="row">
             <label for="receiptTypeAtOrigin">Receipt Type At Origin: </label>
             <p-dropdown [required]="true"
@@ -91,6 +91,9 @@
                         name="isEquipmentSubstitutionAllowed">
             </p-checkbox>
           </div>
+      </p-accordionTab>
+      <p-accordionTab header="Service Contract or Quotation reference [Required]" [selected]="true">
+        <p><i>At least one of these must be provided</i></p>
           <div class="row">
             <label for="contractQuotationReference">Contract Quotation Reference: </label>
             <input type="text"
@@ -114,6 +117,9 @@
                    id="serviceContractReference"
                    name="serviceContractReference">
           </div>
+      </p-accordionTab>
+      <p-accordionTab header="Arrival/Departure details [Required]" [selected]="true">
+        <p><i>At least one of these must be provided</i></p>
           <div class="row">
             <label for="expectedDepartureDate">Expected Departure date: </label>
             <input id="expectedDepartureDate"
@@ -154,6 +160,21 @@
                    [required]="!booking.vesselIMONumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
                    type="text">
           </div>
+
+          <div class="row">
+            <label for="vesselIMONumber">Vessel IMO Number: </label>
+            <input id="vesselIMONumber"
+                   name="vesselIMONumber"
+                   pInputText
+                   placeholder="1234567"
+                   [(ngModel)]="booking.vesselIMONumber"
+                   [required]="!booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                   appVesselIMONumber
+                   nullValue
+                   type="text">
+          </div>
+      </p-accordionTab>
+      <p-accordionTab header="Optional (simple) attributes">
           <div class="row">
             <label for="carrierServiceCode">Carrier Service Code: </label>
             <input id="carrierServiceCode"
@@ -184,18 +205,6 @@
           </div>
 
           <div class="row">
-            <label for="vesselIMONumber">Vessel IMO Number: </label>
-            <input id="vesselIMONumber"
-                   name="vesselIMONumber"
-                   pInputText
-                   placeholder="1234567"
-                   [(ngModel)]="booking.vesselIMONumber"
-                   [required]="!booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
-                   appVesselIMONumber
-                   nullValue
-                   type="text">
-          </div>
-          <div class="row">
             <label for="vesselName">Vessel Name: </label>
             <input id="vesselName"
                    name="vesselName"
@@ -205,24 +214,23 @@
                    nullValue
                    type="text">
           </div>
-        </div>
-
       </p-accordionTab>
-      <p-accordionTab [disabled]="!booking" header="Place of BL Issue">
+      <p-accordionTab [disabled]="!booking" header="Place of BL Issue [Optional]">
 
         <app-edit-location [(ngModel)]="booking.placeOfBLIssue"
                            name="placeOfBLIssue">
 
         </app-edit-location>
       </p-accordionTab>
-      <p-accordionTab [disabled]="!booking" header="Invoice Payable At">
+      <p-accordionTab [disabled]="!booking" header="Invoice Payable At [Optional]">
         <app-edit-location [(ngModel)]="booking.invoicePayableAt"
                            name="invoicePayableAt">
 
         </app-edit-location>
       </p-accordionTab>
-      <p-accordionTab [disabled]="!booking" header="Commodities ({{this.booking.commodities.length}})">
+      <p-accordionTab [disabled]="!booking" [selected]="true" header="Commodities ({{this.booking.commodities.length}}) [Required]">
         <p-accordionTab *ngFor="let commodity of this.booking.commodities; index as i"
+                        [selected]="true"
                         header="{{!!commodity.commodityType ? commodity.commodityType : 'Missing commodity type!' }}">
           <div class="row">
             <label for="commodities[{{i}}].commodityType">Commodity Type: </label>
@@ -338,8 +346,9 @@
                   label="Add commodity">
         </p-button>
       </p-accordionTab>
-      <p-accordionTab [disabled]="!booking" header="References ({{this.booking.references?.length ?? 0}})">
+      <p-accordionTab [disabled]="!booking" header="References ({{this.booking.references?.length ?? 0}}) [Optional]">
         <p-accordionTab *ngFor="let reference of this.booking.references; index as i"
+                        [selected]="true"
                         header="{{!!reference.type ? reference.type : '[Missing type]'}} {{!!reference.value ? reference.value : '[Missing value]'}}">
 
           <div class="row">
@@ -367,7 +376,6 @@
             <label for="references[{{i}}].remove">Remove reference: </label>
             <button pButton
                     appDebounceClick
-                    [disabled]="(booking.references?.length ?? 0) < 2"
                     id="references[{{i}}].remove"
                     class="p-button-danger"
                     [debounceTime]="200"
