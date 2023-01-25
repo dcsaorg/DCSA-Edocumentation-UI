@@ -6,7 +6,7 @@
       <p-accordionTab header="Basic details" [selected]="true">
         <div class="grid">
           <div class="row">
-            <label for="receiptTypeAtOrigin">Receipt Type At Origin</label>
+            <label for="receiptTypeAtOrigin">Receipt Type At Origin: </label>
             <p-dropdown [required]="true"
                         [(ngModel)]="booking.receiptTypeAtOrigin"
                         id="receiptTypeAtOrigin"
@@ -16,7 +16,7 @@
             </p-dropdown>
           </div>
           <div class="row">
-            <label for="cargoMovementTypeAtOrigin">Cargo Movement Type At Origin</label>
+            <label for="cargoMovementTypeAtOrigin">Cargo Movement Type At Origin: </label>
             <p-dropdown [required]="true"
                         [(ngModel)]="booking.cargoMovementTypeAtOrigin"
                         id="cargoMovementTypeAtOrigin"
@@ -26,7 +26,7 @@
             </p-dropdown>
           </div>
           <div class="row">
-            <label for="deliveryTypeAtDestination">Delivery Type At Destination</label>
+            <label for="deliveryTypeAtDestination">Delivery Type At Destination: </label>
             <p-dropdown [required]="true"
                         [(ngModel)]="booking.deliveryTypeAtDestination"
                         id="deliveryTypeAtDestination"
@@ -36,7 +36,7 @@
             </p-dropdown>
           </div>
           <div class="row">
-            <label for="cargoMovementTypeAtDestination">Cargo Movement Type At Destination</label>
+            <label for="cargoMovementTypeAtDestination">Cargo Movement Type At Destination: </label>
             <p-dropdown [required]="true"
                         [(ngModel)]="booking.cargoMovementTypeAtDestination"
                         id="cargoMovementTypeAtDestination"
@@ -46,7 +46,7 @@
             </p-dropdown>
           </div>
           <div class="row">
-            <label for="communicationChannelCode">Communication Channel Code</label>
+            <label for="communicationChannelCode">Communication Channel Code: </label>
             <p-dropdown [required]="true"
                         [(ngModel)]="booking.communicationChannelCode"
                         id="communicationChannelCode"
@@ -56,7 +56,7 @@
             </p-dropdown>
           </div>
           <div class="row">
-            <label for="isPartialLoadAllowed">Is Partial Load Allowed?</label>
+            <label for="isPartialLoadAllowed">Is Partial Load Allowed? </label>
             <p-checkbox [required]="true"
                         [binary]="true"
                         [(ngModel)]="booking.isPartialLoadAllowed"
@@ -65,7 +65,7 @@
             </p-checkbox>
           </div>
           <div class="row">
-            <label for="isExportDeclarationRequired">Is Export Declaration Required?</label>
+            <label for="isExportDeclarationRequired">Is Export Declaration Required? </label>
             <p-checkbox [required]="true"
                         [binary]="true"
                         [(ngModel)]="booking.isExportDeclarationRequired"
@@ -74,7 +74,7 @@
             </p-checkbox>
           </div>
           <div class="row">
-            <label for="isImportLicenseRequired">Is Import License Required?</label>
+            <label for="isImportLicenseRequired">Is Import License Required? </label>
             <p-checkbox [required]="true"
                         [binary]="true"
                         [(ngModel)]="booking.isImportLicenseRequired"
@@ -83,7 +83,7 @@
             </p-checkbox>
           </div>
           <div class="row">
-            <label for="isEquipmentSubstitutionAllowed">Is Equipment Substitution Allowed?</label>
+            <label for="isEquipmentSubstitutionAllowed">Is Equipment Substitution Allowed? </label>
             <p-checkbox [required]="true"
                         [binary]="true"
                         [(ngModel)]="booking.isEquipmentSubstitutionAllowed"
@@ -92,54 +92,60 @@
             </p-checkbox>
           </div>
           <div class="row">
-            <label for="contractQuotationReference">Contract Quotation Reference</label>
+            <label for="contractQuotationReference">Contract Quotation Reference: </label>
             <input type="text"
                    maxlength="35"
                    [(ngModel)]="booking.contractQuotationReference"
                    nullValue
+                   pInputText
                    [required]="!booking.serviceContractReference"
                    id="contractQuotationReference"
                    name="contractQuotationReference">
           </div>
           <div class="row">
-            <label for="serviceContractReference">Service Contract Reference</label>
+            <label for="serviceContractReference">Service Contract Reference: </label>
             <input type="text"
                    maxlength="30"
                    [(ngModel)]="booking.serviceContractReference"
                    nullValue
+                   pInputText
                    [required]="!booking.contractQuotationReference"
                    matInput
                    id="serviceContractReference"
                    name="serviceContractReference">
           </div>
           <div class="row">
-            <label for="expectedDepartureDate">Expected Departure date</label>
+            <label for="expectedDepartureDate">Expected Departure date: </label>
             <input id="expectedDepartureDate"
                    name="expectedDepartureDate"
+                   pInputText
                    [(ngModel)]="booking.expectedDepartureDate"
                    [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
                    type="date">
           </div>
           <div class="row">
-            <label for="expectedArrivalAtPlaceOfDeliveryStartDate">expectedArrivalAtPlaceOfDeliveryStartDate</label>
+            <label for="expectedArrivalAtPlaceOfDeliveryStartDate">Expected Arrival At Place Of Delivery Start Date: </label>
             <input id="expectedArrivalAtPlaceOfDeliveryStartDate"
                    name="expectedArrivalAtPlaceOfDeliveryStartDate"
+                   pInputText
                    [(ngModel)]="booking.expectedArrivalAtPlaceOfDeliveryStartDate"
                    [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
                    type="date">
           </div>
           <div class="row">
-            <label for="expectedArrivalAtPlaceOfDeliveryEndDate">expectedArrivalAtPlaceOfDeliveryEndDate</label>
+            <label for="expectedArrivalAtPlaceOfDeliveryEndDate">Expected Arrival At Place Of Delivery End Date: </label>
             <input id="expectedArrivalAtPlaceOfDeliveryEndDate"
                    name="expectedArrivalAtPlaceOfDeliveryEndDate"
+                   pInputText
                    [(ngModel)]="booking.expectedArrivalAtPlaceOfDeliveryEndDate"
                    [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryStartDate"
                    type="date">
           </div>
           <div class="row">
-            <label for="vesselIMONumber">vesselIMONumber</label>
+            <label for="vesselIMONumber">vesselIMONumber: </label>
             <input id="vesselIMONumber"
                    name="vesselIMONumber"
+                   pInputText
                    [(ngModel)]="booking.vesselIMONumber"
                    [required]="!booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
                    appVesselIMONumber
@@ -147,9 +153,10 @@
                    type="text">
           </div>
           <div class="row">
-            <label for="carrierExportVoyageNumber">Carrier Export Voyage Number</label>
+            <label for="carrierExportVoyageNumber">Carrier Export Voyage Number: </label>
             <input id="carrierExportVoyageNumber"
                    name="carrierExportVoyageNumber"
+                   pInputText
                    maxlength="50"
                    [(ngModel)]="booking.carrierExportVoyageNumber"
                    [required]="!booking.vesselIMONumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
@@ -175,9 +182,11 @@
         <p-accordionTab *ngFor="let commodity of this.booking.commodities; index as i"
                         header="{{!!commodity.commodityType ? commodity.commodityType : 'Missing commodity type!' }}">
           <div class="row">
-            <label for="commodities[{{i}}].commodityType">Commodity Type</label>
+            <label for="commodities[{{i}}].commodityType">Commodity Type: </label>
             <input id="commodities[{{i}}].commodityType"
                    name="commodities[{{i}}].commodityType"
+                   nullValue
+                   pInputText
                    [(ngModel)]="commodity.commodityType"
                    [required]="true"
                    type="text"
@@ -185,12 +194,12 @@
             <!-- pattern="^\S+(\s*\S+)*$" -->
           </div>
           <div class="row">
-            <label for="commodities[{{i}}].cargoGrossWeight">Cargo Gross Weight</label>
+            <label for="commodities[{{i}}].cargoGrossWeight">Cargo Gross Weight: </label>
             <input id="commodities[{{i}}].cargoGrossWeight"
                    name="commodities[{{i}}].cargoGrossWeight"
+                   pInputText
                    [(ngModel)]="commodity.cargoGrossWeight"
                    [required]="true"
-
                    type="number">
             <!--   min="0"
                    pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
@@ -205,9 +214,10 @@
           </div>
 
           <div class="row">
-            <label for="commodities[{{i}}].cargoGrossVolume">Cargo Gross Volume</label>
+            <label for="commodities[{{i}}].cargoGrossVolume">Cargo Gross Volume: </label>
             <input id="commodities[{{i}}].cargoGrossVolume"
                    name="commodities[{{i}}].cargoGrossVolume"
+                   pInputText
                    [(ngModel)]="commodity.cargoGrossVolume"
                    [required]="commodity.cargoGrossVolumeUnit !== undefined && commodity.cargoGrossVolumeUnit !== null"
                    type="number">
@@ -221,9 +231,10 @@
             </p-dropdown>
           </div>
           <div class="row">
-            <label for="commodities[{{i}}].numberOfPackages">Number of Packages</label>
+            <label for="commodities[{{i}}].numberOfPackages">Number of Packages: </label>
             <input id="commodities[{{i}}].numberOfPackages"
                    name="commodities[{{i}}].numberOfPackages"
+                   pInputText
                    [(ngModel)]="commodity.numberOfPackages"
                    pattern="^-?\d*$"
                    type="number">
@@ -233,9 +244,10 @@
               -->
           </div>
           <div class="row">
-            <label for="commodities[{{i}}].HSCode">HS Code</label>
+            <label for="commodities[{{i}}].HSCode">HS Code: </label>
             <input id="commodities[{{i}}].HSCode"
                    name="commodities[{{i}}].HSCode"
+                   pInputText
                    [(ngModel)]="commodity.HSCode"
                    type="text"
                    maxlength="10">
@@ -243,24 +255,26 @@
           </div>
 
           <div class="row">
-            <label for="commodities[{{i}}].exportLicenseIssueDate">Export License Issue date</label>
+            <label for="commodities[{{i}}].exportLicenseIssueDate">Export License Issue date: </label>
             <input id="commodities[{{i}}].exportLicenseIssueDate"
                    name="commodities[{{i}}].exportLicenseIssueDate"
+                   pInputText
                    [(ngModel)]="commodity.exportLicenseIssueDate"
                    type="date">
           </div>
 
 
           <div class="row">
-            <label for="commodities[{{i}}].exportLicenseExpiryDate">Export License Expiry date</label>
+            <label for="commodities[{{i}}].exportLicenseExpiryDate">Export License Expiry date: </label>
             <input id="commodities[{{i}}].exportLicenseExpiryDate"
                    name="commodities[{{i}}].exportLicenseExpiryDate"
+                   pInputText
                    [(ngModel)]="commodity.exportLicenseExpiryDate"
                    type="date">
           </div>
 
           <div class="row">
-            <label for="commodities[{{i}}].remove">Remove commodity</label>
+            <label for="commodities[{{i}}].remove">Remove commodity: </label>
             <button pButton
                     appDebounceClick
                     [disabled]="booking.commodities.length < 2"
@@ -286,7 +300,7 @@
                         header="{{!!reference.type ? reference.type : '[Missing type]'}} {{!!reference.value ? reference.value : '[Missing value]'}}">
 
           <div class="row">
-            <label for="references[{{i}}].type">Reference type</label>
+            <label for="references[{{i}}].type">Reference type: </label>
             <p-dropdown [required]="true"
                         [(ngModel)]="reference.type"
                         id="references[{{i}}].type"
@@ -296,17 +310,18 @@
             </p-dropdown>
           </div>
           <div class="row">
-            <label for="references[{{i}}].value">Reference</label>
+            <label for="references[{{i}}].value">Reference: </label>
             <input id="references[{{i}}].value"
                    name="references[{{i}}].value"
                    [(ngModel)]="reference.value"
                    [required]="true"
+                   pInputText
                    type="text"
                    maxlength="100">
           </div>
 
           <div class="row">
-            <label for="references[{{i}}].remove">Remove reference</label>
+            <label for="references[{{i}}].remove">Remove reference: </label>
             <button pButton
                     appDebounceClick
                     [disabled]="(booking.references?.length ?? 0) < 2"
