@@ -124,34 +124,26 @@
                    type="date">
           </div>
           <div class="row">
-            <label for="expectedArrivalAtPlaceOfDeliveryStartDate">Expected Arrival At Place Of Delivery Start Date: </label>
-            <input id="expectedArrivalAtPlaceOfDeliveryStartDate"
-                   name="expectedArrivalAtPlaceOfDeliveryStartDate"
-                   pInputText
-                   [(ngModel)]="booking.expectedArrivalAtPlaceOfDeliveryStartDate"
-                   [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
-                   type="date">
+            <fieldset>
+              <legend>Expected Arrival At Place Of Delivery</legend>
+              <label for="expectedArrivalAtPlaceOfDeliveryStartDate">Start Date: </label>
+              <input id="expectedArrivalAtPlaceOfDeliveryStartDate"
+                     name="expectedArrivalAtPlaceOfDeliveryStartDate"
+                     pInputText
+                     [(ngModel)]="booking.expectedArrivalAtPlaceOfDeliveryStartDate"
+                     [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                     type="date">
+              <br>
+              <label for="expectedArrivalAtPlaceOfDeliveryEndDate">End Date: </label>
+              <input id="expectedArrivalAtPlaceOfDeliveryEndDate"
+                     name="expectedArrivalAtPlaceOfDeliveryEndDate"
+                     pInputText
+                     [(ngModel)]="booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                     [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryStartDate"
+                     type="date">
+            </fieldset>
           </div>
-          <div class="row">
-            <label for="expectedArrivalAtPlaceOfDeliveryEndDate">Expected Arrival At Place Of Delivery End Date: </label>
-            <input id="expectedArrivalAtPlaceOfDeliveryEndDate"
-                   name="expectedArrivalAtPlaceOfDeliveryEndDate"
-                   pInputText
-                   [(ngModel)]="booking.expectedArrivalAtPlaceOfDeliveryEndDate"
-                   [required]="!booking.vesselIMONumber && !booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryStartDate"
-                   type="date">
-          </div>
-          <div class="row">
-            <label for="vesselIMONumber">vesselIMONumber: </label>
-            <input id="vesselIMONumber"
-                   name="vesselIMONumber"
-                   pInputText
-                   [(ngModel)]="booking.vesselIMONumber"
-                   [required]="!booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
-                   appVesselIMONumber
-                   nullValue
-                   type="text">
-          </div>
+
           <div class="row">
             <label for="carrierExportVoyageNumber">Carrier Export Voyage Number: </label>
             <input id="carrierExportVoyageNumber"
@@ -160,6 +152,57 @@
                    maxlength="50"
                    [(ngModel)]="booking.carrierExportVoyageNumber"
                    [required]="!booking.vesselIMONumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                   type="text">
+          </div>
+          <div class="row">
+            <label for="carrierServiceCode">Carrier Service Code: </label>
+            <input id="carrierServiceCode"
+                   name="carrierServiceCode"
+                   pInputText
+                   maxlength="11"
+                   [(ngModel)]="booking.carrierServiceCode"
+                   type="text">
+          </div>
+          <div class="row">
+            <label for="carrierServiceName">Carrier Service Name: </label>
+            <input id="carrierServiceName"
+                   name="carrierServiceName"
+                   pInputText
+                   maxlength="50"
+                   [(ngModel)]="booking.carrierServiceName"
+                   type="text">
+          </div>
+          <div class="row">
+            <label for="universalExportVoyageReference">Universal Export Voyage Reference: </label>
+            <input id="universalExportVoyageReference"
+                   name="universalExportVoyageReference"
+                   pInputText
+                   placeholder="2201E"
+                   pattern="\d{2}[0-9A-Z]{2}[NEWS]"
+                   [(ngModel)]="booking.universalExportVoyageReference"
+                   type="text">
+          </div>
+
+          <div class="row">
+            <label for="vesselIMONumber">Vessel IMO Number: </label>
+            <input id="vesselIMONumber"
+                   name="vesselIMONumber"
+                   pInputText
+                   placeholder="1234567"
+                   [(ngModel)]="booking.vesselIMONumber"
+                   [required]="!booking.carrierExportVoyageNumber && !booking.expectedDepartureDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate && !booking.expectedArrivalAtPlaceOfDeliveryEndDate"
+                   appVesselIMONumber
+                   nullValue
+                   type="text">
+          </div>
+          <div class="row">
+            <label for="vesselName">Vessel Name: </label>
+            <input id="vesselName"
+                   name="vesselName"
+                   maxlength="35"
+                   pInputText
+                   [(ngModel)]="booking.vesselName"
+                   nullValue
                    type="text">
           </div>
         </div>
