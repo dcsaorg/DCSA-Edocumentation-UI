@@ -215,7 +215,7 @@
                    type="text">
           </div>
       </p-accordionTab>
-      <p-accordionTab [disabled]="!booking" header="Place of BL Issue [Optional]">
+      <p-accordionTab [disabled]="!booking">
         <ng-template pTemplate="header">
                 <span class="tab-header-validity-icon pi"
                       [class.pi-check-circle]="placeOfBLIssueControl.valid"
@@ -228,7 +228,7 @@
 
         </app-edit-location>
       </p-accordionTab>
-      <p-accordionTab [disabled]="!booking" header="Invoice Payable At [Optional]">
+      <p-accordionTab [disabled]="!booking">
         <ng-template pTemplate="header">
                 <span class="tab-header-validity-icon pi"
                       [class.pi-check-circle]="invoicePayableAtControl.valid"
@@ -459,7 +459,7 @@
         </p-accordionTab>
       </div>
 
-      <p-accordionTab [disabled]="bookingForm.valid ?? true" header="Validation issues: {{bookingForm.valid ? 'No' : 'Yes'}}">
+      <p-accordionTab [disabled]="bookingForm.valid ?? true">
         <ng-template pTemplate="header">
                 <span class="tab-header-validity-icon pi"
                       [class.pi-check-circle]="bookingForm.valid"
