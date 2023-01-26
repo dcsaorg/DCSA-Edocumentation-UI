@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Globals} from '../models/globals';
 import {map, mergeMap, Observable, tap} from 'rxjs';
 import {BookingEntity, BookingSummaryEntity, MutableBookingEntity, UpdateBookingEntityImpl} from '../models/booking';
-import {StaticDataServiceService} from './static-data-service.service';
+import {StaticDataService} from './static-data.service';
 import {
   BookingRefStatus,
   CargoMovementTypeAtDestination,
@@ -23,7 +23,7 @@ export class BookingService {
   private readonly LIMIT = 50;
 
   constructor(private httpClient: HttpClient,
-              private staticDataService: StaticDataServiceService,
+              private staticDataService: StaticDataService,
               private globals: Globals,
               ) {
     this.BOOKING_SUMMARY_URL = globals.config!.bkgBackendURL + '/booking-summaries';

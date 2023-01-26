@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MutableBookingEntity} from '../../../models/booking';
 import {BookingService} from '../../../services/booking.service';
-import {first, Observable, of} from 'rxjs';
+import {first, map, Observable, of} from 'rxjs';
 import {
   CargoMovementTypeAtDestination,
   CargoMovementTypeAtOrigin,
@@ -15,6 +15,8 @@ import {
 import {NgForm} from '@angular/forms';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ErrorMessageExtractor} from '../../../util/error-message-extractor';
+import {StaticDataService} from '../../../services/static-data.service';
+import {SelectItem} from 'primeng/api/selectitem';
 
 @Component({
   selector: 'app-booking-editor',
@@ -28,16 +30,39 @@ export class BookingEditorComponent implements OnInit {
   isCreateMode = false;
   booking?: MutableBookingEntity;
   // Enums for drop-downs
-  deliveryTypeAtDestinationValues$ = this.enumValues(DeliveryTypeAtDestination);
-  receiptTypeAtOriginValues$ = this.enumValues(ReceiptTypeAtOrigin);
+  deliveryTypeAtDestinationValues$ = this.enumValues(
+      DeliveryTypeAtDestination,
+      this.staticDataService.getDeliveryTypeAtDestinationNames(),
+  );
 
-  cargoMovementTypeAtDestinationValues$ = this.enumValues(CargoMovementTypeAtDestination);
-  cargoMovementTypeAtOriginValues$ = this.enumValues(CargoMovementTypeAtOrigin);
+  receiptTypeAtOriginValues$ = this.enumValues(
+    ReceiptTypeAtOrigin,
+    this.staticDataService.getReceiptTypeAtOriginNames(),
+  );
 
-  weightUnitValues$ = this.enumValues(WeightUnit);
-  communicationChannelCodeValues$ = this.enumValues(CommunicationChannelCode);
+  cargoMovementTypeAtDestinationValues$ = this.enumValues(
+    CargoMovementTypeAtDestination,
+    this.staticDataService.getCargoMovementTypeAtDestinationNames(),
+  );
+  cargoMovementTypeAtOriginValues$ = this.enumValues(
+    CargoMovementTypeAtOrigin,
+    this.staticDataService.getCargoMovementTypeAtOriginNames(),
+  );
 
-  referenceTypeValues$ = this.enumValues(ReferenceType);
+  weightUnitValues$ = this.enumValues(
+    WeightUnit,
+    this.staticDataService.getWeightUnitNames(),
+  );
+
+  communicationChannelCodeValues$ = this.enumValues(
+    CommunicationChannelCode,
+    this.staticDataService.getCommunicationChannelCodeNames(),
+  );
+
+  referenceTypeValues$ = this.enumValues(
+    ReferenceType,
+    this.staticDataService.getReferenceTypeNames(),
+  );
 
   submissionInProgress = false;
 
@@ -50,6 +75,7 @@ export class BookingEditorComponent implements OnInit {
 
               private messageService: MessageService,
               private confirmationService: ConfirmationService,
+              private staticDataService: StaticDataService,
               ) {
   }
 
@@ -82,12 +108,35 @@ export class BookingEditorComponent implements OnInit {
     this.referencesSelected = this.booking?.references?.map(_ => false) ?? [];
   }
 
-  enumValues(enumClass: any): Observable<any[]> {
-    const v = []
+  enumValues<E>(enumClass: E, data2name?: Observable<Map<E[keyof E], string>>): Observable<SelectItem<E[keyof E]|null>[]> {
+    const v: any = []
     for (const x in enumClass) {
       v.push(x);
     }
-    return of(v);
+    if (data2name) {
+      return data2name.pipe(
+        map(m => v.map((e: E[keyof E]) => this.withCustomLabel(e, m)))
+      );
+    }
+    return of(v.map(this.codeAsLabel));
+  }
+
+  private withCustomLabel<E>(e: E, m: Map<E, string>): SelectItem<E> {
+    const name = m.get(e);
+    if (!name) {
+      return this.codeAsLabel(e);
+    }
+    return {
+      label: `${name} (code: ${e})`,
+      value: e,
+    }
+  }
+
+  private codeAsLabel<E>(e: E): SelectItem<E> {
+    return {
+      label: `${e}`,
+      value: e,
+    }
   }
 
   submit() {

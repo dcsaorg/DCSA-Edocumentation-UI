@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StaticDataServiceService } from './static-data-service.service';
+import { StaticDataService } from './static-data.service';
 
 describe('StaticDataServiceService', () => {
-  let service: StaticDataServiceService;
+  let service: StaticDataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(StaticDataServiceService);
+    service = TestBed.inject(StaticDataService);
   });
 
   it('should be created', () => {

@@ -1,18 +1,14 @@
 import {Directive, Input, OnChanges, OnDestroy, OnInit, Self, SimpleChanges} from '@angular/core';
-import {map, Observable, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Dropdown} from 'primeng/dropdown';
-
-interface DropdownItem<E> {
-  label: string;
-  value: E|null;
-}
+import {SelectItem} from 'primeng/api/selectitem';
 
 @Directive({
   selector: '[appEnumDropDown]'
 })
 export class EnumDropdownDirective<E> implements OnInit, OnDestroy, OnChanges {
   private subscription: Subscription | null = null;
-  @Input() values$: Observable<E[]> | null = null;
+  @Input() values$: Observable<SelectItem<E|null>[]> | null = null;
 
   constructor(
     // Injecting the Dropdown component instance.
@@ -42,9 +38,7 @@ export class EnumDropdownDirective<E> implements OnInit, OnDestroy, OnChanges {
     this.subscription = null;
     const values$ = this.values$;
     if (values$) {
-      this.subscription = values$.pipe(
-        map(v => v.map(this.codeAsLabel))
-      ).subscribe({
+      this.subscription = values$.subscribe({
         next: v => {
           if (!this.primeDropdown.required) {
             v.push(this.nullValue());
@@ -55,14 +49,7 @@ export class EnumDropdownDirective<E> implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private codeAsLabel(e: E): DropdownItem<E> {
-    return {
-      label: `${e}`,
-      value: e,
-    }
-  }
-
-  private nullValue(): DropdownItem<E> {
+  private nullValue(): SelectItem<E|null> {
     return {
       label: "[unset]",
       value: null,
