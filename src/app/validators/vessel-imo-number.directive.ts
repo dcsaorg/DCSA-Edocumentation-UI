@@ -13,11 +13,7 @@ export class VesselIMONumberDirective implements Validator {
   }
 
   validate(control: AbstractControl): ValidationErrors | null {
-    return (c: AbstractControl) => {
-      const r = IMOValidatorFn(c);
-      this.element.nativeElement.classes['ng-invalid'] = !!r;
-      return r;
-    }
+    return IMOValidatorFn(control);
   }
 
 }
