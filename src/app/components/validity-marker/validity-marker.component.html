@@ -1,0 +1,13 @@
+<ng-container *ngIf="controlStatus as c; else pending">
+  <span class="tab-header-validity-icon pi"
+        [class.pi-check-circle]="c.valid && !c.pending"
+        [class.pi-exclamation-triangle]="!c.valid && !c.pending"
+        [class.pi-spinner]="c.pending"
+        [class.tab-header-validity-icon-valid]="c.valid"
+        [class.tab-header-validity-icon-invalid]="!c.valid">
+  </span>
+</ng-container>
+
+<ng-template #pending>
+  <span class="tab-header-validity-icon pi pi-spinner"></span>
+</ng-template>

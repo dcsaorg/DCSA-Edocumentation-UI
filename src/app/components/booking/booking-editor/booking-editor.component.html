@@ -217,9 +217,8 @@
       </p-accordionTab>
       <p-accordionTab [disabled]="!booking">
         <ng-template pTemplate="header">
-                <span class="tab-header-validity-icon pi"
-                      [class.pi-check-circle]="placeOfBLIssueControl.valid"
-                      [class.pi-exclamation-triangle]="!placeOfBLIssueControl.valid"></span>
+          <app-validity-marker [controlStatus]="placeOfBLIssueControl">
+          </app-validity-marker>
           Place of BL Issue [Optional]
         </ng-template>
         <app-edit-location [(ngModel)]="booking.placeOfBLIssue"
@@ -230,9 +229,8 @@
       </p-accordionTab>
       <p-accordionTab [disabled]="!booking">
         <ng-template pTemplate="header">
-                <span class="tab-header-validity-icon pi"
-                      [class.pi-check-circle]="invoicePayableAtControl.valid"
-                      [class.pi-exclamation-triangle]="!invoicePayableAtControl.valid"></span>
+          <app-validity-marker [controlStatus]="invoicePayableAtControl">
+          </app-validity-marker>
           Invoice Payable At [Optional]
         </ng-template>
         <app-edit-location [(ngModel)]="booking.invoicePayableAt"
@@ -244,20 +242,17 @@
       <div ngModelGroup="commodities" #commodityListControl="ngModelGroup">
         <p-accordionTab [disabled]="!booking" [selected]="true">
           <ng-template pTemplate="header">
-                <span class="tab-header-validity-icon pi"
-                      [class.pi-check-circle]="commodityListControl.valid"
-                      [class.pi-exclamation-triangle]="!commodityListControl.valid"></span>
-                Commodities ({{this.booking.commodities.length}}) [Required]
+            <app-validity-marker [controlStatus]="commodityListControl">
+            </app-validity-marker>
+            Commodities ({{this.booking.commodities.length}}) [Required]
           </ng-template>
           <div *ngFor="let commodity of this.booking.commodities; index as i"
                ngModelGroup="commodities[{{i}}]" #commodityControl="ngModelGroup">
 
             <p-accordionTab [(selected)]="commoditiesSelected[i]">
-
               <ng-template pTemplate="header">
-                <span class="tab-header-validity-icon pi"
-                      [class.pi-check-circle]="commodityControl.valid"
-                   [class.pi-exclamation-triangle]="!commodityControl.valid"></span>
+                <app-validity-marker [controlStatus]="commodityControl">
+                </app-validity-marker>
                    {{!commodityControl.valid ? '[INVALID] ' : ''}}{{!!commodity.commodityType ? commodity.commodityType : 'Missing commodity type!' }}
                 <button pButton
                         appDebounceClick
@@ -393,9 +388,8 @@
       <div ngModelGroup="references" #referencesListControl="ngModelGroup">
         <p-accordionTab [disabled]="!booking">
           <ng-template pTemplate="header">
-                <span class="tab-header-validity-icon pi"
-                      [class.pi-check-circle]="referencesListControl.valid"
-                      [class.pi-exclamation-triangle]="!referencesListControl.valid"></span>
+            <app-validity-marker [controlStatus]="referencesListControl">
+            </app-validity-marker>
             References ({{this.booking.references?.length ?? 0}}) [Optional]
           </ng-template>
 
@@ -404,9 +398,8 @@
             <p-accordionTab [selected]="referencesSelected[i]">
 
               <ng-template pTemplate="header">
-                <span class="tab-header-validity-icon pi"
-                      [class.pi-check-circle]="referenceControl.valid"
-                      [class.pi-exclamation-triangle]="!referenceControl.valid"></span>
+                <app-validity-marker [controlStatus]="referenceControl">
+                </app-validity-marker>
                 {{!referenceControl.valid ? '[INVALID] ' : ''}}{{!!reference.type ? reference.type : '[Missing type]'}} {{!!reference.value ? reference.value : '[Missing value]'}}
                 <button pButton
                         appDebounceClick
@@ -461,9 +454,8 @@
 
       <p-accordionTab [disabled]="bookingForm.valid ?? true">
         <ng-template pTemplate="header">
-                <span class="tab-header-validity-icon pi"
-                      [class.pi-check-circle]="bookingForm.valid"
-                      [class.pi-exclamation-triangle]="!bookingForm.valid"></span>
+          <app-validity-marker [controlStatus]="bookingForm">
+          </app-validity-marker>
           Validation issues: {{bookingForm.valid ? 'None' : 'Errors detected'}}
         </ng-template>
         <ul>

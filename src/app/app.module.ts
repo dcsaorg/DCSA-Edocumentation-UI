@@ -34,6 +34,7 @@ import { EditLocationComponent } from './components/display-location/edit-locati
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatInputModule} from '@angular/material/input';
 import {InputTextModule} from 'primeng/inputtext';
+import { ValidityMarkerComponent } from './components/validity-marker/validity-marker.component';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -52,6 +53,7 @@ export function ConfigLoader(configService: ConfigService) {
     NullDefaultValueDirective,
     VesselIMONumberDirective,
     EditLocationComponent,
+    ValidityMarkerComponent,
   ],
   imports: [
     BrowserModule,
