@@ -243,7 +243,6 @@
                       class="p-button-danger tab-header-discard-button"
                       [debounceTime]="200"
                       icon="pi pi-trash"
-                      aria-label="Discard commodity number {{i}}: {{commodity.commodityType}}"
                       (debounceClick)="removeCommodity(i)">
               </button>
             </ng-template>
@@ -382,7 +381,6 @@
                       class="p-button-danger tab-header-discard-button"
                       [debounceTime]="200"
                       icon="pi pi-trash"
-                      aria-label="Discard reference number {{i}}"
                       (debounceClick)="removeReference(i)">
               </button>
             </ng-template>
