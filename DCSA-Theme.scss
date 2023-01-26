@@ -49,6 +49,10 @@ $tableSize: 12pt;
   box-sizing: border-box;
 }
 
+.p-button {
+  margin-right: .5rem;
+}
+
 .p-component {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 1rem;
@@ -133,6 +137,11 @@ $tableSize: 12pt;
 
 p-autocomplete.ng-dirty.ng-invalid > .p-autocomplete > .p-inputtext {
   border-color: #dc3545;
+}
+
+
+.p-accordion-header-text {
+
 }
 
 .ng-invalid.p-element {

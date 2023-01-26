@@ -41,6 +41,9 @@ export class BookingEditorComponent implements OnInit {
 
   submissionInProgress = false;
 
+  commoditiesSelected: boolean[] = [];
+  referencesSelected: boolean[] = [];
+
   constructor(private route: ActivatedRoute,
               private bookingService: BookingService,
               private router: Router,
@@ -60,6 +63,7 @@ export class BookingEditorComponent implements OnInit {
         .subscribe({
           next: booking => {
             this.booking = this.bookingService.replaceWithMutableBooking(booking);
+            this.computeSupportingData();
             this.hadLoadError = false;
           },
           error: _ => {
@@ -71,6 +75,11 @@ export class BookingEditorComponent implements OnInit {
       this.booking = this.bookingService.createStubBooking()
       this.addCommodity();
     }
+  }
+
+  private computeSupportingData(): void {
+    this.commoditiesSelected = this.booking?.commodities?.map(_ => false) ?? [];
+    this.referencesSelected = this.booking?.references?.map(_ => false) ?? [];
   }
 
   enumValues(enumClass: any): Observable<any[]> {
@@ -111,18 +120,19 @@ export class BookingEditorComponent implements OnInit {
 
   addCommodity(): void {
     this.booking?.commodities.push({
-      HSCode: '',
+      HSCode: undefined,
       cargoGrossVolume: undefined,
       cargoGrossVolumeUnit: undefined,
       cargoGrossWeight: 0,
       cargoGrossWeightUnit: WeightUnit.KGM,
       commodityType: '',
       dangerousGoods: undefined,
-      exportLicenseExpiryDate: '',
-      exportLicenseIssueDate: '',
-      numberOfPackages: 0,
+      exportLicenseExpiryDate: undefined,
+      exportLicenseIssueDate: undefined,
+      numberOfPackages: undefined,
       requestedEquipments: undefined
     })
+    this.commoditiesSelected.push(true);
   }
 
   addReference(): void {
@@ -137,14 +147,17 @@ export class BookingEditorComponent implements OnInit {
       type: ReferenceType.AAO,
       value: ''
     })
+    this.referencesSelected.push(true);
   }
 
   removeCommodity(i: number): void {
-    this.booking?.commodities.splice(i, 1);
+    this.booking!.commodities.splice(i, 1);
+    this.commoditiesSelected.splice(i, 1);
   }
 
   removeReference(i: number): void {
-    this.booking?.references?.splice(i, 1);
+    this.booking!.references!.splice(i, 1);
+    this.referencesSelected.splice(i, 1);
   }
 
   /*

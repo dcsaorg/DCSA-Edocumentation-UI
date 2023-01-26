@@ -229,167 +229,202 @@
         </app-edit-location>
       </p-accordionTab>
       <p-accordionTab [disabled]="!booking" [selected]="true" header="Commodities ({{this.booking.commodities.length}}) [Required]">
-        <p-accordionTab *ngFor="let commodity of this.booking.commodities; index as i"
-                        [selected]="true"
-                        header="{{!!commodity.commodityType ? commodity.commodityType : 'Missing commodity type!' }}">
-          <div class="row">
-            <label for="commodities[{{i}}].commodityType">Commodity Type: </label>
-            <input id="commodities[{{i}}].commodityType"
-                   name="commodities[{{i}}].commodityType"
-                   nullValue
-                   pInputText
-                   [(ngModel)]="commodity.commodityType"
-                   [required]="true"
-                   type="text"
-                   maxlength="550">
-            <!-- pattern="^\S+(\s*\S+)*$" -->
-          </div>
-          <div class="row">
-            <label for="commodities[{{i}}].cargoGrossWeight">Cargo Gross Weight: </label>
-            <input id="commodities[{{i}}].cargoGrossWeight"
-                   name="commodities[{{i}}].cargoGrossWeight"
-                   pInputText
-                   [(ngModel)]="commodity.cargoGrossWeight"
-                   [required]="true"
-                   type="number">
-            <!--   min="0"
-                   pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
-                   -->
-            <p-dropdown [required]="true"
-                        [(ngModel)]="commodity.cargoGrossWeightUnit"
-                        id="commodities[{{i}}].cargoGrossWeightUnit"
-                        name="commodities[{{i}}].cargoGrossWeightUnit"
-                        [values$]="weightUnitValues$"
-                        appEnumDropDown>
-            </p-dropdown>
-          </div>
+        <div *ngFor="let commodity of this.booking.commodities; index as i"
+             ngModelGroup="commodities[{{i}}]" #commodityControl="ngModelGroup">
+          <p-accordionTab [(selected)]="commoditiesSelected[i]">
 
-          <div class="row">
-            <label for="commodities[{{i}}].cargoGrossVolume">Cargo Gross Volume: </label>
-            <input id="commodities[{{i}}].cargoGrossVolume"
-                   name="commodities[{{i}}].cargoGrossVolume"
-                   pInputText
-                   [(ngModel)]="commodity.cargoGrossVolume"
-                   [required]="commodity.cargoGrossVolumeUnit !== undefined && commodity.cargoGrossVolumeUnit !== null"
-                   type="number">
-            <!-- min="0" pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$" -->
-            <p-dropdown [(ngModel)]="commodity.cargoGrossVolumeUnit"
-                        id="commodities[{{i}}].cargoGrossVolumeUnit"
-                        name="commodities[{{i}}].cargoGrossVolumeUnit"
-                        [values$]="weightUnitValues$"
-                        [required]="commodity.cargoGrossVolume !== undefined && commodity.cargoGrossVolume !== null"
-                        appEnumDropDown>
-            </p-dropdown>
-          </div>
-          <div class="row">
-            <label for="commodities[{{i}}].numberOfPackages">Number of Packages: </label>
-            <input id="commodities[{{i}}].numberOfPackages"
-                   name="commodities[{{i}}].numberOfPackages"
-                   pInputText
-                   [(ngModel)]="commodity.numberOfPackages"
-                   pattern="^-?\d*$"
-                   type="number">
-            <!--
-                   pattern="^\d*$"
-                   min="0"
-              -->
-          </div>
-          <div class="row">
-            <label for="commodities[{{i}}].HSCode">HS Code: </label>
-            <input id="commodities[{{i}}].HSCode"
-                   name="commodities[{{i}}].HSCode"
-                   pInputText
-                   [(ngModel)]="commodity.HSCode"
-                   type="text"
-                   maxlength="10">
-            <!-- pattern="^\S*$" -->
-          </div>
+            <ng-template pTemplate="header">
+              <span class="tab-header-validity-icon pi" [class.pi-check-circle]="commodityControl.valid"
+                 [class.pi-exclamation-triangle]="!commodityControl.valid"></span>
+                 {{!commodityControl.valid ? '[INVALID] ' : ''}}{{!!commodity.commodityType ? commodity.commodityType : 'Missing commodity type!' }}
+              <button pButton
+                      appDebounceClick
+                      [disabled]="booking.commodities.length < 2"
+                      class="p-button-danger tab-header-discard-button"
+                      [debounceTime]="200"
+                      icon="pi pi-trash"
+                      aria-label="Discard commodity number {{i}}: {{commodity.commodityType}}"
+                      (debounceClick)="removeCommodity(i)">
+              </button>
+            </ng-template>
+            <fieldset>
+              <legend>Required commodity attributes</legend>
 
-          <div class="row">
-            <label for="commodities[{{i}}].exportLicenseIssueDate">Export License Issue date: </label>
-            <input id="commodities[{{i}}].exportLicenseIssueDate"
-                   name="commodities[{{i}}].exportLicenseIssueDate"
-                   pInputText
-                   [(ngModel)]="commodity.exportLicenseIssueDate"
-                   type="date">
-          </div>
+              <div class="row">
+                <label for="commodities[{{i}}].commodityType">Commodity Type: </label>
+                <input id="commodities[{{i}}].commodityType"
+                       name="commodities[{{i}}].commodityType"
+                       nullValue
+                       pInputText
+                       [(ngModel)]="commodity.commodityType"
+                       [required]="true"
+                       type="text"
+                       maxlength="550">
+                <!-- pattern="^\S+(\s*\S+)*$" -->
+              </div>
+              <div class="row">
+                <label for="commodities[{{i}}].cargoGrossWeight">Cargo Gross Weight: </label>
+                <input id="commodities[{{i}}].cargoGrossWeight"
+                       name="commodities[{{i}}].cargoGrossWeight"
+                       pInputText
+                       [(ngModel)]="commodity.cargoGrossWeight"
+                       [required]="true"
+                       type="number">
+                <!--   min="0"
+                       pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
+                       -->
+                <p-dropdown [required]="true"
+                            [(ngModel)]="commodity.cargoGrossWeightUnit"
+                            id="commodities[{{i}}].cargoGrossWeightUnit"
+                            name="commodities[{{i}}].cargoGrossWeightUnit"
+                            [values$]="weightUnitValues$"
+                            appEnumDropDown>
+                </p-dropdown>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Optional commodity attributes</legend>
+
+              <div class="row">
+                <label for="commodities[{{i}}].cargoGrossVolume">Cargo Gross Volume: </label>
+                <input id="commodities[{{i}}].cargoGrossVolume"
+                       name="commodities[{{i}}].cargoGrossVolume"
+                       pInputText
+                       [(ngModel)]="commodity.cargoGrossVolume"
+                       [required]="commodity.cargoGrossVolumeUnit !== undefined && commodity.cargoGrossVolumeUnit !== null"
+                       type="number">
+                <!-- min="0" pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$" -->
+                <p-dropdown [(ngModel)]="commodity.cargoGrossVolumeUnit"
+                            id="commodities[{{i}}].cargoGrossVolumeUnit"
+                            name="commodities[{{i}}].cargoGrossVolumeUnit"
+                            [values$]="weightUnitValues$"
+                            [required]="commodity.cargoGrossVolume !== undefined && commodity.cargoGrossVolume !== null"
+                            appEnumDropDown>
+                </p-dropdown>
+              </div>
+              <div class="row">
+                <label for="commodities[{{i}}].numberOfPackages">Number of Packages: </label>
+                <input id="commodities[{{i}}].numberOfPackages"
+                       name="commodities[{{i}}].numberOfPackages"
+                       pInputText
+                       [(ngModel)]="commodity.numberOfPackages"
+                       pattern="^-?\d*$"
+                       type="number">
+                <!--
+                       pattern="^\d*$"
+                       min="0"
+                  -->
+              </div>
+              <div class="row">
+                <label for="commodities[{{i}}].HSCode">HS Code: </label>
+                <input id="commodities[{{i}}].HSCode"
+                       name="commodities[{{i}}].HSCode"
+                       pInputText
+                       [(ngModel)]="commodity.HSCode"
+                       type="text"
+                       maxlength="10">
+                <!-- pattern="^\S*$" -->
+              </div>
+
+              <div class="row">
+                <label for="commodities[{{i}}].exportLicenseIssueDate">Export License Issue date: </label>
+                <input id="commodities[{{i}}].exportLicenseIssueDate"
+                       name="commodities[{{i}}].exportLicenseIssueDate"
+                       pInputText
+                       [(ngModel)]="commodity.exportLicenseIssueDate"
+                       type="date">
+              </div>
 
 
-          <div class="row">
-            <label for="commodities[{{i}}].exportLicenseExpiryDate">Export License Expiry date: </label>
-            <input id="commodities[{{i}}].exportLicenseExpiryDate"
-                   name="commodities[{{i}}].exportLicenseExpiryDate"
-                   pInputText
-                   [(ngModel)]="commodity.exportLicenseExpiryDate"
-                   type="date">
-          </div>
+              <div class="row">
+                <label for="commodities[{{i}}].exportLicenseExpiryDate">Export License Expiry date: </label>
+                <input id="commodities[{{i}}].exportLicenseExpiryDate"
+                       name="commodities[{{i}}].exportLicenseExpiryDate"
+                       pInputText
+                       [(ngModel)]="commodity.exportLicenseExpiryDate"
+                       type="date">
+              </div>
+            </fieldset>
+            <div class="row">
+              <button pButton
+                      appDebounceClick
+                      label="Close tab"
+                      class="p-button-secondary"
+                      [debounceTime]="200"
+                      (debounceClick)="commoditiesSelected[i] = false">
+              </button>
+            </div>
 
-          <div class="row">
-            <label for="commodities[{{i}}].remove">Remove commodity: </label>
-            <button pButton
-                    appDebounceClick
-                    [disabled]="booking.commodities.length < 2"
-                    id="commodities[{{i}}].remove"
-                    class="p-button-danger"
-                    [debounceTime]="200"
-                    icon="pi pi-times"
-                    (debounceClick)="removeCommodity(i)">
-            </button>
-          </div>
-        </p-accordionTab>
+          </p-accordionTab>
+        </div>
 
         <p-button appDebounceClick
                   (debounceClick)="addCommodity()"
                   [debounceTime]="200"
                   iconPos="left"
-                  class="p-button-secondary"
+                  class="pi pi-plus p-button-secondary"
                   label="Add commodity">
         </p-button>
       </p-accordionTab>
       <p-accordionTab [disabled]="!booking" header="References ({{this.booking.references?.length ?? 0}}) [Optional]">
-        <p-accordionTab *ngFor="let reference of this.booking.references; index as i"
-                        [selected]="true"
-                        header="{{!!reference.type ? reference.type : '[Missing type]'}} {{!!reference.value ? reference.value : '[Missing value]'}}">
 
-          <div class="row">
-            <label for="references[{{i}}].type">Reference type: </label>
-            <p-dropdown [required]="true"
-                        [(ngModel)]="reference.type"
-                        id="references[{{i}}].type"
-                        name="references[{{i}}].type"
-                        [values$]="referenceTypeValues$"
-                        appEnumDropDown>
-            </p-dropdown>
-          </div>
-          <div class="row">
-            <label for="references[{{i}}].value">Reference: </label>
-            <input id="references[{{i}}].value"
-                   name="references[{{i}}].value"
-                   [(ngModel)]="reference.value"
-                   [required]="true"
-                   pInputText
-                   type="text"
-                   maxlength="100">
-          </div>
+        <div *ngFor="let reference of this.booking.references; index as i"
+             ngModelGroup="references[{{i}}]" #referenceControl="ngModelGroup">
+          <p-accordionTab [selected]="referencesSelected[i]">
 
-          <div class="row">
-            <label for="references[{{i}}].remove">Remove reference: </label>
-            <button pButton
-                    appDebounceClick
-                    id="references[{{i}}].remove"
-                    class="p-button-danger"
-                    [debounceTime]="200"
-                    icon="pi pi-times"
-                    (debounceClick)="removeReference(i)">
-            </button>
-          </div>
-        </p-accordionTab>
+            <ng-template pTemplate="header">
+              <span class="tab-header-validity-icon pi" [class.pi-check-circle]="referenceControl.valid"
+                    [class.pi-exclamation-triangle]="!referenceControl.valid"></span>
+              {{!referenceControl.valid ? '[INVALID] ' : ''}}{{!!reference.type ? reference.type : '[Missing type]'}} {{!!reference.value ? reference.value : '[Missing value]'}}
+              <button pButton
+                      appDebounceClick
+                      [disabled]="booking.commodities.length < 2"
+                      class="p-button-danger tab-header-discard-button"
+                      [debounceTime]="200"
+                      icon="pi pi-trash"
+                      aria-label="Discard reference number {{i}}"
+                      (debounceClick)="removeReference(i)">
+              </button>
+            </ng-template>
+
+            <div class="row">
+              <label for="references[{{i}}].type">Reference type: </label>
+              <p-dropdown [required]="true"
+                          [(ngModel)]="reference.type"
+                          id="references[{{i}}].type"
+                          name="references[{{i}}].type"
+                          [values$]="referenceTypeValues$"
+                          appEnumDropDown>
+              </p-dropdown>
+            </div>
+            <div class="row">
+              <label for="references[{{i}}].value">Reference: </label>
+              <input id="references[{{i}}].value"
+                     name="references[{{i}}].value"
+                     [(ngModel)]="reference.value"
+                     [required]="true"
+                     pInputText
+                     type="text"
+                     maxlength="100">
+            </div>
+
+            <div class="row">
+              <button pButton
+                      appDebounceClick
+                      label="Close tab"
+                      class="p-button-secondary"
+                      [debounceTime]="200"
+                      (debounceClick)="referencesSelected[i] = false">
+              </button>
+            </div>
+          </p-accordionTab>
+        </div>
 
         <p-button appDebounceClick
                   (debounceClick)="addReference()"
                   [debounceTime]="200"
                   iconPos="left"
-                  class="p-button-secondary"
+                  class="pi pi-plus p-button-secondary"
                   label="Add reference">
         </p-button>
       </p-accordionTab>
