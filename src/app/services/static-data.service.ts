@@ -5,7 +5,7 @@ import {
   CargoMovementTypeAtDestination,
   CargoMovementTypeAtOrigin, CommunicationChannelCode,
   DeliveryTypeAtDestination,
-  ReceiptTypeAtOrigin, ReferenceType, WeightUnit
+  ReceiptTypeAtOrigin, ReferenceType, ShipmentLocationTypeCode, WeightUnit
 } from '../../../projects/bkg-swagger-client';
 
 @Injectable({
@@ -83,6 +83,24 @@ export class StaticDataService {
       .set(ReferenceType.CER, 'Canadian Export Reporting System')
   ).asObservable();
 
+  private shipmentLocationTypeCode$ = new BehaviorSubject(
+    new Map()
+      .set(ShipmentLocationTypeCode.PRE, 'Place of Receipt')
+      .set(ShipmentLocationTypeCode.POL, 'Port of Loading')
+      .set(ShipmentLocationTypeCode.POD, 'Port of Discharge')
+      .set(ShipmentLocationTypeCode.PDE, 'Place of Delivery')
+      .set(ShipmentLocationTypeCode.PCF, 'Pre-carriage From')
+      .set(ShipmentLocationTypeCode.PSR, 'Pre-carriage under shipper’s responsibility')
+      .set(ShipmentLocationTypeCode.OIR, 'Onward In-land Routing')
+      .set(ShipmentLocationTypeCode.DRL, 'Depot release location')
+      .set(ShipmentLocationTypeCode.ORI, 'Booking party reference number')
+      .set(ShipmentLocationTypeCode.IEL, 'Origin of goods')
+      .set(ShipmentLocationTypeCode.PTP, 'Container intermediate export stop off location')
+      .set(ShipmentLocationTypeCode.RTP, 'Requested transshipment port')
+      .set(ShipmentLocationTypeCode.FCD, 'Full container drop-off location')
+      .set(ShipmentLocationTypeCode.ECP, 'Empty container pick-up location')
+  ).asObservable();
+
 
   constructor() { }
 
@@ -117,5 +135,8 @@ export class StaticDataService {
   getReferenceTypeNames(): Observable<Map<ReferenceType, string>> {
     return this.referenceType$;
   }
-}
 
+  getShipmentLocationTypeCodeNames(): Observable<Map<ShipmentLocationTypeCode, string>> {
+    return this.shipmentLocationTypeCode$;
+  }
+}

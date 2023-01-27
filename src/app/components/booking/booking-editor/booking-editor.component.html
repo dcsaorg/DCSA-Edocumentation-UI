@@ -240,7 +240,7 @@
         </app-edit-location>
       </p-accordionTab>
       <div ngModelGroup="commodities" #commodityListControl="ngModelGroup">
-        <p-accordionTab [disabled]="!booking" [selected]="true">
+        <p-accordionTab [disabled]="!booking" [selected]="isCreateMode">
           <ng-template pTemplate="header">
             <app-validity-marker [controlStatus]="commodityListControl">
             </app-validity-marker>
@@ -445,6 +445,88 @@
 
           <p-button appDebounceClick
                     (debounceClick)="addReference()"
+                    [debounceTime]="200"
+                    icon="pi pi-plus"
+                    class="p-button-secondary">
+          </p-button>
+        </p-accordionTab>
+      </div>
+
+      <div ngModelGroup="shipmentLocations" #shipmentLocationListControl="ngModelGroup">
+        <p-accordionTab [disabled]="!booking">
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="shipmentLocationListControl">
+            </app-validity-marker>
+            Shipment Locations ({{this.booking.shipmentLocations?.length ?? 0}}) [Optional]
+          </ng-template>
+
+          <div *ngFor="let shipmentLocation of this.booking.shipmentLocations; index as i"
+               ngModelGroup="shipmentLocations[{{i}}]" #shipmentLocationControl="ngModelGroup">
+            <p-accordionTab [selected]="shipmentLocationsSelected[i]">
+
+              <ng-template pTemplate="header">
+                <app-validity-marker [controlStatus]="shipmentLocationControl">
+                </app-validity-marker>
+                {{!shipmentLocationControl.valid ? '[INVALID] ' : ''}}{{shipmentLocation.shipmentLocationTypeCode}}
+                <button pButton
+                        appDebounceClick
+                        class="p-button-danger tab-header-discard-button"
+                        [debounceTime]="200"
+                        icon="pi pi-trash"
+                        (debounceClick)="removeShipmentLocation(i)">
+                </button>
+              </ng-template>
+
+              <div class="row">
+                <label for="shipmentLocations[{{i}}].shipmentLocationTypeCode">Shipment Location Type Code: </label>
+                <p-dropdown [required]="true"
+                            [(ngModel)]="shipmentLocation.shipmentLocationTypeCode"
+                            id="shipmentLocations[{{i}}].shipmentLocationTypeCode"
+                            name="shipmentLocations[{{i}}].shipmentLocationTypeCode"
+                            [values$]="shipmentLocationTypeCodeNames$"
+                            appEnumDropDown>
+                </p-dropdown>
+              </div>
+
+              <p-accordionTab class="inline-accordionTab">
+                <ng-template pTemplate="header">
+                  <app-validity-marker [controlStatus]="shipmentLocationLocation">
+                  </app-validity-marker>
+                  Location [Required]
+                </ng-template>
+                <app-edit-location [(ngModel)]="shipmentLocation.location"
+                                   [required]="true"
+                                   #shipmentLocationLocation="ngModel"
+                                   name="shipmentLocations[{{i}}].location">
+
+                </app-edit-location>
+              </p-accordionTab>
+
+              <div class="row">
+                <label for="shipmentLocations[{{i}}].eventDateTime">Event Date Time: </label>
+                <p-calendar [(ngModel)]="shipmentLocation.eventDateTime"
+                            id="shipmentLocations[{{i}}].eventDateTime"
+                            name="shipmentLocations[{{i}}].eventDateTime"
+                            [showTime]="true"
+                            hourFormat="24"
+                            [showClear]="true">
+                </p-calendar>
+              </div>
+
+              <div class="row">
+                <button pButton
+                        appDebounceClick
+                        label="Close tab"
+                        class="p-button-secondary"
+                        [debounceTime]="200"
+                        (debounceClick)="shipmentLocationsSelected[i] = false">
+                </button>
+              </div>
+            </p-accordionTab>
+          </div>
+
+          <p-button appDebounceClick
+                    (debounceClick)="addShipmentLocation()"
                     [debounceTime]="200"
                     icon="pi pi-plus"
                     class="p-button-secondary">

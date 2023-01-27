@@ -2,6 +2,7 @@
   <legend>Location</legend>
 <mat-slide-toggle [ngModel]="hasValue"
                   name="hasValue"
+                  *ngIf="!required"
                   (toggleChange)="onLocationSlideToggleChange()">
   <mat-label>Define location</mat-label>
 </mat-slide-toggle>
@@ -138,4 +139,9 @@
   </ng-container>
 
 </ng-container>
+  <!--div class="errors" *ngIf="this.controlDir.errors">
+    <div *ngIf="controlDirs.errors.locationMissingContent">
+
+    </div>
+  </div-->
 </fieldset>

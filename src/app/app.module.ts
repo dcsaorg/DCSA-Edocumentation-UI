@@ -35,6 +35,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatInputModule} from '@angular/material/input';
 import {InputTextModule} from 'primeng/inputtext';
 import { ValidityMarkerComponent } from './components/validity-marker/validity-marker.component';
+import {CalendarModule} from 'primeng/calendar';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -55,29 +56,30 @@ export function ConfigLoader(configService: ConfigService) {
     EditLocationComponent,
     ValidityMarkerComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    TableModule,
-    TooltipModule,
-    HttpClientModule,
-    ProgressSpinnerModule,
-    CardModule,
-    AccordionModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    DropdownModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    CheckboxModule,
-    ToastModule,
-    MessagesModule,
-    MessageModule,
-    ConfirmDialogModule,
-    MatSlideToggleModule,
-    MatInputModule,
-    InputTextModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        TableModule,
+        TooltipModule,
+        HttpClientModule,
+        ProgressSpinnerModule,
+        CardModule,
+        AccordionModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        DropdownModule,
+        ButtonModule,
+        ReactiveFormsModule,
+        CheckboxModule,
+        ToastModule,
+        MessagesModule,
+        MessageModule,
+        ConfirmDialogModule,
+        MatSlideToggleModule,
+        MatInputModule,
+        InputTextModule,
+        CalendarModule,
+    ],
   providers: [
     ConfigService,
     {

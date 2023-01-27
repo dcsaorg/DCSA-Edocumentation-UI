@@ -1,5 +1,12 @@
 import {Component, Input, OnInit, Self} from '@angular/core';
-import {AbstractControl, ControlValueAccessor, NgControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  NgControl,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {EDocLocation} from '../../../models/location';
 import {Address} from '../../../../../projects/bkg-swagger-client';
 
@@ -51,7 +58,9 @@ export class EditLocationComponent implements OnInit, ControlValueAccessor {
 
   missingAddressContent = false;
 
-  constructor(@Self() private controlDir: NgControl) {
+  @Input() required = false;
+
+  constructor(@Self() public controlDir: NgControl) {
     this.controlDir.valueAccessor = this;
   }
 
@@ -108,31 +117,36 @@ export class EditLocationComponent implements OnInit, ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
-    // FIXME:
-  }
-
   writeValue(obj: EDocLocation|null): void {
     this.location = obj;
     this.hasValue = !!obj;
+    if (this.required && !this.hasValue) {
+      this.hasValue = true;
+      this.location = {}
+    }
     this.hasAddress = !!obj?.address
     this.address = obj?.address ?? null;
   }
 
-  validate(_: AbstractControl): ValidationErrors | null {
+  validate(ctrl: AbstractControl): ValidationErrors | null {
     if (!this.hasValue) {
+      if (this.required) {
+        return Validators.required(ctrl);
+      }
       return null;
     }
     if (this.needAddressOrUNLocationCode) {
       return {
-        'location.missingContent': "Must provide an Address or a UNLocationCode",
+        'locationMissingContent': "Must provide an Address or a UNLocationCode",
       };
     }
+    /*
     if (this.missingAddressContent) {
       return {
         'location.address.missingContent': "Must provide at least one field of the Address",
       }
     }
+    */
     return null;
   }
 

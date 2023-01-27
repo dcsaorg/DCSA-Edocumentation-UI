@@ -10,6 +10,7 @@ import {
   DeliveryTypeAtDestination,
   ReceiptTypeAtOrigin,
   ReferenceType,
+  ShipmentLocationTypeCode,
   WeightUnit
 } from '../../../../../projects/bkg-swagger-client';
 import {NgForm} from '@angular/forms';
@@ -64,10 +65,17 @@ export class BookingEditorComponent implements OnInit {
     this.staticDataService.getReferenceTypeNames(),
   );
 
+  shipmentLocationTypeCodeNames$ = this.enumValues(
+    ShipmentLocationTypeCode,
+    this.staticDataService.getShipmentLocationTypeCodeNames(),
+  );
+
   submissionInProgress = false;
 
   commoditiesSelected: boolean[] = [];
   referencesSelected: boolean[] = [];
+
+  shipmentLocationsSelected: boolean[] = [];
 
   constructor(private route: ActivatedRoute,
               private bookingService: BookingService,
@@ -106,6 +114,7 @@ export class BookingEditorComponent implements OnInit {
   private computeSupportingData(): void {
     this.commoditiesSelected = this.booking?.commodities?.map(_ => false) ?? [];
     this.referencesSelected = this.booking?.references?.map(_ => false) ?? [];
+    this.shipmentLocationsSelected = this.booking?.shipmentLocations?.map(_ => false) ?? [];
   }
 
   enumValues<E>(enumClass: E, data2name?: Observable<Map<E[keyof E], string>>): Observable<SelectItem<E[keyof E]|null>[]> {
@@ -199,6 +208,21 @@ export class BookingEditorComponent implements OnInit {
     this.referencesSelected.push(true);
   }
 
+  addShipmentLocation(): void {
+    if (!this.booking) {
+      return;
+    }
+    if (!this.booking.shipmentLocations) {
+      this.booking.shipmentLocations = [];
+    }
+    this.booking.shipmentLocations!.push({
+      shipmentLocationTypeCode: ShipmentLocationTypeCode.POL,
+      location: {},
+      eventDateTime: undefined,
+    })
+    this.shipmentLocationsSelected.push(true);
+  }
+
   removeCommodity(i: number): void {
     this.booking!.commodities.splice(i, 1);
     this.commoditiesSelected.splice(i, 1);
@@ -207,6 +231,11 @@ export class BookingEditorComponent implements OnInit {
   removeReference(i: number): void {
     this.booking!.references!.splice(i, 1);
     this.referencesSelected.splice(i, 1);
+  }
+
+  removeShipmentLocation(i: number): void {
+    this.booking!.shipmentLocations!.splice(i, 1);
+    this.shipmentLocationsSelected.splice(i, 1);
   }
 
   /*
