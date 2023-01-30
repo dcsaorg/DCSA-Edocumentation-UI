@@ -1,4 +1,4 @@
-import {Directive, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, Self} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subject, Subscription} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ export class DebounceClickDirective implements OnInit, OnDestroy {
   private clicks = new Subject();
   private subscription: Subscription|null = null;
 
-  constructor(@Self() private readonly element: ElementRef) { }
+  constructor(private readonly formElement: ElementRef<HTMLInputElement>) { }
 
   ngOnInit() {
     this.subscription = this.clicks.pipe(
@@ -25,7 +25,7 @@ export class DebounceClickDirective implements OnInit, OnDestroy {
 
   @HostListener('click', ['$event'])
   clickEvent(event: any) {
-    if (!this.element.nativeElement.disabled) {
+    if (!this.formElement.nativeElement.disabled) {
       event.preventDefault();
       event.stopPropagation();
       this.clicks.next(event);

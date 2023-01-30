@@ -404,14 +404,15 @@
             </p-accordionTab>
           </div>
 
-          <p-button appDebounceClick
-                    (debounceClick)="addCommodity()"
-                    [debounceTime]="200"
-                    iconPos="left"
-                    icon="pi pi-plus"
-                    class="p-button-secondary"
-                    label="Add commodity">
-          </p-button>
+          <button appDebounceClick
+                  pButton
+                  (debounceClick)="addCommodity()"
+                  [debounceTime]="200"
+                  iconPos="left"
+                  icon="pi pi-plus"
+                  class="p-button-secondary"
+                  label="Add commodity">
+          </button>
         </p-accordionTab>
       </div>
 
@@ -473,12 +474,13 @@
             </p-accordionTab>
           </div>
 
-          <p-button appDebounceClick
-                    (debounceClick)="addReference()"
-                    [debounceTime]="200"
-                    icon="pi pi-plus"
-                    class="p-button-secondary">
-          </p-button>
+          <button appDebounceClick
+                  pButton
+                  (debounceClick)="addReference()"
+                  [debounceTime]="200"
+                  icon="pi pi-plus"
+                  class="p-button-secondary">
+          </button>
         </p-accordionTab>
       </div>
 
@@ -555,12 +557,13 @@
             </p-accordionTab>
           </div>
 
-          <p-button appDebounceClick
-                    (debounceClick)="addShipmentLocation()"
-                    [debounceTime]="200"
-                    icon="pi pi-plus"
-                    class="p-button-secondary">
-          </p-button>
+          <button appDebounceClick
+                  pButton
+                  (debounceClick)="addShipmentLocation()"
+                  [debounceTime]="200"
+                  icon="pi pi-plus"
+                  class="p-button-secondary">
+          </button>
         </p-accordionTab>
       </div>
     </p-accordion>
@@ -572,18 +575,22 @@
         Validation issues: {{bookingForm.valid ? 'None' : 'Errors detected'}}
       </div>
       <div class="row">
-        <p-button appDebounceClick (debounceClick)="submit()" [debounceTime]="200"
-                  [disabled]="submissionInProgress || !bookingForm.valid || (bookingForm.pristine ?? true)" icon="pi pi-save"
-                  label="{{isCreateMode ? 'Create' : 'Update/Amend'}}"
-                  iconPos="left">
-        </p-button>
-        <p-button label="Cancel {{carrierBookingRequestReference ? 'edit' : 'creation'}}"
-                  appDebounceClick
-                  [disabled]="submissionInProgress"
-                  (debounceClick)="cancel()"
-                  icon="pi pi-trash"
-                  class="p-button-secondary">
-        </p-button>
+        <button appDebounceClick
+                pButton
+                (debounceClick)="submit()" [debounceTime]="200"
+                [disabled]="submissionInProgress || !bookingForm.valid || (!bookingForm.pristine ?? false)"
+                icon="pi pi-save"
+                label="{{isCreateMode ? 'Create' : 'Update/Amend'}}"
+                iconPos="left">
+        </button>
+        <button label="Cancel {{carrierBookingRequestReference ? 'edit' : 'creation'}}"
+                pButton
+                appDebounceClick
+                [disabled]="submissionInProgress"
+                (debounceClick)="cancel()"
+                icon="pi pi-trash"
+                class="p-button-secondary">
+        </button>
         <p-progressSpinner *ngIf="submissionInProgress">
         </p-progressSpinner>
       </div>
