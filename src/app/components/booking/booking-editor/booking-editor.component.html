@@ -578,7 +578,7 @@
         <button appDebounceClick
                 pButton
                 (debounceClick)="submit()" [debounceTime]="200"
-                [disabled]="submissionInProgress || !bookingForm.valid || (!bookingForm.pristine ?? false)"
+                [disabled]="submissionInProgress || !bookingForm.valid || (bookingForm.pristine ?? false)"
                 icon="pi pi-save"
                 label="{{isCreateMode ? 'Create' : 'Update/Amend'}}"
                 iconPos="left">
