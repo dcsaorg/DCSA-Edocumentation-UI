@@ -3,7 +3,13 @@
   <h1 *ngIf="isCreateMode">New booking request</h1>
   <form #bookingForm="ngForm">
     <p-accordion [multiple]="true">
-      <p-accordionTab header="Mandatory details [Required]" [selected]="true">
+      <div ngModelGroup="mandatoryDetails" #mandatoryDetailsControl="ngModelGroup">
+        <p-accordionTab [selected]="isCreateMode">
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="mandatoryDetailsControl">
+            </app-validity-marker>
+            Mandatory details [Required]
+          </ng-template>
 
           <div class="row">
             <label for="receiptTypeAtOrigin">Receipt Type At Origin: </label>
@@ -91,9 +97,16 @@
                         name="isEquipmentSubstitutionAllowed">
             </p-checkbox>
           </div>
-      </p-accordionTab>
-      <p-accordionTab header="Service Contract or Quotation reference [Required]" [selected]="true">
-        <p><i>At least one of these must be provided</i></p>
+        </p-accordionTab>
+      </div>
+      <div ngModelGroup="contractOrQuotationReference" #contractOrQuotationReferenceControl="ngModelGroup">
+        <p-accordionTab [selected]="isCreateMode">
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="contractOrQuotationReferenceControl">
+            </app-validity-marker>
+            Service Contract or Quotation reference [Required]
+          </ng-template>
+          <p><i>At least one of these must be provided</i></p>
           <div class="row">
             <label for="contractQuotationReference">Contract Quotation Reference: </label>
             <input type="text"
@@ -117,9 +130,16 @@
                    id="serviceContractReference"
                    name="serviceContractReference">
           </div>
-      </p-accordionTab>
-      <p-accordionTab header="Arrival/Departure details [Required]" [selected]="true">
-        <p><i>At least one of these must be provided</i></p>
+        </p-accordionTab>
+      </div>
+      <div ngModelGroup="arrivalDepartureDetailsControl" #arrivalDepartureDetailsControl="ngModelGroup">
+        <p-accordionTab [selected]="isCreateMode">
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="arrivalDepartureDetailsControl">
+            </app-validity-marker>
+            Arrival/Departure details [Required]
+          </ng-template>
+          <p><i>At least one of these must be provided</i></p>
           <div class="row">
             <label for="expectedDepartureDate">Expected Departure date: </label>
             <input id="expectedDepartureDate"
@@ -173,8 +193,15 @@
                    nullValue
                    type="text">
           </div>
-      </p-accordionTab>
-      <p-accordionTab header="Optional (simple) attributes">
+        </p-accordionTab>
+      </div>
+      <div ngModelGroup="miscOptionalAttributeControl" #miscOptionalAttributeControl="ngModelGroup">
+        <p-accordionTab>
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="miscOptionalAttributeControl">
+            </app-validity-marker>
+            Misc Attributes [Optional]
+          </ng-template>
           <div class="row">
             <label for="carrierServiceCode">Carrier Service Code: </label>
             <input id="carrierServiceCode"
@@ -214,7 +241,8 @@
                    nullValue
                    type="text">
           </div>
-      </p-accordionTab>
+        </p-accordionTab>
+      </div>
       <p-accordionTab [disabled]="!booking">
         <ng-template pTemplate="header">
           <app-validity-marker [controlStatus]="placeOfBLIssueControl">
@@ -535,37 +563,31 @@
           </p-button>
         </p-accordionTab>
       </div>
-
-      <p-accordionTab [disabled]="bookingForm.valid ?? true">
-        <ng-template pTemplate="header">
-          <app-validity-marker [controlStatus]="bookingForm">
-          </app-validity-marker>
-          Validation issues: {{bookingForm.valid ? 'None' : 'Errors detected'}}
-        </ng-template>
-        <ul>
-          <ng-container *ngFor="let name of allFormControls(bookingForm)">
-            <li *ngIf="bookingForm.controls[name].errors as errors">{{name}}: {{errors | json}}</li>
-          </ng-container>
-        </ul>
-      </p-accordionTab>
     </p-accordion>
 
-    <div class="row">
-      <p-button appDebounceClick (debounceClick)="submit()" [debounceTime]="200"
-                [disabled]="submissionInProgress || !bookingForm.valid || (bookingForm.pristine ?? true)" icon="pi pi-save"
-                label="{{isCreateMode ? 'Create' : 'Update/Amend'}}"
-                iconPos="left">
-      </p-button>
-      <p-button label="Cancel {{carrierBookingRequestReference ? 'edit' : 'creation'}}"
-                appDebounceClick
-                [disabled]="submissionInProgress"
-                (debounceClick)="cancel()"
-                icon="pi pi-trash"
-                class="p-button-secondary">
-      </p-button>
-      <p-progressSpinner *ngIf="submissionInProgress">
-      </p-progressSpinner>
-    </div>
+    <p-card>
+      <div class="row">
+        <app-validity-marker [controlStatus]="bookingForm">
+        </app-validity-marker>
+        Validation issues: {{bookingForm.valid ? 'None' : 'Errors detected'}}
+      </div>
+      <div class="row">
+        <p-button appDebounceClick (debounceClick)="submit()" [debounceTime]="200"
+                  [disabled]="submissionInProgress || !bookingForm.valid || (bookingForm.pristine ?? true)" icon="pi pi-save"
+                  label="{{isCreateMode ? 'Create' : 'Update/Amend'}}"
+                  iconPos="left">
+        </p-button>
+        <p-button label="Cancel {{carrierBookingRequestReference ? 'edit' : 'creation'}}"
+                  appDebounceClick
+                  [disabled]="submissionInProgress"
+                  (debounceClick)="cancel()"
+                  icon="pi pi-trash"
+                  class="p-button-secondary">
+        </p-button>
+        <p-progressSpinner *ngIf="submissionInProgress">
+        </p-progressSpinner>
+      </div>
+    </p-card>
   </form>
 </ng-container>
 
