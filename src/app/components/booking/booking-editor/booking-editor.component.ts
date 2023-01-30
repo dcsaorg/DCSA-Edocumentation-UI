@@ -13,7 +13,6 @@ import {
   ShipmentLocationTypeCode,
   WeightUnit
 } from '../../../../../projects/bkg-swagger-client';
-import {NgForm} from '@angular/forms';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ErrorMessageExtractor} from '../../../util/error-message-extractor';
 import {StaticDataService} from '../../../services/static-data.service';
@@ -236,19 +235,6 @@ export class BookingEditorComponent implements OnInit {
   removeShipmentLocation(i: number): void {
     this.booking!.shipmentLocations!.splice(i, 1);
     this.shipmentLocationsSelected.splice(i, 1);
-  }
-
-  /*
-  findFirstError(elem: Element) {
-    const c = elem.querySelector(".ng-invalid");
-    if (c) {
-      c.scrollIntoView();
-    }
-  }
-   */
-
-  allFormControls(ngForm: NgForm): string[] {
-    return Object.keys(ngForm.controls);
   }
 
   cancel(): void {
