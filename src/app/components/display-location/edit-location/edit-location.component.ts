@@ -4,6 +4,26 @@ import {EDocLocation} from '../../../models/location';
 import {Address} from '../../../../../projects/bkg-swagger-client';
 
 
+interface LocationErrors extends ValidationErrors {
+}
+
+const ERROR_NO_CONTENT_KEY: keyof LocationErrors = 'locationMissingContent'
+const ERROR_NO_CONTENT_MSG = 'No location content provided (beyond the optional Location Name)';
+
+const ERROR_NO_ADDRESS_CONTENT_KEY: keyof LocationErrors = 'locationAddressMissingContent'
+const ERROR_NO_ADDRESS_CONTENT_MSG = 'Must provide at least one field of the Address'
+
+const ERROR_INCOMPLETE_FACILITY_KEY: keyof LocationErrors = 'locationIncompleteFacility';
+const ERROR_INCOMPLETE_FACILITY_MSG = 'When defining a facility, the fields UNLocationCode, Facility Code, and Facility Code List Provider must all be provided';
+
+
+const ERROR_KEYS = [
+  ERROR_NO_CONTENT_KEY,
+  ERROR_NO_ADDRESS_CONTENT_KEY,
+  ERROR_INCOMPLETE_FACILITY_KEY,
+]
+
+
 @Component({
   selector: 'app-edit-location',
   templateUrl: './edit-location.component.html',
@@ -23,6 +43,9 @@ export class EditLocationComponent implements OnInit, ControlValueAccessor {
   missingAddressContent = false;
 
   @Input() required = false;
+  @Input() enableAddress = true;
+  @Input() enableUNLocationCode = true;
+  @Input() enableFacility = true;
 
   constructor(@Self() public controlDir: NgControl) {
     this.controlDir.valueAccessor = this;
@@ -35,11 +58,22 @@ export class EditLocationComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  get needAddressOrUNLocationCode(): boolean {
+  get errorKeys(): string[] {
+    return ERROR_KEYS;
+  }
+
+  get needsContent(): boolean {
     if (!this.hasValue) {
       return false;
     }
     return !this.location?.UNLocationCode && !this.hasAddress;
+  }
+
+  get needsFacility(): boolean {
+    if (!this.hasValue) {
+      return false;
+    }
+    return !!this.location?.facilityCode || !!this.location?.facilityCodeListProvider;
   }
 
   onLocationSlideToggleChange(): void {
@@ -101,17 +135,25 @@ export class EditLocationComponent implements OnInit, ControlValueAccessor {
       }
       return null;
     }
-    if (this.needAddressOrUNLocationCode) {
-      return {
-        'locationMissingContent': "Must provide an Address or a UNLocationCode",
-      };
+    const errors: LocationErrors = {}
+    let hasErrors = false;
+    if (this.needsContent) {
+      errors[ERROR_NO_CONTENT_KEY] = ERROR_NO_CONTENT_MSG;
+      return errors;
     }
     if (this.missingAddressContent) {
-      return {
-        'location.address.missingContent': "Must provide at least one field of the Address",
-      }
+      hasErrors = true;
+      errors[ERROR_NO_ADDRESS_CONTENT_KEY] = ERROR_NO_ADDRESS_CONTENT_MSG;
     }
-    return null;
+    if (this.needsFacility && !(
+      this.location?.facilityCode
+      || this.location?.facilityCodeListProvider
+      || this.location?.UNLocationCode
+    )) {
+      hasErrors = true;
+      errors[ERROR_INCOMPLETE_FACILITY_KEY] = ERROR_INCOMPLETE_FACILITY_MSG;
+    }
+    return hasErrors ? errors : null;
   }
 
 }

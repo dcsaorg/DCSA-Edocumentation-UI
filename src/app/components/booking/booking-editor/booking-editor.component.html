@@ -223,6 +223,7 @@
         </ng-template>
         <app-edit-location [(ngModel)]="booking.placeOfBLIssue"
                            #placeOfBLIssueControl="ngModel"
+                           [enableFacility]="false"
                            name="placeOfBLIssue">
 
         </app-edit-location>
@@ -235,6 +236,7 @@
         </ng-template>
         <app-edit-location [(ngModel)]="booking.invoicePayableAt"
                            #invoicePayableAtControl="ngModel"
+                           [enableFacility]="false"
                            name="invoicePayableAt">
 
         </app-edit-location>

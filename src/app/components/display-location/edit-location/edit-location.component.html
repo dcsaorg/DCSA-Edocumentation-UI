@@ -1,147 +1,165 @@
 <fieldset>
   <legend>Location</legend>
-<mat-slide-toggle [ngModel]="hasValue"
-                  name="hasValue"
-                  *ngIf="!required"
-                  (toggleChange)="onLocationSlideToggleChange()">
-  <mat-label>Define location</mat-label>
-</mat-slide-toggle>
-<ng-container *ngIf="hasValue && location as l">
-  <div class="row">
-    <label>Location Name: </label>
-    <input type="text"
-           [(ngModel)]="l.locationName"
-           nullValue
-           pInputText
-           maxlength="100"
-           (change)="emitChange()"
-           (blur)="emitTouchedEvent()"
-           [ngModelOptions]="{standalone: true}">
-  </div>
-
-  <div class="row">
-    <label>UNLocationCode: </label>
-    <input type="text"
-           [(ngModel)]="l.UNLocationCode"
-           nullValue
-           pInputText
-           maxlength="5"
-           [required]="needAddressOrUNLocationCode"
-           (change)="emitChange()"
-           (blur)="emitTouchedEvent()"
-           [ngModelOptions]="{standalone: true}">
-  </div>
-  <mat-slide-toggle [ngModel]="hasAddress"
-                    (toggleChange)="onAddressSlideToggleChange()"
-                    name="hasAddress"
-                    [required]="needAddressOrUNLocationCode">
-    <mat-label>Define Address</mat-label>
+  <mat-slide-toggle [ngModel]="hasValue"
+                    name="hasValue"
+                    *ngIf="!required"
+                    (toggleChange)="onLocationSlideToggleChange()">
+    <mat-label>Define location</mat-label>
   </mat-slide-toggle>
-
-  <ng-container *ngIf="hasAddress && address as a">
-    <fieldset>
-      <legend>Address</legend>
-      <div class="row">
-        <label>Name: </label>
-        <input type="text"
-               [(ngModel)]="a.name"
-               nullValue
-               pInputText
-               maxlength="100"
-               [required]="missingAddressContent"
-               (change)="emitChange()"
-               (blur)="emitTouchedEvent()"
-               [ngModelOptions]="{standalone: true}">
-      </div>
-      <div class="row">
-        <label>Street, street nr. and floor: </label>
-        <input type="text"
-               placeholder="Street"
-               [(ngModel)]="a.street"
-               nullValue
-               pInputText
-               maxlength="100"
-               [required]="missingAddressContent"
-               (change)="emitChange()"
-               (blur)="emitTouchedEvent()"
-               [ngModelOptions]="{standalone: true}">
-        <input type="text"
-               placeholder="Street number"
-               [(ngModel)]="a.streetNumber"
-               nullValue
-               pInputText
-               maxlength="50"
-               [required]="missingAddressContent"
-               (change)="emitChange()"
-               (blur)="emitTouchedEvent()"
-               [ngModelOptions]="{standalone: true}">
-        <input type="text"
-               placeholder="Floor"
-               [(ngModel)]="a.floor"
-               nullValue
-               pInputText
-               maxlength="50"
-               [required]="missingAddressContent"
-               (change)="emitChange()"
-               (blur)="emitTouchedEvent()"
-               [ngModelOptions]="{standalone: true}">
-      </div>
-      <div class="row">
-        <label>Post code and city: </label>
-        <input type="text"
-               placeholder="Post code"
-               [(ngModel)]="a.postCode"
-               nullValue
-               pInputText
-               maxlength="50"
-               [required]="missingAddressContent"
-               (change)="emitChange()"
-               (blur)="emitTouchedEvent()"
-               [ngModelOptions]="{standalone: true}">
-        <input type="text"
-               placeholder="City"
-               [(ngModel)]="a.city"
-               nullValue
-               pInputText
-               maxlength="65"
-               [required]="missingAddressContent"
-               (change)="emitChange()"
-               (blur)="emitTouchedEvent()"
-               [ngModelOptions]="{standalone: true}">
-      </div>
-      <div class="row">
-        <label>State (if applicable): </label>
-        <input type="text"
-               placeholder="State"
-               [(ngModel)]="a.stateRegion"
-               nullValue
-               pInputText
-               maxlength="65"
-               [required]="missingAddressContent"
-               (change)="emitChange()"
-               (blur)="emitTouchedEvent()"
-               [ngModelOptions]="{standalone: true}">
-      </div>
-      <div class="row">
-        <label>Country: </label>
-        <input type="text"
-               placeholder="Country"
-               [(ngModel)]="a.country"
-               nullValue
-               pInputText
-               maxlength="75"
-               [required]="missingAddressContent"
-               (change)="emitChange()"
-               (blur)="emitTouchedEvent()"
-               [ngModelOptions]="{standalone: true}">
-      </div>
-    </fieldset>
-  </ng-container>
-
-</ng-container>
-  <div class="errors" *ngIf="this.controlDir.errors">
-    <div *ngIf="controlDir.hasError('locationMissingContent')">
-      The location must have content such as an Address or a UNLocationCode.
+  <ng-container *ngIf="hasValue && location as l">
+    <div class="row">
+      <label>Location Name: </label>
+      <input type="text"
+             [(ngModel)]="l.locationName"
+             nullValue
+             pInputText
+             maxlength="100"
+             (change)="emitChange()"
+             (blur)="emitTouchedEvent()"
+             [ngModelOptions]="{standalone: true}">
     </div>
-  </div>
+
+    <div class="row" *ngIf="enableUNLocationCode || enableFacility">
+      <label>UNLocationCode: </label>
+      <input type="text"
+             [(ngModel)]="l.UNLocationCode"
+             nullValue
+             pInputText
+             maxlength="5"
+             [required]="needsContent || needsFacility"
+             (change)="emitChange()"
+             (blur)="emitTouchedEvent()"
+             [ngModelOptions]="{standalone: true}">
+    </div>
+    <ng-container *ngIf="enableFacility">
+      <div class="row">
+        <label>Facility Code: </label>
+        <input type="text"
+               [(ngModel)]="l.facilityCode"
+               nullValue
+               pInputText
+               maxlength="6"
+               [required]="needsContent"
+               (change)="emitChange()"
+               (blur)="emitTouchedEvent()"
+               [ngModelOptions]="{standalone: true}">
+      </div>
+    </ng-container>
+    <ng-container *ngIf="enableAddress">
+      <mat-slide-toggle [ngModel]="hasAddress"
+                        (toggleChange)="onAddressSlideToggleChange()"
+                        name="hasAddress"
+                        [required]="needsContent">
+        <mat-label>Define Address</mat-label>
+      </mat-slide-toggle>
+
+      <ng-container *ngIf="hasAddress && address as a">
+        <fieldset>
+          <legend>Address</legend>
+          <div class="row">
+            <label>Name: </label>
+            <input type="text"
+                   [(ngModel)]="a.name"
+                   nullValue
+                   pInputText
+                   maxlength="100"
+                   [required]="missingAddressContent"
+                   (change)="emitChange()"
+                   (blur)="emitTouchedEvent()"
+                   [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="row">
+            <label>Street, street nr. and floor: </label>
+            <input type="text"
+                   placeholder="Street"
+                   [(ngModel)]="a.street"
+                   nullValue
+                   pInputText
+                   maxlength="100"
+                   [required]="missingAddressContent"
+                   (change)="emitChange()"
+                   (blur)="emitTouchedEvent()"
+                   [ngModelOptions]="{standalone: true}">
+            <input type="text"
+                   placeholder="Street number"
+                   [(ngModel)]="a.streetNumber"
+                   nullValue
+                   pInputText
+                   maxlength="50"
+                   [required]="missingAddressContent"
+                   (change)="emitChange()"
+                   (blur)="emitTouchedEvent()"
+                   [ngModelOptions]="{standalone: true}">
+            <input type="text"
+                   placeholder="Floor"
+                   [(ngModel)]="a.floor"
+                   nullValue
+                   pInputText
+                   maxlength="50"
+                   [required]="missingAddressContent"
+                   (change)="emitChange()"
+                   (blur)="emitTouchedEvent()"
+                   [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="row">
+            <label>Post code and city: </label>
+            <input type="text"
+                   placeholder="Post code"
+                   [(ngModel)]="a.postCode"
+                   nullValue
+                   pInputText
+                   maxlength="50"
+                   [required]="missingAddressContent"
+                   (change)="emitChange()"
+                   (blur)="emitTouchedEvent()"
+                   [ngModelOptions]="{standalone: true}">
+            <input type="text"
+                   placeholder="City"
+                   [(ngModel)]="a.city"
+                   nullValue
+                   pInputText
+                   maxlength="65"
+                   [required]="missingAddressContent"
+                   (change)="emitChange()"
+                   (blur)="emitTouchedEvent()"
+                   [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="row">
+            <label>State (if applicable): </label>
+            <input type="text"
+                   placeholder="State"
+                   [(ngModel)]="a.stateRegion"
+                   nullValue
+                   pInputText
+                   maxlength="65"
+                   [required]="missingAddressContent"
+                   (change)="emitChange()"
+                   (blur)="emitTouchedEvent()"
+                   [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="row">
+            <label>Country: </label>
+            <input type="text"
+                   placeholder="Country"
+                   [(ngModel)]="a.country"
+                   nullValue
+                   pInputText
+                   maxlength="75"
+                   [required]="missingAddressContent"
+                   (change)="emitChange()"
+                   (blur)="emitTouchedEvent()"
+                   [ngModelOptions]="{standalone: true}">
+          </div>
+        </fieldset>
+      </ng-container>
+    </ng-container>
+
+  </ng-container>
+    <div class="errors" *ngIf="this.controlDir.errors">
+      <ng-container *ngFor="let key of errorKeys">
+        <div *ngIf="controlDir.getError(key) as msg">
+          {{msg}}
+        </div>
+      </ng-container>
+    </div>
 </fieldset>
