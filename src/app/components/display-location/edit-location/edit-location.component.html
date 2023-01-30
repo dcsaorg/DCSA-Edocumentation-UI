@@ -139,9 +139,9 @@
   </ng-container>
 
 </ng-container>
-  <!--div class="errors" *ngIf="this.controlDir.errors">
-    <div *ngIf="controlDirs.errors.locationMissingContent">
-
+  <div class="errors" *ngIf="this.controlDir.errors">
+    <div *ngIf="controlDir.hasError('locationMissingContent')">
+      The location must have content such as an Address or a UNLocationCode.
     </div>
-  </div-->
+  </div>
 </fieldset>

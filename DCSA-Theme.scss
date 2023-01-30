@@ -49,6 +49,12 @@ $tableSize: 12pt;
   box-sizing: border-box;
 }
 
+.errors {
+  color: red;
+  font-size: 0.8em;
+  height: 30px;
+}
+
 .p-button {
   margin-right: .5rem;
 }

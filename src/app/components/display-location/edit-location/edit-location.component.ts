@@ -1,43 +1,7 @@
 import {Component, Input, OnInit, Self} from '@angular/core';
-import {
-  AbstractControl,
-  ControlValueAccessor,
-  NgControl,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+import {AbstractControl, ControlValueAccessor, NgControl, ValidationErrors, Validators} from '@angular/forms';
 import {EDocLocation} from '../../../models/location';
 import {Address} from '../../../../../projects/bkg-swagger-client';
-
-
-const UNLocationOrAddressValidator = (control: AbstractControl) => {
-  const value = control.value;
-  if (!value) {
-    return null;
-  }
-  if (value.UNLocationCode || value.address) {
-    return null;
-  }
-  return {
-    "locationMissingContent": "Either UNLocationCode or an address must be provided",
-  };
-}
-
-function validateUNLocationOrAddress(component: EditLocationComponent): ValidatorFn {
-  return (control) => {
-    if (!component.hasValue) {
-      return null;
-    }
-    if (component.location?.UNLocationCode || component.hasAddress) {
-      return null;
-    }
-    return {
-      "locationMissingContent": "Either UNLocationCode or an address must be provided",
-    };
-  }
-}
-
 
 
 @Component({
@@ -102,6 +66,8 @@ export class EditLocationComponent implements OnInit, ControlValueAccessor {
       && this.address
       && Object.values(this.address).filter(v => !!v).length < 1
     ) ?? false;
+    // The API never requires any Address field.
+    this.missingAddressContent = false;
     this.onChanged(this.hasValue ? this.location : null);
   }
 
@@ -140,13 +106,11 @@ export class EditLocationComponent implements OnInit, ControlValueAccessor {
         'locationMissingContent': "Must provide an Address or a UNLocationCode",
       };
     }
-    /*
     if (this.missingAddressContent) {
       return {
         'location.address.missingContent': "Must provide at least one field of the Address",
       }
     }
-    */
     return null;
   }
 
