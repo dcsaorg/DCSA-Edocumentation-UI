@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, map, Observable, of} from 'rxjs';
 import {
   BookingDocumentStatus,
   CargoMovementTypeAtDestination,
   CargoMovementTypeAtOrigin, CommunicationChannelCode,
   DeliveryTypeAtDestination,
-  ReceiptTypeAtOrigin, ReferenceType, ShipmentLocationTypeCode, WeightUnit
+  ReceiptTypeAtOrigin, ReferenceType, ShipmentLocationTypeCode, VolumeUnit, WeightUnit
 } from '../../../projects/bkg-swagger-client';
+import {SelectItem} from 'primeng/api/selectitem';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,12 @@ export class StaticDataService {
     new Map()
       .set(WeightUnit.KGM, 'Kilograms')
       .set(WeightUnit.LBR, 'Pounds')
+  ).asObservable();
+
+  private volumeUnit$ = new BehaviorSubject(
+    new Map()
+      .set(VolumeUnit.MTQ, 'Cubic meter')
+      .set(VolumeUnit.FTQ, 'Cubic foot')
   ).asObservable();
 
   private referenceType$ = new BehaviorSubject(
@@ -132,6 +139,10 @@ export class StaticDataService {
     return this.weightUnit$;
   }
 
+  getVolumeUnitNames(): Observable<Map<VolumeUnit, string>> {
+    return this.volumeUnit$;
+  }
+
   getReferenceTypeNames(): Observable<Map<ReferenceType, string>> {
     return this.referenceType$;
   }
@@ -139,4 +150,50 @@ export class StaticDataService {
   getShipmentLocationTypeCodeNames(): Observable<Map<ShipmentLocationTypeCode, string>> {
     return this.shipmentLocationTypeCode$;
   }
+
+  getWeightUnitSelectItems(): Observable<SelectItem<WeightUnit|null>[]> {
+    return this.enumValues(
+      WeightUnit,
+      this.getWeightUnitNames(),
+    );
+  }
+
+  getVolumeUnitSelectItems(): Observable<SelectItem<VolumeUnit|null>[]> {
+    return this.enumValues(
+      VolumeUnit,
+      this.getVolumeUnitNames(),
+    );
+  }
+
+  private enumValues<E>(enumClass: E, data2name?: Observable<Map<E[keyof E], string>>): Observable<SelectItem<E[keyof E]|null>[]> {
+    const v: any = []
+    for (const x in enumClass) {
+      v.push(x);
+    }
+    if (data2name) {
+      return data2name.pipe(
+        map(m => v.map((e: E[keyof E]) => this.withCustomLabel(e, m)))
+      );
+    }
+    return of(v.map(this.codeAsLabel));
+  }
+
+  private withCustomLabel<E>(e: E, m: Map<E, string>): SelectItem<E> {
+    const name = m.get(e);
+    if (!name) {
+      return this.codeAsLabel(e);
+    }
+    return {
+      label: `${name} (code: ${e})`,
+      value: e,
+    }
+  }
+
+  private codeAsLabel<E>(e: E): SelectItem<E> {
+    return {
+      label: `${e}`,
+      value: e,
+    }
+  }
+
 }

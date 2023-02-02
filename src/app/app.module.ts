@@ -36,6 +36,7 @@ import {MatInputModule} from '@angular/material/input';
 import {InputTextModule} from 'primeng/inputtext';
 import { ValidityMarkerComponent } from './components/validity-marker/validity-marker.component';
 import {CalendarModule} from 'primeng/calendar';
+import { EditCommodityComponent } from './components/commodity/edit-commodity/edit-commodity.component';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -55,6 +56,7 @@ export function ConfigLoader(configService: ConfigService) {
     VesselIMONumberDirective,
     EditLocationComponent,
     ValidityMarkerComponent,
+    EditCommodityComponent,
   ],
     imports: [
         BrowserModule,

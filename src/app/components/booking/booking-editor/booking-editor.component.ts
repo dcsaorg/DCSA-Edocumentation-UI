@@ -17,6 +17,9 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {ErrorMessageExtractor} from '../../../util/error-message-extractor';
 import {StaticDataService} from '../../../services/static-data.service';
 import {SelectItem} from 'primeng/api/selectitem';
+import {createCommodity} from '../../../util/object-factory';
+import {AbstractFormGroupDirective} from '@angular/forms';
+import {clearValidationIssuesOnFormGroupDirective} from '../../../util/validation-util';
 
 @Component({
   selector: 'app-booking-editor',
@@ -47,11 +50,6 @@ export class BookingEditorComponent implements OnInit {
   cargoMovementTypeAtOriginValues$ = this.enumValues(
     CargoMovementTypeAtOrigin,
     this.staticDataService.getCargoMovementTypeAtOriginNames(),
-  );
-
-  weightUnitValues$ = this.enumValues(
-    WeightUnit,
-    this.staticDataService.getWeightUnitNames(),
   );
 
   communicationChannelCodeValues$ = this.enumValues(
@@ -176,19 +174,7 @@ export class BookingEditorComponent implements OnInit {
   }
 
   addCommodity(): void {
-    this.booking?.commodities.push({
-      HSCode: undefined,
-      cargoGrossVolume: undefined,
-      cargoGrossVolumeUnit: undefined,
-      cargoGrossWeight: 0,
-      cargoGrossWeightUnit: WeightUnit.KGM,
-      commodityType: '',
-      dangerousGoods: undefined,
-      exportLicenseExpiryDate: undefined,
-      exportLicenseIssueDate: undefined,
-      numberOfPackages: undefined,
-      requestedEquipments: undefined
-    })
+    this.booking?.commodities.push(createCommodity());
     this.commoditiesSelected.push(true);
   }
 
@@ -197,9 +183,7 @@ export class BookingEditorComponent implements OnInit {
     if (!booking) {
       return;
     }
-    if (!booking.references) {
-      booking.references = []
-    }
+    booking.references ??= []
     booking.references.push({
       type: ReferenceType.AAO,
       value: ''
@@ -211,9 +195,7 @@ export class BookingEditorComponent implements OnInit {
     if (!this.booking) {
       return;
     }
-    if (!this.booking.shipmentLocations) {
-      this.booking.shipmentLocations = [];
-    }
+    this.booking.shipmentLocations ??= [];
     this.booking.shipmentLocations!.push({
       shipmentLocationTypeCode: ShipmentLocationTypeCode.POL,
       location: {},
@@ -222,19 +204,22 @@ export class BookingEditorComponent implements OnInit {
     this.shipmentLocationsSelected.push(true);
   }
 
-  removeCommodity(i: number): void {
+  removeCommodity(i: number, modelGroup: AbstractFormGroupDirective): void {
     this.booking!.commodities.splice(i, 1);
     this.commoditiesSelected.splice(i, 1);
+    clearValidationIssuesOnFormGroupDirective(modelGroup);
   }
 
-  removeReference(i: number): void {
+  removeReference(i: number, modelGroup: AbstractFormGroupDirective): void {
     this.booking!.references!.splice(i, 1);
     this.referencesSelected.splice(i, 1);
+    clearValidationIssuesOnFormGroupDirective(modelGroup);
   }
 
-  removeShipmentLocation(i: number): void {
+  removeShipmentLocation(i: number, modelGroup: AbstractFormGroupDirective): void {
     this.booking!.shipmentLocations!.splice(i, 1);
     this.shipmentLocationsSelected.splice(i, 1);
+    clearValidationIssuesOnFormGroupDirective(modelGroup);
   }
 
   cancel(): void {
