@@ -1,13 +1,18 @@
 import {
   ChangeDetectionStrategy,
-  Component, EventEmitter, Input, OnChanges, Output, SimpleChanges,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
 import {Observable} from 'rxjs';
 import {ActiveReeferSettings, TemperatureUnit} from '../../../../../projects/bkg-swagger-client';
 import {createActiveReeferSettings} from '../../../util/object-factory';
 import {SelectItem} from 'primeng/api/selectitem';
 import {StaticDataService} from '../../../services/static-data.service';
-import {ControlContainer, NG_VALUE_ACCESSOR, NgControl, NgModelGroup} from '@angular/forms';
+import {ControlContainer, NgModelGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-edit-reefer',
@@ -35,6 +40,7 @@ export class EditReeferComponent implements OnChanges {
   activeReeferSettingsChange = new EventEmitter<ActiveReeferSettings|undefined>();
 
   constructor(private staticDataService: StaticDataService,
+              private modelGroup: ControlContainer,
               ) {
     this.temperatureUnits$ = staticDataService.getTemperatureUnitSelectItems();
   }
@@ -57,6 +63,7 @@ export class EditReeferComponent implements OnChanges {
     } else {
       this.activeReeferSettings = this.lastActiveReeferSettings ?? createActiveReeferSettings();
     }
+    this.modelGroup.control?.markAsDirty();
     this.activeReeferSettingsChange.emit(this.activeReeferSettings);
   }
 }
