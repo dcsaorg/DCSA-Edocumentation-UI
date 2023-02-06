@@ -37,6 +37,9 @@ import {InputTextModule} from 'primeng/inputtext';
 import { ValidityMarkerComponent } from './components/validity-marker/validity-marker.component';
 import {CalendarModule} from 'primeng/calendar';
 import { EditCommodityComponent } from './components/commodity/edit-commodity/edit-commodity.component';
+import { EditReeferComponent } from './components/reefer/edit-reefer/edit-reefer.component';
+import {TagModule} from 'primeng/tag';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -57,31 +60,34 @@ export function ConfigLoader(configService: ConfigService) {
     EditLocationComponent,
     ValidityMarkerComponent,
     EditCommodityComponent,
+    EditReeferComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        TableModule,
-        TooltipModule,
-        HttpClientModule,
-        ProgressSpinnerModule,
-        CardModule,
-        AccordionModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        DropdownModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        CheckboxModule,
-        ToastModule,
-        MessagesModule,
-        MessageModule,
-        ConfirmDialogModule,
-        MatSlideToggleModule,
-        MatInputModule,
-        InputTextModule,
-        CalendarModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    TableModule,
+    TooltipModule,
+    HttpClientModule,
+    ProgressSpinnerModule,
+    CardModule,
+    AccordionModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    DropdownModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    CheckboxModule,
+    ToastModule,
+    MessagesModule,
+    MessageModule,
+    ConfirmDialogModule,
+    MatSlideToggleModule,
+    MatInputModule,
+    InputTextModule,
+    CalendarModule,
+    TagModule,
+    InputNumberModule,
+  ],
   providers: [
     ConfigService,
     {

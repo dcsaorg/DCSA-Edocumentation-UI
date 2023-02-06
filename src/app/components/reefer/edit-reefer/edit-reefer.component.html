@@ -1,0 +1,77 @@
+<fieldset>
+  <legend>Active Reefer Settings</legend>
+  <mat-slide-toggle [ngModel]="hasReefer"
+                    [ngModelOptions]="{standalone: true}"
+                    (toggleChange)="onHasReeferSlideToggleChange()">
+    <mat-label>Active Reefer Settings?</mat-label>
+  </mat-slide-toggle>
+  <ng-container *ngIf="activeReeferSettings as activeReeferSettings">
+    <div class="row">
+      <label>Temperature Setpoint: </label>
+      <input [(ngModel)]="activeReeferSettings.temperatureSetpoint"
+             name="temperatureSetpoint"
+             class="p-inputtext"
+             [required]="true"
+             type="number">
+      <p-dropdown [required]="true"
+                  [(ngModel)]="activeReeferSettings.temperatureUnit"
+                  name="temperatureUnit"
+                  [values$]="temperatureUnits$"
+                  appEnumDropDown>
+      </p-dropdown>
+    </div>
+
+    <div class="row">
+      <label>O<sub>2</sub> Setpoint (%): </label>
+      <input [(ngModel)]="activeReeferSettings.o2Setpoint"
+             name="o2Setpoint"
+             class="p-inputtext"
+             [min]="0"
+             [max]="100"
+             type="number">
+      <ng-container *ngIf="this.totalAtmosphere > 100">
+        <p-tag
+               styleClass="mr-2"
+               icon="pi pi-exclamation-triangle"
+               severity="warning"
+               value="Warning">
+        </p-tag>
+        <div class="warnings">
+          The atmosphere cannot exceed 100% volume. But the O<sub>2</sub> and CO<sub>2</sub> Setpoints
+          combine to {{this.totalAtmosphere}}%
+        </div>
+      </ng-container>
+    </div>
+    <div class="row">
+      <label>CO<sub>2</sub> Setpoint (%): </label>
+      <input [(ngModel)]="activeReeferSettings.co2Setpoint"
+             name="co2Setpoint"
+             class="p-inputtext"
+             [min]="0"
+             [max]="100"
+             type="number">
+      <ng-container *ngIf="this.totalAtmosphere > 100">
+        <p-tag
+          styleClass="mr-2"
+          icon="pi pi-exclamation-triangle"
+          severity="warning"
+          value="Warning">
+        </p-tag>
+        <div class="warnings" >
+          The atmosphere cannot exceed 100% volume. But the O<sub>2</sub> and CO<sub>2</sub> Setpoints
+          combine to {{this.totalAtmosphere}}%
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="row">
+      <label>Humidity Setpoint (%): </label>
+      <input [(ngModel)]="activeReeferSettings.humiditySetpoint"
+             name="humiditySetpoint"
+             class="p-inputtext"
+             [min]="0"
+             [max]="100"
+             type="number">
+    </div>
+  </ng-container>
+</fieldset>

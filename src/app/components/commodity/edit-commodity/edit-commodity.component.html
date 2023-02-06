@@ -16,7 +16,7 @@
     <div class="row">
       <label>Cargo Gross Weight: </label>
       <input name="cargoGrossWeight"
-             pInputText
+             class="p-inputtext"
              [(ngModel)]="commodity.cargoGrossWeight"
              [required]="true"
              type="number">
@@ -37,7 +37,7 @@
     <div class="row">
       <label>Cargo Gross Volume: </label>
       <input name="cargoGrossVolume"
-             pInputText
+             class="p-inputtext"
              [(ngModel)]="commodity.cargoGrossVolume"
              [required]="cargoCrossVolumeRequired"
              pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
@@ -53,7 +53,7 @@
     <div class="row">
       <label>Number of Packages: </label>
       <input name="numberOfPackages"
-             pInputText
+             class="p-inputtext"
              [(ngModel)]="commodity.numberOfPackages"
              pattern="^\d*$"
              min="0"
@@ -102,6 +102,7 @@
               <app-validity-marker [controlStatus]="requestedEquipmentControl">
               </app-validity-marker>
               {{!requestedEquipmentControl.valid ? '[INVALID] ' : ''}}{{requestedEquipment.units}} x {{!!requestedEquipment.ISOEquipmentCode ? requestedEquipment.ISOEquipmentCode : 'Missing ISO Equipment Code!' }}
+              {{requestedEquipment.activeReeferSettings ? ' [Active Reefer]' : ''}}
               {{requestedEquipment.isShipperOwned ? '(Shipper provided/SOC)' : '(Carrier provided)'}}
               <button pButton
                       appDebounceClick
@@ -128,7 +129,7 @@
             <div class="row">
               <label>Units: </label>
               <input name="units"
-                     pInputText
+                     class="p-inputtext"
                      [(ngModel)]="requestedEquipment.units"
                      [required]="true"
                      [min]="(requestedEquipment.equipmentReferences?.length ?? 0) ? requestedEquipment.equipmentReferences!.length : 1"
@@ -145,29 +146,45 @@
                           [(ngModel)]="requestedEquipment.isShipperOwned"
                           name="isShipperOwned">
               </p-checkbox>
-              <div class="field-note" *ngIf="!!requestedEquipment.tareWeight || !!requestedEquipment.tareWeightUnit">
-                The "Is Shipper Owned" field cannot be modified while there is a tare weight / tare weight unit.
+              <div *ngIf="hasSOCAttributes(requestedEquipment)">
+                <p-tag styleClass="mr-2"
+                       icon="pi pi-info-circle"
+                       severity="info"
+                       value="Info">
+                </p-tag>
+                <div class="field-note">
+                  The "Is Shipper Owned" field cannot be modified while there is a tare weight / tare weight unit.
+                </div>
               </div>
             </div>
-            <div class="row">
-              <label>Tare Weight: </label>
-              <input name="tareWeight"
-                     pInputText
-                     [(ngModel)]="requestedEquipment.tareWeight"
-                     [disabled]="!requestedEquipment.isShipperOwned"
-                     min="0"
-                     type="number">
-              <p-dropdown [disabled]="!requestedEquipment.isShipperOwned"
-                          [(ngModel)]="requestedEquipment.tareWeightUnit"
-                          name="tareWeightUnit"
-                          [values$]="weightUnits$"
-                          appEnumDropDown>
-              </p-dropdown>
-              <div class="field-note" *ngIf="!requestedEquipment.isShipperOwned">
-                Only applicable to shipper owned equipment.
+            <fieldset>
+              <legend>Shipper Owned Container related attributes</legend>
+              <div *ngIf="!requestedEquipment.isShipperOwned">
+                <p-tag styleClass="mr-2"
+                       icon="pi pi-info-circle"
+                       severity="info"
+                       value="Info">
+                </p-tag>
+                <div class="field-note">
+                  These attributes are only applicable to shipper owned equipment.
+                </div>
               </div>
-            </div>
-
+              <div class="row">
+                <label>Tare Weight: </label>
+                <input name="tareWeight"
+                       class="p-inputtext"
+                       [(ngModel)]="requestedEquipment.tareWeight"
+                       [disabled]="!requestedEquipment.isShipperOwned"
+                       min="0"
+                       type="number">
+                <p-dropdown [disabled]="!requestedEquipment.isShipperOwned"
+                            [(ngModel)]="requestedEquipment.tareWeightUnit"
+                            name="tareWeightUnit"
+                            [values$]="weightUnits$"
+                            appEnumDropDown>
+                </p-dropdown>
+              </div>
+            </fieldset>
             <ng-container ngModelGroup="requestedEquipment[{{i}}].equipmentReferences" #equipmentReferenceListControl="ngModelGroup">
               <p-accordionTab>
                 <ng-template pTemplate="header">
@@ -223,7 +240,17 @@
                 </button>
               </p-accordionTab>
             </ng-container>
-
+            <ng-container ngModelGroup="activeReeferSettings" #activeReeferSettingsControl="ngModelGroup">
+              <p-accordionTab>
+                <ng-template pTemplate="header">
+                  <app-validity-marker [controlStatus]="activeReeferSettingsControl">
+                  </app-validity-marker>
+                  Active Reefer Settings {{requestedEquipment.activeReeferSettings ? 'enabled': 'disabled'}} [Optional]
+                </ng-template>
+                <app-edit-reefer [(activeReeferSettings)]="requestedEquipment.activeReeferSettings">
+                </app-edit-reefer>
+              </p-accordionTab>
+            </ng-container>
           </p-accordionTab>
         </ng-container>
 

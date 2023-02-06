@@ -73,6 +73,10 @@ export class EditCommodityComponent implements OnChanges, OnInit {
     return !! commodity.cargoGrossVolume || !! commodity.cargoGrossVolumeUnit;
   }
 
+  hasSOCAttributes(requestedEquipment: RequestedEquipment): boolean {
+    return (requestedEquipment.tareWeight !== undefined && requestedEquipment.tareWeight !== null) || !!requestedEquipment.tareWeightUnit;
+  }
+
   removeRequestedEquipment(i: number, requestedEquipmentGroupControl: AbstractFormGroupDirective): void {
     const commodity = this.commodity;
     commodity!.requestedEquipments!.splice(i, 1);

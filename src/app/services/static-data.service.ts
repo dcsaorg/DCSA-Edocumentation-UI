@@ -3,9 +3,15 @@ import {BehaviorSubject, map, Observable, of} from 'rxjs';
 import {
   BookingDocumentStatus,
   CargoMovementTypeAtDestination,
-  CargoMovementTypeAtOrigin, CommunicationChannelCode,
+  CargoMovementTypeAtOrigin,
+  CommunicationChannelCode,
   DeliveryTypeAtDestination,
-  ReceiptTypeAtOrigin, ReferenceType, ShipmentLocationTypeCode, VolumeUnit, WeightUnit
+  ReceiptTypeAtOrigin,
+  ReferenceType,
+  ShipmentLocationTypeCode,
+  TemperatureUnit,
+  VolumeUnit,
+  WeightUnit
 } from '../../../projects/bkg-swagger-client';
 import {SelectItem} from 'primeng/api/selectitem';
 
@@ -108,6 +114,11 @@ export class StaticDataService {
       .set(ShipmentLocationTypeCode.ECP, 'Empty container pick-up location')
   ).asObservable();
 
+  private temperatureUnit$ = new BehaviorSubject(
+    new Map()
+      .set(TemperatureUnit.CEL, 'Celsius')
+      .set(TemperatureUnit.FAH, 'Fahrenheit')
+  ).asObservable();
 
   constructor() { }
 
@@ -151,6 +162,10 @@ export class StaticDataService {
     return this.shipmentLocationTypeCode$;
   }
 
+  getTemperatureUnitNames(): Observable<Map<TemperatureUnit, string>> {
+    return this.temperatureUnit$;
+  }
+
   getWeightUnitSelectItems(): Observable<SelectItem<WeightUnit|null>[]> {
     return this.enumValues(
       WeightUnit,
@@ -163,6 +178,13 @@ export class StaticDataService {
       VolumeUnit,
       this.getVolumeUnitNames(),
     );
+  }
+
+  getTemperatureUnitSelectItems(): Observable<SelectItem<TemperatureUnit|null>[]> {
+    return this.enumValues(
+      TemperatureUnit,
+      this.getTemperatureUnitNames(),
+    )
   }
 
   private enumValues<E>(enumClass: E, data2name?: Observable<Map<E[keyof E], string>>): Observable<SelectItem<E[keyof E]|null>[]> {
