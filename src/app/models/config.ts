@@ -11,4 +11,8 @@ export interface Config {
   authRedirectUriSignIn: string;
   authentication: boolean;
 
+  features: {
+    supportNonISO6346References: false
+  }
+
 }

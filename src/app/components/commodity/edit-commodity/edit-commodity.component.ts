@@ -1,22 +1,15 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Commodity, RequestedEquipment, VolumeUnit, WeightUnit} from '../../../../../projects/bkg-swagger-client';
-import {
-  AbstractControl,
-  AbstractFormGroupDirective,
-  ControlContainer,
-  NgControl,
-  NgModel,
-  NgModelGroup
-} from '@angular/forms';
+import {AbstractFormGroupDirective, ControlContainer, NgControl, NgModelGroup} from '@angular/forms';
 import {StaticDataService} from '../../../services/static-data.service';
 import {BehaviorSubject, Observable, tap} from 'rxjs';
 import {SelectItem} from 'primeng/api/selectitem';
 import {createCommodity, createRequestedEquipment} from '../../../util/object-factory';
 import {
-  clearValidationIssuesOnControl,
   clearValidationIssuesOnFormGroupDirective,
   clearValidationIssuesOnNgControl
 } from '../../../util/validation-util';
+import {Globals} from '../../../models/globals';
 
 @Component({
   selector: 'app-edit-commodity',
@@ -42,6 +35,7 @@ export class EditCommodityComponent implements OnChanges, OnInit {
   requestedEquipmentSelected: boolean[] = [];
 
   constructor(private staticDataService: StaticDataService,
+              private globals: Globals,
               ) {
     this.weightUnits$ = staticDataService.getWeightUnitSelectItems();
     this.volumeUnits$ = staticDataService.getVolumeUnitSelectItems();
@@ -59,6 +53,10 @@ export class EditCommodityComponent implements OnChanges, OnInit {
     if (!this.commodity$.value) {
       this.commodity$.next(this.initialCommodity ?? createCommodity());
     }
+  }
+
+  get supportNonISO6346References(): boolean {
+    return this.globals.config?.features?.supportNonISO6346References ?? false
   }
 
   get commodity(): Commodity|null {
