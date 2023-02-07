@@ -87,178 +87,37 @@
     </div>
   </fieldset>
   <p-accordion [multiple]="true">
-    <ng-container ngModelGroup="commodities" #requestedEquipmentListControl="ngModelGroup">
+    <ng-container ngModelGroup="requestedEquipment" #requestedEquipmentListControl="ngModelGroup">
       <p-accordionTab>
         <ng-template pTemplate="header">
           <app-validity-marker [controlStatus]="requestedEquipmentListControl">
           </app-validity-marker>
           Requested Equipments ({{commodity.requestedEquipments?.length ?? 0}}) [Optional]
         </ng-template>
-        <ng-container *ngFor="let requestedEquipment of commodity.requestedEquipments; index as i"
-                      ngModelGroup="requestedEquipment[{{i}}]" #requestedEquipmentControl="ngModelGroup">
+        <ng-container *ngIf="commodity.requestedEquipments as requestedEquipments">
+          <ng-container *ngFor="let requestedEquipment of commodity.requestedEquipments; index as i"
+                        ngModelGroup="requestedEquipment[{{i}}]" #requestedEquipmentControl="ngModelGroup">
 
-          <p-accordionTab [(selected)]="requestedEquipmentSelected[i]">
-            <ng-template pTemplate="header">
-              <app-validity-marker [controlStatus]="requestedEquipmentControl">
-              </app-validity-marker>
-              {{!requestedEquipmentControl.valid ? '[INVALID] ' : ''}}{{requestedEquipment.units}} x {{!!requestedEquipment.ISOEquipmentCode ? requestedEquipment.ISOEquipmentCode : 'Missing ISO Equipment Code!' }}
-              {{requestedEquipment.activeReeferSettings ? ' [Active Reefer]' : ''}}
-              {{requestedEquipment.isShipperOwned ? '(Shipper provided/SOC)' : '(Carrier provided)'}}
-              <button pButton
-                      appDebounceClick
-                      class="p-button-danger tab-header-discard-button"
-                      [debounceTime]="200"
-                      icon="pi pi-trash"
-                      (debounceClick)="removeRequestedEquipment(i, requestedEquipmentControl)">
-              </button>
-            </ng-template>
-            <div class="row">
-              <label>ISO Equipment Code: </label>
-              <input name="ISOEquipmentCode"
-                     nullValue
-                     pInputText
-                     [(ngModel)]="requestedEquipment.ISOEquipmentCode"
-                     [required]="true"
-                     placeholder="22GP"
-                     pattern="^[0-9A-Z]{4}$"
-                     type="text"
-                     minlength="4"
-                     maxlength="4">
-            </div>
-
-            <div class="row">
-              <label>Units: </label>
-              <input name="units"
-                     class="p-inputtext"
-                     [(ngModel)]="requestedEquipment.units"
-                     [required]="true"
-                     [min]="(requestedEquipment.equipmentReferences?.length ?? 0) ? requestedEquipment.equipmentReferences!.length : 1"
-                     type="number">
-              <div class="field-note" *ngIf="(requestedEquipment.equipmentReferences?.length ?? 0) > 1">
-                Units must be at least {{requestedEquipment.equipmentReferences?.length ?? 0}} due to the Equipment References.
-              </div>
-            </div>
-            <div class="row">
-              <label>Is Shipper Owned? </label>
-              <p-checkbox [required]="true"
-                          [binary]="true"
-                          [disabled]="!!requestedEquipment.tareWeight || !!requestedEquipment.tareWeightUnit"
-                          [(ngModel)]="requestedEquipment.isShipperOwned"
-                          name="isShipperOwned">
-              </p-checkbox>
-              <div *ngIf="hasSOCAttributes(requestedEquipment)">
-                <p-tag styleClass="mr-2"
-                       icon="pi pi-info-circle"
-                       severity="info"
-                       value="Info">
-                </p-tag>
-                <div class="field-note">
-                  The "Is Shipper Owned" field cannot be modified while there is a tare weight / tare weight unit.
-                </div>
-              </div>
-            </div>
-            <fieldset>
-              <legend>Shipper Owned Container related attributes</legend>
-              <div *ngIf="!requestedEquipment.isShipperOwned">
-                <p-tag styleClass="mr-2"
-                       icon="pi pi-info-circle"
-                       severity="info"
-                       value="Info">
-                </p-tag>
-                <div class="field-note">
-                  These attributes are only applicable to shipper owned equipment.
-                </div>
-              </div>
-              <div class="row">
-                <label>Tare Weight: </label>
-                <input name="tareWeight"
-                       class="p-inputtext"
-                       [(ngModel)]="requestedEquipment.tareWeight"
-                       [disabled]="!requestedEquipment.isShipperOwned"
-                       min="0"
-                       type="number">
-                <p-dropdown [disabled]="!requestedEquipment.isShipperOwned"
-                            [(ngModel)]="requestedEquipment.tareWeightUnit"
-                            name="tareWeightUnit"
-                            [values$]="weightUnits$"
-                            appEnumDropDown>
-                </p-dropdown>
-              </div>
-            </fieldset>
-            <ng-container ngModelGroup="requestedEquipment[{{i}}].equipmentReferences" #equipmentReferenceListControl="ngModelGroup">
-              <p-accordionTab>
-                <ng-template pTemplate="header">
-                  <app-validity-marker [controlStatus]="equipmentReferenceListControl">
-                  </app-validity-marker>
-                  Equipment References ({{requestedEquipment.equipmentReferences?.length ?? 0}}) [Optional]
-                </ng-template>
-                <ng-container *ngIf="requestedEquipment.equipmentReferences as equipmentReferences">
-                  <p class="row">
-                    Container references should be ISO 6346 Container references. Typically, they look something
-                    like "CSQU3054383".  They start with a 3 character owner code, a one letter category
-                    (U, J or Z) followed by 7 digits where the last digit is a check digit.
-                  </p>
-                  <p *ngIf="!supportNonISO6346References" class="row">
-                    Non-ISO compliant containers are not supported by this implementation of the API.  If the
-                    container reference that you wish to input does not follow the ISO standard, then the UI will
-                    not accept it. Note this limitation is an implementation detail (and not a requirement of the DCSA
-                    standard).
-                  </p>
-                  <p *ngIf="supportNonISO6346References" class="row">
-                    Non-ISO compliant containers are allowed but must follow the <a href="https://smdg.org/wp-content/uploads/Recommendations/SMDG-Recommendation-02.pdf">SMDG recommendation #2: Container with non-ISO identification</a>.
-                    The UI only supports digits for non-ISO compliant containers (optionally with the "NONE" prefix).
-                    If the container reference does not follow the ISO standard but has letters in its reference,
-                    then unfortunately you cannot input in this version of the UI. Note this limitation is an
-                    implementation detail (and not a requirement of the DCSA standard).
-                  </p>
-                  <br>
-                  <ng-container *ngFor="let equipmentReference of equipmentReferences; index as j; trackBy:trackEquipmentReferenceBy">
-                    <div class="row">
-                      <label>Equipment Reference: </label>
-                      <input name="requestedEquipments[{{i}}].equipmentReferences[{{j}}]"
-                             pInputText
-                             [(ngModel)]="equipmentReferences[j]"
-                             [required]="true"
-                             type="text"
-                             placeholder="CSQU3054383"
-                             [pattern]="supportNonISO6346References ? '^(?:[A-Z]{3}[UJZ]\\d{7}|(?:NONE)?\\d+)$' : '^[A-Z]{3}[UJZ]\\d{7}$'"
-                             [minlength]="supportNonISO6346References ? 1 : 11"
-                             maxlength="11"
-                             #equipmentReferenceControl="ngModel">
-
-                      <button pButton
-                              appDebounceClick
-                              class="p-button-danger tab-header-discard-button"
-                              [debounceTime]="200"
-                              icon="pi pi-trash"
-                              (debounceClick)="removeEquipmentReference(equipmentReferences, j, equipmentReferenceControl)">
-                      </button>
-                    </div>
-                  </ng-container>
-                </ng-container>
-                <button appDebounceClick
-                        pButton
-                        (debounceClick)="addEquipmentReference(requestedEquipment)"
+            <p-accordionTab [(selected)]="requestedEquipmentSelected[i]">
+              <ng-template pTemplate="header">
+                <app-validity-marker [controlStatus]="requestedEquipmentControl">
+                </app-validity-marker>
+                {{!requestedEquipmentControl.valid ? '[INVALID] ' : ''}}{{requestedEquipment.units}} x {{!!requestedEquipment.ISOEquipmentCode ? requestedEquipment.ISOEquipmentCode : 'Missing ISO Equipment Code!' }}
+                {{requestedEquipment.activeReeferSettings ? ' [Active Reefer]' : ''}}
+                {{requestedEquipment.isShipperOwned ? '(Shipper provided/SOC)' : '(Carrier provided)'}}
+                <button pButton
+                        appDebounceClick
+                        class="p-button-danger tab-header-discard-button"
                         [debounceTime]="200"
-                        iconPos="left"
-                        icon="pi pi-plus"
-                        class="p-button-secondary"
-                        label="Add equipment reference">
+                        icon="pi pi-trash"
+                        (debounceClick)="removeRequestedEquipment(i, requestedEquipmentControl)">
                 </button>
-              </p-accordionTab>
-            </ng-container>
-            <ng-container ngModelGroup="activeReeferSettings" #activeReeferSettingsControl="ngModelGroup">
-              <p-accordionTab>
-                <ng-template pTemplate="header">
-                  <app-validity-marker [controlStatus]="activeReeferSettingsControl">
-                  </app-validity-marker>
-                  Active Reefer Settings {{requestedEquipment.activeReeferSettings ? 'enabled': 'disabled'}} [Optional]
-                </ng-template>
-                <app-edit-reefer [(activeReeferSettings)]="requestedEquipment.activeReeferSettings">
-                </app-edit-reefer>
-              </p-accordionTab>
-            </ng-container>
-          </p-accordionTab>
+              </ng-template>
+
+              <app-edit-requested-equipment [(requestedEquipment)]="requestedEquipments[i]">
+              </app-edit-requested-equipment>
+            </p-accordionTab>
+          </ng-container>
         </ng-container>
 
         <button appDebounceClick

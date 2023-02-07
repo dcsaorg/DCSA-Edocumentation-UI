@@ -40,6 +40,7 @@ import { EditCommodityComponent } from './components/commodity/edit-commodity/ed
 import { EditReeferComponent } from './components/reefer/edit-reefer/edit-reefer.component';
 import {TagModule} from 'primeng/tag';
 import {InputNumberModule} from 'primeng/inputnumber';
+import { EditRequestedEquipmentComponent } from './components/requested-equipment/edit-requested-equipment/edit-requested-equipment.component';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -61,6 +62,7 @@ export function ConfigLoader(configService: ConfigService) {
     ValidityMarkerComponent,
     EditCommodityComponent,
     EditReeferComponent,
+    EditRequestedEquipmentComponent,
   ],
   imports: [
     BrowserModule,

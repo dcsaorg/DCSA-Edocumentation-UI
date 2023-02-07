@@ -1,15 +1,11 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Commodity, RequestedEquipment, VolumeUnit, WeightUnit} from '../../../../../projects/bkg-swagger-client';
-import {AbstractFormGroupDirective, ControlContainer, NgControl, NgModelGroup} from '@angular/forms';
+import {Commodity, VolumeUnit, WeightUnit} from '../../../../../projects/bkg-swagger-client';
+import {AbstractFormGroupDirective, ControlContainer, NgModelGroup} from '@angular/forms';
 import {StaticDataService} from '../../../services/static-data.service';
 import {BehaviorSubject, Observable, tap} from 'rxjs';
 import {SelectItem} from 'primeng/api/selectitem';
 import {createCommodity, createRequestedEquipment} from '../../../util/object-factory';
-import {
-  clearValidationIssuesOnFormGroupDirective,
-  clearValidationIssuesOnNgControl
-} from '../../../util/validation-util';
-import {Globals} from '../../../models/globals';
+import {clearValidationIssuesOnFormGroupDirective} from '../../../util/validation-util';
 
 @Component({
   selector: 'app-edit-commodity',
@@ -35,7 +31,6 @@ export class EditCommodityComponent implements OnChanges, OnInit {
   requestedEquipmentSelected: boolean[] = [];
 
   constructor(private staticDataService: StaticDataService,
-              private globals: Globals,
               ) {
     this.weightUnits$ = staticDataService.getWeightUnitSelectItems();
     this.volumeUnits$ = staticDataService.getVolumeUnitSelectItems();
@@ -55,10 +50,6 @@ export class EditCommodityComponent implements OnChanges, OnInit {
     }
   }
 
-  get supportNonISO6346References(): boolean {
-    return this.globals.config?.features?.supportNonISO6346References ?? false
-  }
-
   get commodity(): Commodity|null {
     return this.commodity$.value;
   }
@@ -69,10 +60,6 @@ export class EditCommodityComponent implements OnChanges, OnInit {
       return false;
     }
     return !! commodity.cargoGrossVolume || !! commodity.cargoGrossVolumeUnit;
-  }
-
-  hasSOCAttributes(requestedEquipment: RequestedEquipment): boolean {
-    return (requestedEquipment.tareWeight !== undefined && requestedEquipment.tareWeight !== null) || !!requestedEquipment.tareWeightUnit;
   }
 
   removeRequestedEquipment(i: number, requestedEquipmentGroupControl: AbstractFormGroupDirective): void {
@@ -90,19 +77,5 @@ export class EditCommodityComponent implements OnChanges, OnInit {
     commodity!.requestedEquipments ??= [];
     commodity!.requestedEquipments!.push(createRequestedEquipment());
     this.requestedEquipmentSelected.push(true);
-  }
-
-  addEquipmentReference(requestedEquipment: RequestedEquipment) {
-    requestedEquipment.equipmentReferences ??= [];
-    requestedEquipment.equipmentReferences.push('');
-  }
-
-  removeEquipmentReference(equipmentReferences: string[], j: number, ngControl: NgControl) {
-    equipmentReferences.splice(j, 1);
-    clearValidationIssuesOnNgControl(ngControl);
-  }
-
-  trackEquipmentReferenceBy<U extends T, T>(index: number, _: T & U): any {
-    return index;
   }
 }
