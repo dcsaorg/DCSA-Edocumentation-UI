@@ -1,53 +1,55 @@
 <fieldset>
   <legend>Active Reefer Settings</legend>
-  <mat-slide-toggle [ngModel]="hasReefer"
-                    [ngModelOptions]="{standalone: true}"
-                    (toggleChange)="onHasReeferSlideToggleChange()">
-    <mat-label>Active Reefer Settings?</mat-label>
-  </mat-slide-toggle>
+  <div class="row">
+    <label>Active Reefer Settings: </label>
+    <p-inputSwitch [ngModel]="hasReefer"
+                   [ngModelOptions]="{standalone: true}"
+                   (onChange)="onHasReeferSlideToggleChange()">
+    </p-inputSwitch>
+  </div>
   <ng-container *ngIf="activeReeferSettings as activeReeferSettings">
     <fieldset>
       <legend>Required reefer settings</legend>
       <div class="row">
-        <mat-slide-toggle [(ngModel)]="activeReeferSettings.isGeneratorSetRequired"
-                          name="isGeneratorSetRequired">
-          <mat-label>Is Generator Set Required?</mat-label>
-        </mat-slide-toggle>
+        <label>Is Generator Set Required?</label>
+        <p-inputSwitch [(ngModel)]="activeReeferSettings.isGeneratorSetRequired"
+                       name="isGeneratorSetRequired">
+        </p-inputSwitch>
       </div>
 
       <div class="row">
-        <mat-slide-toggle [(ngModel)]="activeReeferSettings.isPreCoolingRequired"
-                          name="isPreCoolingRequired">
-          <mat-label>Is Pre-Cooling Required?</mat-label>
-        </mat-slide-toggle>
+        <label>Is Pre-Cooling Required?</label>
+        <p-inputSwitch [(ngModel)]="activeReeferSettings.isPreCoolingRequired"
+                       name="isPreCoolingRequired">
+        </p-inputSwitch>
       </div>
 
       <div class="row">
-        <mat-slide-toggle [(ngModel)]="activeReeferSettings.isColdTreatmentRequired"
-                          name="isColdTreatmentRequired">
-          <mat-label>Is Cold Treatment Required?</mat-label>
-        </mat-slide-toggle>
+        <label>Is Cold Treatment Required?</label>
+        <p-inputSwitch [(ngModel)]="activeReeferSettings.isColdTreatmentRequired"
+                       name="isColdTreatmentRequired">
+        </p-inputSwitch>
       </div>
 
       <div class="row">
-        <mat-slide-toggle [(ngModel)]="activeReeferSettings.isVentilationOpen"
-                          name="isVentilationOpen">
-          <mat-label>Is Ventilation Open?</mat-label>
-        </mat-slide-toggle>
+        <label>Is Ventilation Open?</label>
+        <p-inputSwitch [(ngModel)]="activeReeferSettings.isVentilationOpen"
+                       name="isVentilationOpen">
+        </p-inputSwitch>
       </div>
 
       <div class="row">
-        <mat-slide-toggle [(ngModel)]="activeReeferSettings.isDrainholesOpen"
-                          name="isDrainholesOpen">
-          <mat-label>Is Drainholes Open?</mat-label>
-        </mat-slide-toggle>
+        <label>Is Drainholes Open?</label>
+        <p-inputSwitch [(ngModel)]="activeReeferSettings.isDrainholesOpen"
+                       name="isDrainholesOpen">
+        </p-inputSwitch>
       </div>
 
       <div class="row">
-        <mat-slide-toggle [(ngModel)]="activeReeferSettings.isBulbMode"
-                          name="isBulbMode">
-          <mat-label>Is Bulb Mode?</mat-label>
-        </mat-slide-toggle>
+        <label>Is Bulb Mode?</label>
+        <p-inputSwitch [(ngModel)]="activeReeferSettings.isBulbMode"
+                       name="isBulbMode">
+        </p-inputSwitch>
       </div>
 
       <div class="row">

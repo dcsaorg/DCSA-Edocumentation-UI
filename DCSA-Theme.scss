@@ -165,10 +165,6 @@ p-autocomplete.ng-dirty.ng-invalid > .p-autocomplete > .p-inputtext {
   border-color: #dc3545;
 }
 
-mat-slide-toggle.ng-invalid {
- color: #dc3545;
-}
-
 .p-element.ng-invalid > .p-component {
   border-color: #dc3545;
 }
@@ -820,7 +816,6 @@ p-inputnumber.ng-dirty.ng-invalid > .p-inputnumber > .p-inputtext {
 .p-inputswitch .p-inputswitch-slider {
   background: #ced4da;
   transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
-  border-radius: 4px;
 }
 .p-inputswitch .p-inputswitch-slider:before {
   background: $foamWhite;
@@ -828,7 +823,6 @@ p-inputnumber.ng-dirty.ng-invalid > .p-inputnumber > .p-inputtext {
   height: 1.25rem;
   left: 0.25rem;
   margin-top: -0.625rem;
-  border-radius: 4px;
   transition-duration: 0.15s;
 }
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
@@ -837,7 +831,7 @@ p-inputnumber.ng-dirty.ng-invalid > .p-inputnumber > .p-inputtext {
 .p-inputswitch.p-focus .p-inputswitch-slider {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem $tealBlue;
+  box-shadow: 0 0 0 0 $tealBlue;
 }
 .p-inputswitch:not(.p-disabled):hover .p-inputswitch-slider {
   background: #ced4da;

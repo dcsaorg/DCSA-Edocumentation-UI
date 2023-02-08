@@ -31,8 +31,6 @@ import {MessageModule} from 'primeng/message';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { EditLocationComponent } from './components/display-location/edit-location/edit-location.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatInputModule} from '@angular/material/input';
 import {InputTextModule} from 'primeng/inputtext';
 import { ValidityMarkerComponent } from './components/validity-marker/validity-marker.component';
 import {CalendarModule} from 'primeng/calendar';
@@ -41,6 +39,7 @@ import { EditReeferComponent } from './components/reefer/edit-reefer/edit-reefer
 import {TagModule} from 'primeng/tag';
 import {InputNumberModule} from 'primeng/inputnumber';
 import { EditRequestedEquipmentComponent } from './components/requested-equipment/edit-requested-equipment/edit-requested-equipment.component';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -64,32 +63,31 @@ export function ConfigLoader(configService: ConfigService) {
     EditReeferComponent,
     EditRequestedEquipmentComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    TableModule,
-    TooltipModule,
-    HttpClientModule,
-    ProgressSpinnerModule,
-    CardModule,
-    AccordionModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    DropdownModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    CheckboxModule,
-    ToastModule,
-    MessagesModule,
-    MessageModule,
-    ConfirmDialogModule,
-    MatSlideToggleModule,
-    MatInputModule,
-    InputTextModule,
-    CalendarModule,
-    TagModule,
-    InputNumberModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        TableModule,
+        TooltipModule,
+        HttpClientModule,
+        ProgressSpinnerModule,
+        CardModule,
+        AccordionModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        DropdownModule,
+        ButtonModule,
+        ReactiveFormsModule,
+        CheckboxModule,
+        ToastModule,
+        MessagesModule,
+        MessageModule,
+        ConfirmDialogModule,
+        InputTextModule,
+        CalendarModule,
+        TagModule,
+        InputNumberModule,
+        InputSwitchModule,
+    ],
   providers: [
     ConfigService,
     {

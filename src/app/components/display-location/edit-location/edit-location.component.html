@@ -1,11 +1,13 @@
 <fieldset>
   <legend>Location</legend>
-  <mat-slide-toggle [ngModel]="hasValue"
-                    name="hasValue"
-                    *ngIf="!required"
-                    (toggleChange)="onLocationSlideToggleChange()">
-    <mat-label>Define location</mat-label>
-  </mat-slide-toggle>
+  <div class="row">
+    <label>Define location</label>
+    <p-inputSwitch [ngModel]="hasValue"
+                   name="hasValue"
+                   *ngIf="!required"
+                   (onChange)="onLocationSlideToggleChange()">
+    </p-inputSwitch>
+  </div>
   <ng-container *ngIf="hasValue && location as l">
     <div class="row">
       <label>Location Name: </label>
@@ -46,12 +48,14 @@
       </div>
     </ng-container>
     <ng-container *ngIf="enableAddress">
-      <mat-slide-toggle [ngModel]="hasAddress"
-                        (toggleChange)="onAddressSlideToggleChange()"
-                        name="hasAddress"
-                        [required]="needsContent">
-        <mat-label>Define Address</mat-label>
-      </mat-slide-toggle>
+      <div class="row">
+        <label>Define Address</label>
+        <p-inputSwitch [ngModel]="hasAddress"
+                       (onChange)="onAddressSlideToggleChange()"
+                       name="hasAddress"
+                       [required]="needsContent">
+        </p-inputSwitch>
+      </div>
 
       <ng-container *ngIf="hasAddress && address as a">
         <fieldset>

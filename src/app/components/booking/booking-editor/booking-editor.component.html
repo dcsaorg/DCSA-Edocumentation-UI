@@ -63,39 +63,35 @@
           </div>
           <div class="row">
             <label for="isPartialLoadAllowed">Is Partial Load Allowed? </label>
-            <p-checkbox [required]="true"
-                        [binary]="true"
-                        [(ngModel)]="booking.isPartialLoadAllowed"
-                        id="isPartialLoadAllowed"
-                        name="isPartialLoadAllowed">
-            </p-checkbox>
+            <p-inputSwitch [required]="true"
+                           [(ngModel)]="booking.isPartialLoadAllowed"
+                           id="isPartialLoadAllowed"
+                           name="isPartialLoadAllowed">
+            </p-inputSwitch>
           </div>
           <div class="row">
             <label for="isExportDeclarationRequired">Is Export Declaration Required? </label>
-            <p-checkbox [required]="true"
-                        [binary]="true"
-                        [(ngModel)]="booking.isExportDeclarationRequired"
-                        id="isExportDeclarationRequired"
-                        name="isExportDeclarationRequired">
-            </p-checkbox>
+            <p-inputSwitch [required]="true"
+                           [(ngModel)]="booking.isExportDeclarationRequired"
+                           id="isExportDeclarationRequired"
+                           name="isExportDeclarationRequired">
+            </p-inputSwitch>
           </div>
           <div class="row">
             <label for="isImportLicenseRequired">Is Import License Required? </label>
-            <p-checkbox [required]="true"
-                        [binary]="true"
-                        [(ngModel)]="booking.isImportLicenseRequired"
-                        id="isImportLicenseRequired"
-                        name="isImportLicenseRequired">
-            </p-checkbox>
+            <p-inputSwitch [required]="true"
+                           [(ngModel)]="booking.isImportLicenseRequired"
+                           id="isImportLicenseRequired"
+                           name="isImportLicenseRequired">
+            </p-inputSwitch>
           </div>
           <div class="row">
             <label for="isEquipmentSubstitutionAllowed">Is Equipment Substitution Allowed? </label>
-            <p-checkbox [required]="true"
-                        [binary]="true"
-                        [(ngModel)]="booking.isEquipmentSubstitutionAllowed"
-                        id="isEquipmentSubstitutionAllowed"
-                        name="isEquipmentSubstitutionAllowed">
-            </p-checkbox>
+            <p-inputSwitch [required]="true"
+                           [(ngModel)]="booking.isEquipmentSubstitutionAllowed"
+                           id="isEquipmentSubstitutionAllowed"
+                           name="isEquipmentSubstitutionAllowed">
+            </p-inputSwitch>
           </div>
         </p-accordionTab>
       </ng-container>
@@ -126,7 +122,6 @@
                    nullValue
                    pInputText
                    [required]="!booking.contractQuotationReference"
-                   matInput
                    id="serviceContractReference"
                    name="serviceContractReference">
           </div>
