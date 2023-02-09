@@ -27,7 +27,9 @@
              [(ngModel)]="l.UNLocationCode"
              nullValue
              pInputText
+             minlength="5"
              maxlength="5"
+             placeholder="Hint: DEHAM"
              [required]="needsContent || needsFacility"
              (change)="emitChange()"
              (blur)="emitTouchedEvent()"
@@ -40,11 +42,26 @@
                [(ngModel)]="l.facilityCode"
                nullValue
                pInputText
-               maxlength="6"
-               [required]="needsContent"
+               placeholder="Hint: EGH (SMDG) / EGHA (BIC) for DEHAM"
+               minlength="3"
+               [maxlength]="facilityCodeMaxLength"
+               [required]="needsContent || needsFacility"
                (change)="emitChange()"
                (blur)="emitTouchedEvent()"
                [ngModelOptions]="{standalone: true}">
+        <p-dropdown [required]="needsContent || needsFacility"
+                    [(ngModel)]="l.facilityCodeListProvider"
+                    name="facilityCodeListProvider"
+                    [values$]="facilityCodeListProviderItems$"
+                    [nullable]="true"
+                    appEnumDropDown>
+          <!-- We do not want this to set facilityCodeListProvider automatically
+               because it is required because that forces a facility location
+               until you clear the code list provider. Therefore, this code list
+               provider dropdown is always nullable even when it is required
+               to avoid a catch-22.
+            -->
+        </p-dropdown>
       </div>
     </ng-container>
     <ng-container *ngIf="enableAddress">

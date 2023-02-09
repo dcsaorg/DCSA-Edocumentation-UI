@@ -5,6 +5,15 @@ import {
   TemperatureUnit,
   WeightUnit
 } from '../../../projects/bkg-swagger-client';
+import {SelectItem} from 'primeng/api/selectitem';
+
+
+export function nullSelectItem<E>(): SelectItem<E|null> {
+  return {
+    label: "[unset]",
+    value: null,
+  }
+}
 
 export function createCommodity(): Commodity {
   return {

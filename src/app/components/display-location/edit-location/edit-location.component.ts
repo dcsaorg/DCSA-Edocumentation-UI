@@ -1,7 +1,11 @@
 import {Component, Input, OnInit, Self} from '@angular/core';
 import {AbstractControl, ControlValueAccessor, NgControl, ValidationErrors, Validators} from '@angular/forms';
 import {EDocLocation} from '../../../models/location';
-import {Address} from '../../../../../projects/bkg-swagger-client';
+import {Address, FacilityCodeListProvider} from '../../../../../projects/bkg-swagger-client';
+import {StaticDataService} from '../../../services/static-data.service';
+import {Observable, tap} from 'rxjs';
+import {SelectItem} from 'primeng/api/selectitem';
+import {nullSelectItem} from '../../../util/object-factory';
 
 
 interface LocationErrors extends ValidationErrors {
@@ -42,13 +46,17 @@ export class EditLocationComponent implements OnInit, ControlValueAccessor {
 
   missingAddressContent = false;
 
+  facilityCodeListProviderItems$: Observable<SelectItem<FacilityCodeListProvider|null>[]>;
+
   @Input() required = false;
   @Input() enableAddress = true;
   @Input() enableUNLocationCode = true;
   @Input() enableFacility = true;
 
-  constructor(@Self() public controlDir: NgControl) {
+  constructor(@Self() public controlDir: NgControl,
+              private staticDataService: StaticDataService) {
     this.controlDir.valueAccessor = this;
+    this.facilityCodeListProviderItems$ = staticDataService.getFacilityCodeListProviderItems()
   }
 
   ngOnInit(): void {
@@ -74,6 +82,11 @@ export class EditLocationComponent implements OnInit, ControlValueAccessor {
       return false;
     }
     return !!this.location?.facilityCode || !!this.location?.facilityCodeListProvider;
+  }
+
+
+  get facilityCodeMaxLength(): number {
+    return this.location?.facilityCodeListProvider == FacilityCodeListProvider.SMDG ? 3 : 4;
   }
 
   onLocationSlideToggleChange(): void {

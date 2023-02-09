@@ -5,7 +5,7 @@ import {
   CargoMovementTypeAtDestination,
   CargoMovementTypeAtOrigin,
   CommunicationChannelCode,
-  DeliveryTypeAtDestination,
+  DeliveryTypeAtDestination, FacilityCodeListProvider,
   ReceiptTypeAtOrigin,
   ReferenceType,
   ShipmentLocationTypeCode,
@@ -184,6 +184,12 @@ export class StaticDataService {
     return this.enumValues(
       TemperatureUnit,
       this.getTemperatureUnitNames(),
+    )
+  }
+
+  getFacilityCodeListProviderItems(): Observable<SelectItem<FacilityCodeListProvider|null>[]> {
+    return this.enumValues(
+      FacilityCodeListProvider,
     )
   }
 
