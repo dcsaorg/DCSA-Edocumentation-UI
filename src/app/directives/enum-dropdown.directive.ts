@@ -41,7 +41,7 @@ export class EnumDropdownDirective<E> implements OnInit, OnDestroy, OnChanges {
     const values$ = this.values$;
     let nullable: boolean;
     if (this.nullable === 'auto-static-required') {
-      nullable = this.primeDropdown.required
+      nullable = !this.primeDropdown.required
     } else {
       nullable = this.nullable;
     }
