@@ -28,6 +28,9 @@ export class EditRequestedEquipmentComponent {
 
   weightUnits$: Observable<SelectItem<WeightUnit|null>[]>;
 
+  tareWeight?: number;
+  tareWeightUnit?: WeightUnit;
+
   constructor(private staticDataService: StaticDataService,
               private globals: Globals,
   ) {
@@ -66,5 +69,21 @@ export class EditRequestedEquipmentComponent {
 
   trackEquipmentReferenceBy<U extends T, T>(index: number, _: T & U): any {
     return index;
+  }
+
+  onSOCChange(): void {
+    const requestedEquipment = this.requestedEquipment;
+    if (!requestedEquipment) {
+      return;
+    }
+    if (requestedEquipment.isShipperOwned) {
+      requestedEquipment.tareWeight = this.tareWeight;
+      requestedEquipment.tareWeightUnit = this.tareWeightUnit;
+    } else {
+      this.tareWeight = requestedEquipment.tareWeight;
+      this.tareWeightUnit = requestedEquipment.tareWeightUnit;
+      requestedEquipment.tareWeight = undefined;
+      requestedEquipment.tareWeightUnit = undefined;
+    }
   }
 }

@@ -27,26 +27,15 @@
   </div>
   <div class="row">
     <label>Is Shipper Owned? </label>
-    <p-checkbox [required]="true"
-                [binary]="true"
-                [disabled]="!!requestedEquipment.tareWeight || !!requestedEquipment.tareWeightUnit"
-                [(ngModel)]="requestedEquipment.isShipperOwned"
-                name="isShipperOwned">
-    </p-checkbox>
-    <div *ngIf="hasSOCAttributes">
-      <p-tag styleClass="mr-2"
-             icon="pi pi-info-circle"
-             severity="info"
-             value="Info">
-      </p-tag>
-      <div class="field-note">
-        The "Is Shipper Owned" field cannot be modified while there is a tare weight / tare weight unit.
-      </div>
-    </div>
+    <p-inputSwitch [required]="true"
+                   [(ngModel)]="requestedEquipment.isShipperOwned"
+                   (onChange)="onSOCChange()"
+                   name="isShipperOwned">
+    </p-inputSwitch>
   </div>
   <fieldset>
     <legend>Shipper Owned Container related attributes</legend>
-    <div *ngIf="!requestedEquipment.isShipperOwned">
+    <div class="row">
       <p-tag styleClass="mr-2"
              icon="pi pi-info-circle"
              severity="info"

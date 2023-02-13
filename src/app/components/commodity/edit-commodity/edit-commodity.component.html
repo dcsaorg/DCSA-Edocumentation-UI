@@ -65,7 +65,8 @@
              pInputText
              [(ngModel)]="commodity.HSCode"
              type="text"
-             pattern="^\d{4,10}$"
+             pattern="^\d{6,10}$"
+             minlength="6"
              maxlength="10">
     </div>
 
