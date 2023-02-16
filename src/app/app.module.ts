@@ -40,6 +40,10 @@ import {TagModule} from 'primeng/tag';
 import {InputNumberModule} from 'primeng/inputnumber';
 import { EditRequestedEquipmentComponent } from './components/requested-equipment/edit-requested-equipment/edit-requested-equipment.component';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import {
+  EditDocumentPartyComponent
+} from './components/document-party/edit-document-party/edit-document-party.component';
+import { EditAddressComponent } from './components/display-location/edit-address/edit-address.component';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -62,6 +66,8 @@ export function ConfigLoader(configService: ConfigService) {
     EditCommodityComponent,
     EditReeferComponent,
     EditRequestedEquipmentComponent,
+    EditDocumentPartyComponent,
+    EditAddressComponent,
   ],
     imports: [
         BrowserModule,

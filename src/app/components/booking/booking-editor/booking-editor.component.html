@@ -238,32 +238,31 @@
           </div>
         </p-accordionTab>
       </ng-container>
-      <p-accordionTab [disabled]="!booking">
-        <ng-template pTemplate="header">
-          <app-validity-marker [controlStatus]="placeOfBLIssueControl">
-          </app-validity-marker>
-          Place of BL Issue [Optional]
-        </ng-template>
-        <app-edit-location [(ngModel)]="booking.placeOfBLIssue"
-                           #placeOfBLIssueControl="ngModel"
-                           [enableFacility]="false"
-                           name="placeOfBLIssue">
+      <ng-container ngModelGroup="placeOfBLIssue" #placeOfBLIssueControl="ngModelGroup">
+        <p-accordionTab [disabled]="!booking">
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="placeOfBLIssueControl">
+            </app-validity-marker>
+            Place of BL Issue [Optional]
+          </ng-template>
+          <app-edit-location [(location)]="booking.placeOfBLIssue"
+                             [enableFacility]="false">
+          </app-edit-location>
+        </p-accordionTab>
+      </ng-container>
+      <ng-container ngModelGroup="invoicePayableAt" #invoicePayableAtControl="ngModelGroup">
+        <p-accordionTab [disabled]="!booking">
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="invoicePayableAtControl">
+            </app-validity-marker>
+            Invoice Payable At [Optional]
+          </ng-template>
+          <app-edit-location [(location)]="booking.invoicePayableAt"
+                             [enableFacility]="false">
 
-        </app-edit-location>
-      </p-accordionTab>
-      <p-accordionTab [disabled]="!booking">
-        <ng-template pTemplate="header">
-          <app-validity-marker [controlStatus]="invoicePayableAtControl">
-          </app-validity-marker>
-          Invoice Payable At [Optional]
-        </ng-template>
-        <app-edit-location [(ngModel)]="booking.invoicePayableAt"
-                           #invoicePayableAtControl="ngModel"
-                           [enableFacility]="false"
-                           name="invoicePayableAt">
-
-        </app-edit-location>
-      </p-accordionTab>
+          </app-edit-location>
+        </p-accordionTab>
+      </ng-container>
       <ng-container ngModelGroup="commodities" #commodityListControl="ngModelGroup">
         <p-accordionTab [disabled]="!booking" [selected]="isCreateMode">
           <ng-template pTemplate="header">
@@ -384,6 +383,58 @@
         </p-accordionTab>
       </ng-container>
 
+
+      <ng-container ngModelGroup="documentParties" #documentPartyListControl="ngModelGroup">
+        <p-accordionTab [disabled]="!booking">
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="documentPartyListControl">
+            </app-validity-marker>
+            Document Parties ({{this.booking.documentParties?.length ?? 0}}) [Optional]
+          </ng-template>
+
+          <div *ngFor="let documentParty of this.booking.documentParties; index as i"
+               ngModelGroup="documentParties[{{i}}]" #documentPartyControl="ngModelGroup">
+            <p-accordionTab [selected]="documentPartySelected[i]">
+
+              <ng-template pTemplate="header">
+                <app-validity-marker [controlStatus]="documentPartyControl">
+                </app-validity-marker>
+                {{!documentPartyControl.valid ? '[INVALID] ' : ''}}{{documentParty.partyFunction}}
+                <button pButton
+                        appDebounceClick
+                        class="p-button-danger tab-header-discard-button"
+                        [debounceTime]="200"
+                        icon="pi pi-trash"
+                        (debounceClick)="removeDocumentParty(i, documentPartyControl)">
+                </button>
+              </ng-template>
+
+              <app-edit-document-party [(documentParty)]="booking!.documentParties![i]">
+              </app-edit-document-party>
+
+              <div class="row">
+                <button pButton
+                        appDebounceClick
+                        label="Close tab"
+                        class="p-button-secondary"
+                        [debounceTime]="200"
+                        (debounceClick)="documentPartySelected[i] = false">
+                </button>
+              </div>
+            </p-accordionTab>
+          </div>
+
+          <button appDebounceClick
+                  pButton
+                  (debounceClick)="addDocumentParty()"
+                  [debounceTime]="200"
+                  icon="pi pi-plus"
+                  class="p-button-secondary">
+          </button>
+        </p-accordionTab>
+      </ng-container>
+
+
       <ng-container ngModelGroup="shipmentLocations" #shipmentLocationListControl="ngModelGroup">
         <p-accordionTab [disabled]="!booking">
           <ng-template pTemplate="header">
@@ -420,19 +471,18 @@
                 </p-dropdown>
               </div>
 
-              <p-accordionTab class="inline-accordionTab">
-                <ng-template pTemplate="header">
-                  <app-validity-marker [controlStatus]="shipmentLocationLocation">
-                  </app-validity-marker>
-                  Location [Required]
-                </ng-template>
-                <app-edit-location [(ngModel)]="shipmentLocation.location"
-                                   [required]="true"
-                                   #shipmentLocationLocation="ngModel"
-                                   name="shipmentLocations[{{i}}].location">
-
-                </app-edit-location>
-              </p-accordionTab>
+              <ng-container ngModelGroup="shipmentLocations[{{i}}].location" #shipmentLocationLocationControl="ngModelGroup">
+                <p-accordionTab class="inline-accordionTab">
+                  <ng-template pTemplate="header">
+                    <app-validity-marker [controlStatus]="shipmentLocationLocationControl">
+                    </app-validity-marker>
+                    Location [Required]
+                  </ng-template>
+                  <app-edit-location [(location)]="shipmentLocation.location"
+                                     [required]="true">
+                  </app-edit-location>
+                </p-accordionTab>
+              </ng-container>
 
               <div class="row">
                 <label for="shipmentLocations[{{i}}].eventDateTime">Event Date Time: </label>

@@ -1,0 +1,88 @@
+<ng-container>
+  <div class="row">
+    <label>Define Address</label>
+    <p-inputSwitch [ngModel]="hasAddress"
+                   (onChange)="onAddressSlideToggleChange()"
+                   [required]="required"
+                   [ngModelOptions]="{standalone: true}">
+    </p-inputSwitch>
+  </div>
+
+  <ng-container *ngIf="hasAddress && address as a">
+    <fieldset>
+      <legend>Address</legend>
+
+      <div class="row">
+        <label>Name: </label>
+        <input type="text"
+               name="name"
+               [(ngModel)]="a.name"
+               nullValue
+               pInputText
+               maxlength="100">
+      </div>
+      <div class="row">
+        <label>Street, street nr. and floor: </label>
+        <input type="text"
+               name="street"
+               placeholder="Street"
+               [(ngModel)]="a.street"
+               nullValue
+               pInputText
+               maxlength="100">
+        <input type="text"
+               name="streetNumber"
+               placeholder="Street number"
+               [(ngModel)]="a.streetNumber"
+               nullValue
+               pInputText
+               maxlength="50">
+        <input type="text"
+               name="floor"
+               placeholder="Floor"
+               [(ngModel)]="a.floor"
+               nullValue
+               pInputText
+               maxlength="50">
+      </div>
+      <div class="row">
+        <label>Post code and city: </label>
+        <input type="text"
+               name="postCode"
+               placeholder="Post code"
+               [(ngModel)]="a.postCode"
+               nullValue
+               pInputText
+               maxlength="50">
+        <input type="text"
+               name="city"
+               placeholder="City"
+               [(ngModel)]="a.city"
+               nullValue
+               pInputText
+               maxlength="65">
+      </div>
+      <div class="row">
+        <label>State (if applicable): </label>
+        <input type="text"
+               name="stateRegion"
+               placeholder="State"
+               [(ngModel)]="a.stateRegion"
+               nullValue
+               pInputText
+               maxlength="65">
+      </div>
+      <div class="row">
+        <label>Country: </label>
+        <input type="text"
+               name="country"
+               placeholder="Country"
+               [(ngModel)]="a.country"
+               nullValue
+               pInputText
+               maxlength="75">
+      </div>
+    </fieldset>
+  </ng-container>
+</ng-container>
+

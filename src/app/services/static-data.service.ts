@@ -4,8 +4,8 @@ import {
   BookingDocumentStatus,
   CargoMovementTypeAtDestination,
   CargoMovementTypeAtOrigin,
-  CommunicationChannelCode,
-  DeliveryTypeAtDestination, FacilityCodeListProvider,
+  CommunicationChannelCode, DCSAResponsibleAgencyCode,
+  DeliveryTypeAtDestination, FacilityCodeListProvider, IdentifyingCode, PartyFunction,
   ReceiptTypeAtOrigin,
   ReferenceType,
   ShipmentLocationTypeCode,
@@ -120,6 +120,24 @@ export class StaticDataService {
       .set(TemperatureUnit.FAH, 'Fahrenheit')
   ).asObservable();
 
+  private partyFunction$ = new BehaviorSubject(
+    new Map()
+      .set(PartyFunction.OS, "Original shipper")
+      .set(PartyFunction.CN, "Consignee")
+      .set(PartyFunction.COW, "Invoice payer on behalf of the consignor (shipper)")
+      .set(PartyFunction.COX, "Invoice payer on behalf of the consignee")
+      .set(PartyFunction.MS, "Document/message issuer/sender")
+      .set(PartyFunction.N1, "First Notify Party")
+      .set(PartyFunction.N2, "Second Notify Party")
+      .set(PartyFunction.NI, "Other Notify Party")
+      .set(PartyFunction.DDR, "Consignor's freight forwarder")
+      .set(PartyFunction.DDS, "Consignee's freight forwarder")
+      .set(PartyFunction.HE, "Carrier booking office (transportation office)")
+      .set(PartyFunction.SCO, "Service contract owner - Defined by DCSA")
+      .set(PartyFunction.BA, "Booking Agency")
+      .set(PartyFunction.ENR, "Envelope Receiver")
+  ).asObservable()
+
   constructor() { }
 
   getBookingStatusMap(): Observable<Map<BookingDocumentStatus, string>> {
@@ -191,6 +209,19 @@ export class StaticDataService {
     return this.enumValues(
       FacilityCodeListProvider,
     )
+  }
+
+  getPartyFunctionItems(): Observable<SelectItem<PartyFunction|null>[]> {
+    return this.enumValues(
+      PartyFunction,
+      this.partyFunction$
+    );
+  }
+
+  getDCSAResponsibleAgencyCodeItems(): Observable<SelectItem<DCSAResponsibleAgencyCode|null>[]> {
+    return this.enumValues(
+      DCSAResponsibleAgencyCode
+    );
   }
 
   private enumValues<E>(enumClass: E, data2name?: Observable<Map<E[keyof E], string>>): Observable<SelectItem<E[keyof E]|null>[]> {

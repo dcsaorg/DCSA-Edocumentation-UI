@@ -11,14 +11,13 @@ import {
   ReceiptTypeAtOrigin,
   ReferenceType,
   ShipmentLocationTypeCode,
-  WeightUnit
 } from '../../../../../projects/bkg-swagger-client';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ErrorMessageExtractor} from '../../../util/error-message-extractor';
 import {StaticDataService} from '../../../services/static-data.service';
 import {SelectItem} from 'primeng/api/selectitem';
-import {createCommodity} from '../../../util/object-factory';
-import {AbstractFormGroupDirective} from '@angular/forms';
+import {createCommodity, createDocumentParty} from '../../../util/object-factory';
+import {AbstractFormGroupDirective, NgModelGroup} from '@angular/forms';
 import {clearValidationIssuesOnFormGroupDirective} from '../../../util/validation-util';
 
 @Component({
@@ -72,6 +71,7 @@ export class BookingEditorComponent implements OnInit {
   commoditiesSelected: boolean[] = [];
   referencesSelected: boolean[] = [];
 
+  documentPartySelected: boolean[] = [];
   shipmentLocationsSelected: boolean[] = [];
 
   constructor(private route: ActivatedRoute,
@@ -112,6 +112,7 @@ export class BookingEditorComponent implements OnInit {
     this.commoditiesSelected = this.booking?.commodities?.map(_ => false) ?? [];
     this.referencesSelected = this.booking?.references?.map(_ => false) ?? [];
     this.shipmentLocationsSelected = this.booking?.shipmentLocations?.map(_ => false) ?? [];
+    this.documentPartySelected = this.booking?.documentParties?.map(_ => false) ?? [];
   }
 
   enumValues<E>(enumClass: E, data2name?: Observable<Map<E[keyof E], string>>): Observable<SelectItem<E[keyof E]|null>[]> {
@@ -233,5 +234,21 @@ export class BookingEditorComponent implements OnInit {
       }
     });
 
+  }
+
+
+  removeDocumentParty(i: number, modelGroup: NgModelGroup): void {
+    this.booking!.documentParties!.splice(i, 1);
+    this.documentPartySelected.splice(i, 1);
+    clearValidationIssuesOnFormGroupDirective(modelGroup);
+  }
+
+  addDocumentParty() {
+    if (!this.booking) {
+      return;
+    }
+    this.booking.documentParties ??= [];
+    this.booking.documentParties!.push(createDocumentParty());
+    this.documentPartySelected.push(true);
   }
 }

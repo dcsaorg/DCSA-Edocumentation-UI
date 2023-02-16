@@ -1,0 +1,258 @@
+<p-accordion *ngIf="documentParty as documentParty">
+  <div class="row">
+    <label>Party Function</label>
+    <p-dropdown [(ngModel)]="documentParty.partyFunction"
+                name="partyFunction"
+                [values$]="partyFunctions$"
+                [required]="true"
+                appEnumDropDown>
+    </p-dropdown>
+  </div>
+  <ng-container *ngIf="documentParty.party as party" ngModelGroup="party">
+    <fieldset>
+      <legend>Party details</legend>
+      <div class="row">
+        <label>Party Name: </label>
+        <input name="partyName"
+               nullValue
+               pInputText
+               [(ngModel)]="party.partyName"
+               [required]="true"
+               type="text"
+               pattern="^\S+(\s+\S+)*$"
+               maxlength="100">
+      </div>
+      <div class="row">
+        <label>Tax Reference 1: </label>
+        <input name="taxReference1"
+               nullValue
+               pInputText
+               [(ngModel)]="party.taxReference1"
+               type="text"
+               maxlength="20">
+      </div>
+      <div class="row">
+        <label>Tax Reference 2: </label>
+        <input name="taxReference2"
+               nullValue
+               pInputText
+               [(ngModel)]="party.taxReference2"
+               type="text"
+               maxlength="20">
+      </div>
+      <div class="row">
+        <label>Public Key: </label>
+        <input name="publicKey"
+               nullValue
+               pInputText
+               [(ngModel)]="party.publicKey"
+               type="text"
+               maxlength="500">
+      </div>
+      <app-edit-address [(address)]="party.address">
+      </app-edit-address>
+
+
+      <!-- TODO: party contact details -->
+
+      <ng-container ngModelGroup="partyContractDetails" #partyContactDetailsListControl="ngModelGroup">
+        <p-accordionTab>
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="partyContactDetailsListControl">
+            </app-validity-marker>
+            Party Contact Details ({{party.partyContactDetails?.length ?? 0}}) [Required]
+          </ng-template>
+          <ng-container *ngIf="party.partyContactDetails as partyContactDetails">
+            <ng-container *ngFor="let partyContactDetail of partyContactDetails; index as j"
+                          ngModelGroup="partyContactDetails[j]"
+                          #partyContactDetailsControl="ngModelGroup">
+              <p-accordionTab>
+                <ng-template pTemplate="header">
+                  <app-validity-marker [controlStatus]="partyContactDetailsControl">
+                  </app-validity-marker>
+                  Party Contract Details
+                  <button pButton
+                          appDebounceClick
+                          class="p-button-danger tab-header-discard-button"
+                          [disabled]="partyContactDetails.length < 2"
+                          [debounceTime]="200"
+                          icon="pi pi-trash"
+                          (debounceClick)="removePartyContactDetail(j, partyContactDetailsControl)">
+                  </button>
+                </ng-template>
+
+
+                <div class="row">
+                  <label>Name: </label>
+                  <input name="partyContactDetail[{{j}}].name"
+                         pInputText
+                         [(ngModel)]="partyContactDetail.name"
+                         [required]="true"
+                         pattern="^\S+(\s+\S+)*$"
+                         type="text"
+                         maxlength="100">
+                </div>
+
+                <div class="row">
+                  <label>Phone: </label>
+                  <input name="partyContactDetail[{{j}}].phone"
+                         pInputText
+                         [(ngModel)]="partyContactDetail.phone"
+                         type="text"
+                         maxlength="30">
+                </div>
+                <div class="row">
+                  <label>Email: </label>
+                  <input name="partyContactDetail[{{j}}].email"
+                         pInputText
+                         [(ngModel)]="partyContactDetail.email"
+                         pattern="^\S+(\s+\S+)*$"
+                         type="text"
+                         maxlength="100">
+                </div>
+                <div class="row">
+                  <label>URL: </label>
+                  <input name="partyContactDetail[{{j}}].url"
+                         pInputText
+                         [(ngModel)]="partyContactDetail.url"
+                         type="text"
+                         maxlength="100">
+                </div>
+              </p-accordionTab>
+            </ng-container>
+            <button appDebounceClick
+                    pButton
+                    (debounceClick)="addPartyContactDetails()"
+                    [debounceTime]="200"
+                    iconPos="left"
+                    icon="pi pi-plus"
+                    class="p-button-secondary"
+                    label="Add party contract details">
+            </button>
+          </ng-container>
+        </p-accordionTab>
+      </ng-container>
+
+
+      <ng-container ngModelGroup="identifyingCodes" #identifyingCodesListControl="ngModelGroup">
+        <p-accordionTab>
+          <ng-template pTemplate="header">
+            <app-validity-marker [controlStatus]="identifyingCodesListControl">
+            </app-validity-marker>
+            Identifying Codes ({{party.identifyingCodes?.length ?? 0}}) [Optional]
+          </ng-template>
+          <ng-container *ngIf="party.identifyingCodes as identifyingCodes">
+            <ng-container *ngFor="let identifyingCode of identifyingCodes; index as j"
+                          ngModelGroup="identifyingCodes[j]"
+                          #identifyingCodeControl="ngModelGroup">
+              <p-accordionTab>
+                <ng-template pTemplate="header">
+                  <app-validity-marker [controlStatus]="identifyingCodesListControl">
+                  </app-validity-marker>
+                  Identifying Code [Optional]
+                </ng-template>
+
+                <div class="row">
+                  <label>DCSA Responsible Agency Code: </label>
+                  <p-dropdown [required]="true"
+                              [(ngModel)]="identifyingCode.DCSAResponsibleAgencyCode"
+                              name="DCSAResponsibleAgencyCode"
+                              [values$]="dcsaResponsibleAgencyCode$"
+                              appEnumDropDown>
+                  </p-dropdown>
+                </div>
+
+                <div class="row">
+                  <label>Party Code: </label>
+                  <input name="identifyingCodes[{{j}}].partyCode"
+                         pInputText
+                         [(ngModel)]="identifyingCode.partyCode"
+                         [required]="true"
+                         type="text"
+                         maxlength="100">
+                </div>
+                <div class="row">
+                  <label>Code List Name: </label>
+                  <input name="identifyingCodes[{{j}}].codeListName"
+                         pInputText
+                         [(ngModel)]="identifyingCode.codeListName"
+                         type="text"
+                         maxlength="100">
+                </div>
+
+                <div class="row">
+                  <button pButton
+                          appDebounceClick
+                          class="p-button-danger tab-header-discard-button"
+                          [debounceTime]="200"
+                          icon="pi pi-trash"
+                          (debounceClick)="removeIdentifyingCode(j, identifyingCodeControl)">
+                  </button>
+                </div>
+              </p-accordionTab>
+            </ng-container>
+            <button appDebounceClick
+                    pButton
+                    (debounceClick)="addIdentifyingCode()"
+                    [debounceTime]="200"
+                    iconPos="left"
+                    icon="pi pi-plus"
+                    class="p-button-secondary"
+                    label="Add Identifying party code">
+            </button>
+          </ng-container>
+        </p-accordionTab>
+      </ng-container>
+
+    </fieldset>
+  </ng-container>
+  <div class="row">
+    <label>Is To Be Notified</label>
+    <p-inputSwitch [(ngModel)]="documentParty.isToBeNotified"
+                   name="isToBeNotified"
+                   [required]="true">
+    </p-inputSwitch>
+  </div>
+  <ng-container ngModelGroup="displayedAddress" #displayedAddressListControl="ngModelGroup">
+    <p-accordionTab>
+      <ng-template pTemplate="header">
+        <app-validity-marker [controlStatus]="displayedAddressListControl">
+        </app-validity-marker>
+        Displayed Address [Optional]
+      </ng-template>
+      <ng-container *ngIf="documentParty?.displayedAddress as displayedAddress">
+        <ng-container *ngFor="let _ of displayedAddress; index as j; trackBy:trackDisplayAddressBy">
+          <div class="row">
+            <label>Displayed Address line: </label>
+            <input name="displayedAddress[{{j}}]"
+                   pInputText
+                   [(ngModel)]="displayedAddress[j]"
+                   [required]="true"
+                   type="text"
+                   pattern="^\S*(\s+\S+)*$"
+                   maxlength="35"
+                   #displayedAddressControl="ngModel">
+
+            <button pButton
+                    appDebounceClick
+                    class="p-button-danger tab-header-discard-button"
+                    [debounceTime]="200"
+                    icon="pi pi-trash"
+                    (debounceClick)="removeAddressLine(j, displayedAddressControl)">
+            </button>
+          </div>
+        </ng-container>
+      </ng-container>
+      <button appDebounceClick
+              pButton
+              (debounceClick)="addDisplayedAddressLine()"
+              [debounceTime]="200"
+              [disabled]="(documentParty?.displayedAddress?.length ?? 0) > 4"
+              iconPos="left"
+              icon="pi pi-plus"
+              class="p-button-secondary"
+              label="Add display address line">
+      </button>
+    </p-accordionTab>
+  </ng-container>
+</p-accordion>

@@ -19,10 +19,9 @@
              class="p-inputtext"
              [(ngModel)]="commodity.cargoGrossWeight"
              [required]="true"
-             type="number">
-      <!--   min="0"
              pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
-             -->
+             min="0"
+             type="number">
       <p-dropdown [required]="true"
                   [(ngModel)]="commodity.cargoGrossWeightUnit"
                   name="cargoGrossWeightUnit"

@@ -1,6 +1,10 @@
 import {
   ActiveReeferSettings,
   Commodity,
+  DCSAResponsibleAgencyCode,
+  DocumentParty,
+  IdentifyingCode, PartyContactDetail,
+  PartyFunction,
   RequestedEquipment,
   TemperatureUnit,
   WeightUnit
@@ -60,4 +64,31 @@ export function createActiveReeferSettings(): ActiveReeferSettings {
     temperatureSetpoint: 0,
     temperatureUnit: TemperatureUnit.CEL,
   };
+}
+
+export function createDocumentParty(): DocumentParty {
+  return {
+    isToBeNotified: false,
+    party: {
+      partyName: '',
+      partyContactDetails: [
+        createPartyContactDetails(),
+      ],
+    },
+    partyFunction: PartyFunction.OS,
+
+  }
+}
+
+export function createPartyContactDetails(): PartyContactDetail {
+  return {
+    name: '',
+  }
+}
+
+export function createIdentifyingCode(): IdentifyingCode {
+  return {
+   DCSAResponsibleAgencyCode: DCSAResponsibleAgencyCode.SMDG,
+   partyCode: '',
+  }
 }
