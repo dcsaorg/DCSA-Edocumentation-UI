@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {ControlContainer, NgModelGroup} from '@angular/forms';
 import {EDocLocation} from '../../../models/location';
 import {FacilityCodeListProvider} from '../../../../../projects/bkg-swagger-client';
@@ -30,7 +30,16 @@ export class EditLocationComponent {
   hasValue: boolean = false;
   facilityCodeListProviderItems$: Observable<SelectItem<FacilityCodeListProvider|null>[]>;
 
-  @Input() required = false;
+  isRequired = false;
+
+  @Input() set required(value: boolean) {
+    this.isRequired = value;
+    if (this.isRequired) {
+      this.hasValue = true;
+      this.location ??= {};
+    }
+  }
+
   @Input() enableAddress = true;
   @Input() enableUNLocationCode = true;
   @Input() enableFacility = true;
@@ -63,5 +72,6 @@ export class EditLocationComponent {
     if (this.hasValue && !this.location) {
       this.location = {};
     }
+    this.locationChange.emit(this.hasValue ? this.location! : undefined);
   }
 }

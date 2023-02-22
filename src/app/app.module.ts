@@ -44,6 +44,7 @@ import {
   EditDocumentPartyComponent
 } from './components/document-party/edit-document-party/edit-document-party.component';
 import { EditAddressComponent } from './components/display-location/edit-address/edit-address.component';
+import {NonEmptyLocationDirective} from './validators/non-empty-location.directive';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -68,6 +69,7 @@ export function ConfigLoader(configService: ConfigService) {
     EditRequestedEquipmentComponent,
     EditDocumentPartyComponent,
     EditAddressComponent,
+    NonEmptyLocationDirective,
   ],
     imports: [
         BrowserModule,

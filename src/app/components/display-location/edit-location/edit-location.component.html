@@ -1,14 +1,17 @@
 <fieldset>
   <legend>Location</legend>
-  <div class="row">
+  <div *ngIf="!isRequired" class="row">
     <label>Define location</label>
     <p-inputSwitch [ngModel]="hasValue"
                    name="hasValue"
-                   *ngIf="!required"
                    (onChange)="onLocationSlideToggleChange()">
     </p-inputSwitch>
   </div>
-  <ng-container *ngIf="hasValue && location as l">
+  <ng-container *ngIf="hasValue && location as l"
+                ngModelGroup="locationContent"
+                appNonEmptyLocation
+                [location]="l"
+                #locationContentControl="ngModelGroup">
     <div class="row">
       <label>Location Name: </label>
       <input type="text"
@@ -19,9 +22,11 @@
              maxlength="100">
     </div>
 
-    <app-edit-address [(address)]="l.address"
-                      [required]="needsContent">
-    </app-edit-address>
+    <ng-container ngModelGroup="address">
+      <app-edit-address [(address)]="l.address"
+                        [required]="needsContent">
+      </app-edit-address>
+    </ng-container>
 
     <div class="row" *ngIf="enableUNLocationCode || enableFacility">
       <label>UNLocationCode: </label>
@@ -32,8 +37,8 @@
              pInputText
              minlength="5"
              maxlength="5"
-             placeholder="Hint: DEHAM"
-             [required]="needsContent || needsFacility">
+             [required]="!!l.facilityCode || !!l.facilityCodeListProvider"
+             placeholder="Hint: DEHAM">
     </div>
     <ng-container *ngIf="enableFacility">
       <div class="row">
@@ -45,23 +50,22 @@
                pInputText
                placeholder="Hint: EGH (SMDG) / EGHA (BIC) for DEHAM"
                minlength="3"
-               [maxlength]="facilityCodeMaxLength"
-               [required]="needsContent || needsFacility">
-        <p-dropdown [required]="needsContent || needsFacility"
-                    [(ngModel)]="l.facilityCodeListProvider"
+               [required]="!!l.facilityCodeListProvider"
+               [maxlength]="facilityCodeMaxLength">
+        <p-dropdown [(ngModel)]="l.facilityCodeListProvider"
                     name="facilityCodeListProvider"
+                    [required]="!!l.facilityCode"
                     [values$]="facilityCodeListProviderItems$"
                     [nullable]="true"
                     appEnumDropDown>
-          <!-- We do not want this to set facilityCodeListProvider automatically
-               because it is required because that forces a facility location
-               until you clear the code list provider. Therefore, this code list
-               provider dropdown is always nullable even when it is required
-               to avoid a catch-22.
-            -->
         </p-dropdown>
       </div>
     </ng-container>
 
+    <div *ngIf="!locationContentControl.valid" class="errors">
+      <div *ngIf="locationContentControl.hasError('missingContent')">
+        The location must has content.
+      </div>
+    </div>
   </ng-container>
 </fieldset>

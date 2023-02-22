@@ -52,15 +52,12 @@
       <app-edit-address [(address)]="party.address">
       </app-edit-address>
 
-
-      <!-- TODO: party contact details -->
-
       <ng-container ngModelGroup="partyContractDetails" #partyContactDetailsListControl="ngModelGroup">
         <p-accordionTab>
           <ng-template pTemplate="header">
             <app-validity-marker [controlStatus]="partyContactDetailsListControl">
             </app-validity-marker>
-            Party Contact Details ({{party.partyContactDetails?.length ?? 0}}) [Required]
+            Party Contact Details ({{party.partyContactDetails.length}}) [Required]
           </ng-template>
           <ng-container *ngIf="party.partyContactDetails as partyContactDetails">
             <ng-container *ngFor="let partyContactDetail of partyContactDetails; index as j"

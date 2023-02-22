@@ -1,4 +1,6 @@
-import {AbstractControl, ValidatorFn} from '@angular/forms';
+import {AbstractControl, NgModelGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {group} from '@angular/animations';
+import {EDocLocation} from '../models/location';
 
 interface IMOValidationErrors {
   minLength: boolean;
@@ -7,6 +9,7 @@ interface IMOValidationErrors {
   checkDigit: boolean;
   computedCheckDigit: number;
 }
+
 
 
 const intDigitsOnly: RegExp = /^[0-9]+$/;
@@ -47,3 +50,19 @@ export const IMOValidatorFn: ValidatorFn = (control: AbstractControl) => {
   }
   return null;
 };
+
+
+export const nonEmptyLocationCheck = (location?: EDocLocation): ValidationErrors | null => {
+  if (!location) {
+    return null;
+  }
+  if (location.facilityCode || location.facilityCodeListProvider || location.UNLocationCode) {
+    return null;
+  }
+  if (!!location.address) {
+    return null;
+  }
+  return {
+    missingContent: true,
+  }
+}
