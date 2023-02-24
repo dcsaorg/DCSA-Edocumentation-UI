@@ -1,10 +1,26 @@
 <h1>Latest bookings</h1>
-<p-button label="Create new booking"
+<p-button label="{{ config.useBackend ? 'Create new booking' : 'Try the new booking form' }}"
           [routerLink]="['/bookings/new']"
           iconPos="left"
           class="p-button-primary">
 
 </p-button>
+
+<ng-container *ngIf="!config.useBackend">
+  <p-card>
+    <p-tag styleClass="mr-2"
+           icon="pi pi-info-circle"
+           severity="info"
+           value="Info">
+    </p-tag>
+    <div class="field-note">
+      The UI has been configured to not interact with a backend. While you
+      cannot submit a booking request, you can still open the new booking
+      form above to examine attributes and interact with the validation
+      rules specified in the DCSA API.
+    </div>
+  </p-card>
+</ng-container>
 
 <ng-container *ngIf="bookingSummaries$ | async as bookingSummaries; else loading">
   <p>This page shows the most recently updated bookings:</p>
@@ -18,14 +34,34 @@
         <th>Latest update</th>
       </tr>
     </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">
+          <ng-container *ngIf="config.useBackend">
+            There are no bookings in the system that are accessible to you.
+          </ng-container>
+          <ng-container *ngIf="!config.useBackend">
+            <p-tag styleClass="mr-2"
+                   icon="pi pi-info-circle"
+                   severity="info"
+                   value="Info">
+            </p-tag>
+            <div class="field-note">
+              In a real setup, you would see a list of booking here. However, backend interaction
+              as been disabled by configuration, which limits us to show this little note.
+            </div>
+          </ng-container>
+        </td>
+      </tr>
+    </ng-template>
     <ng-template pTemplate="body" let-b>
       <ng-container *ngIf="t(b) as booking">
         <tr>
           <td><a [routerLink]="['/bookings/', booking.carrierBookingRequestReference]">{{booking.carrierBookingRequestReference}}</a></td>
-          <td>{{booking.expectedDepartureDate | date: globals.config!.dateFormat }}</td>
+          <td>{{booking.expectedDepartureDate | date: config.dateFormat }}</td>
           <td>{{booking.uiDocumentStatus ?? "Unknown document status code"}}</td>
           <td style="text-align: right">{{booking.documentStatus}}</td>
-          <td>{{booking.bookingRequestUpdatedDateTime | date: globals.config!.dateTimeFormat }}</td>
+          <td>{{booking.bookingRequestUpdatedDateTime | date: config.dateTimeFormat }}</td>
         </tr>
       </ng-container>
     </ng-template>

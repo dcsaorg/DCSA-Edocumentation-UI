@@ -16,11 +16,11 @@
     <div class="row">
       <label>Cargo Gross Weight: </label>
       <input name="cargoGrossWeight"
-             class="p-inputtext"
+             class="p-inputtext p-element"
              [(ngModel)]="commodity.cargoGrossWeight"
              [required]="true"
              pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
-             min="0"
+             [min]="0"
              type="number">
       <p-dropdown [required]="true"
                   [(ngModel)]="commodity.cargoGrossWeightUnit"
@@ -36,7 +36,7 @@
     <div class="row">
       <label>Cargo Gross Volume: </label>
       <input name="cargoGrossVolume"
-             class="p-inputtext"
+             class="p-inputtext p-element"
              [(ngModel)]="commodity.cargoGrossVolume"
              [required]="cargoCrossVolumeRequired"
              pattern="^(?:[1-9]\d*(?:[.]\d+)?|[0].\d*[1-9]\d*)$"
@@ -52,7 +52,7 @@
     <div class="row">
       <label>Number of Packages: </label>
       <input name="numberOfPackages"
-             class="p-inputtext"
+             class="p-inputtext p-element"
              [(ngModel)]="commodity.numberOfPackages"
              pattern="^\d*$"
              min="0"

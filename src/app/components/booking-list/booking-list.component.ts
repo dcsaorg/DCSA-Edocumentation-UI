@@ -3,6 +3,7 @@ import {Observable, tap} from 'rxjs';
 import {BookingSummaryEntity} from '../../models/booking';
 import {BookingService} from '../../services/booking.service';
 import {Globals} from '../../models/globals';
+import {Config} from '../../models/config';
 
 @Component({
   selector: 'app-booking-list',
@@ -17,6 +18,10 @@ export class BookingListComponent implements OnInit {
   constructor(private bookingService: BookingService,
               public globals: Globals,
               ) {
+  }
+
+  get config(): Config {
+    return this.globals.config!;
   }
 
   ngOnInit(): void {

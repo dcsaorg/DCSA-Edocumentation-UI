@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Globals} from '../models/globals';
-import {map, mergeMap, Observable, tap} from 'rxjs';
+import {map, mergeMap, Observable, of, tap} from 'rxjs';
 import {BookingEntity, BookingSummaryEntity, MutableBookingEntity, UpdateBookingEntityImpl} from '../models/booking';
 import {StaticDataService} from './static-data.service';
 import {
@@ -51,6 +51,9 @@ export class BookingService {
   }
 
   getBookingSummaries(): Observable<BookingSummaryEntity[]> {
+    if (!this.globals.config!.useBackend) {
+      return of([]);
+    }
     let httpParams = new HttpParams();
     httpParams = httpParams.set('limit', this.LIMIT);
     httpParams = httpParams.set('sort', 'bookingRequestUpdatedDateTime:DESC')

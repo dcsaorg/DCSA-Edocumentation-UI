@@ -16,7 +16,7 @@
   <div class="row">
     <label>Units: </label>
     <input name="units"
-           class="p-inputtext"
+           class="p-inputtext p-element"
            [(ngModel)]="requestedEquipment.units"
            [required]="true"
            [min]="(requestedEquipment.equipmentReferences?.length ?? 0) ? requestedEquipment.equipmentReferences!.length : 1"
@@ -48,7 +48,7 @@
     <div class="row">
       <label>Tare Weight: </label>
       <input name="tareWeight"
-             class="p-inputtext"
+             class="p-inputtext p-element"
              [(ngModel)]="requestedEquipment.tareWeight"
              [disabled]="!requestedEquipment.isShipperOwned"
              min="0"

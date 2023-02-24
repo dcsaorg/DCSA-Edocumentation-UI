@@ -1,6 +1,23 @@
 <ng-container *ngIf="booking && !hadLoadError">
   <h1 *ngIf="!isCreateMode">Update/Amend booking details for {{carrierBookingRequestReference}}</h1>
   <h1 *ngIf="isCreateMode">New booking request</h1>
+
+  <ng-container *ngIf="!config.useBackend">
+    <br>
+    <div class="row">
+      <p-tag styleClass="mr-2"
+             icon="pi pi-info-circle"
+             severity="info"
+             value="Info">
+      </p-tag>
+      <div class="field-note">
+        Keep in mind that you cannot submit a booking here. This form
+        is only a stub to show you the DCSA standardized fields and
+        validation rules.
+      </div>
+    </div>
+  </ng-container>
+
   <form #bookingForm="ngForm">
     <p-accordion [multiple]="true">
       <ng-container ngModelGroup="mandatoryDetails" #mandatoryDetailsControl="ngModelGroup">
@@ -528,8 +545,8 @@
         <button appDebounceClick
                 pButton
                 (debounceClick)="submit()" [debounceTime]="200"
-                [disabled]="submissionInProgress || !bookingForm.valid || (bookingForm.pristine ?? false)"
-                icon="pi pi-save"
+                [disabled]="!config.useBackend || submissionInProgress || !bookingForm.valid || (bookingForm.pristine ?? false)"
+                icon="pi {{config.useBackend ? 'pi-save' : 'pi-exclamation-circle'}}"
                 label="{{isCreateMode ? 'Create' : 'Update/Amend'}}"
                 iconPos="left">
         </button>
@@ -544,6 +561,19 @@
         <p-progressSpinner *ngIf="submissionInProgress">
         </p-progressSpinner>
       </div>
+      <ng-container *ngIf="!config.useBackend">
+        <br>
+        <div class="row">
+          <p-tag styleClass="mr-2"
+                 icon="pi pi-info-circle"
+                 severity="info"
+                 value="Info">
+          </p-tag>
+          <div class="field-note">
+            Submission disabled by configuration. There is no backend or the UI is not allowed to use it.
+          </div>
+        </div>
+      </ng-container>
     </p-card>
   </form>
 </ng-container>

@@ -5,7 +5,7 @@
   "eblBackendURL": "/ebl/v3",
   "bkgBackendURL": "/bkg/v2",
   "authentication": false,
-  "useBackend": true,
+  "useBackend": false,
   "features": {
     "supportNonISO6346References": false
   }

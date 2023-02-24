@@ -1,14 +1,16 @@
 export interface Config {
-  supportBackendURL: string | null;
-  eblBackendURL: string;
-  bkgBackendURL: string;
+
+  useBackend: boolean;
+  supportBackendURL?: string | null;
+  eblBackendURL?: string | null;
+  bkgBackendURL?: string | null;
 
   dateTimeFormat: string;
   dateFormat: string;
-  authRegion: string;
-  authUserPoolId: string;
-  authUserPoolWebClientId: string;
-  authRedirectUriSignIn: string;
+  authRegion?: string | null;
+  authUserPoolId?: string | null;
+  authUserPoolWebClientId?: string | null;
+  authRedirectUriSignIn?: string | null;
   authentication: boolean;
 
   features: {

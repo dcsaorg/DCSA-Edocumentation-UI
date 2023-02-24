@@ -56,7 +56,7 @@
         <label>Temperature Setpoint: </label>
         <input [(ngModel)]="activeReeferSettings.temperatureSetpoint"
                name="temperatureSetpoint"
-               class="p-inputtext"
+               class="p-inputtext p-element"
                [required]="true"
                type="number">
         <p-dropdown [required]="true"
@@ -74,7 +74,7 @@
         <label>O<sub>2</sub> Setpoint (%): </label>
         <input [(ngModel)]="activeReeferSettings.o2Setpoint"
                name="o2Setpoint"
-               class="p-inputtext"
+               class="p-inputtext p-element"
                [min]="0"
                [max]="100"
                type="number">
@@ -95,7 +95,7 @@
         <label>CO<sub>2</sub> Setpoint (%): </label>
         <input [(ngModel)]="activeReeferSettings.co2Setpoint"
                name="co2Setpoint"
-               class="p-inputtext"
+               class="p-inputtext p-element"
                [min]="0"
                [max]="100"
                type="number">
@@ -117,7 +117,7 @@
         <label>Humidity Setpoint (%): </label>
         <input [(ngModel)]="activeReeferSettings.humiditySetpoint"
                name="humiditySetpoint"
-               class="p-inputtext"
+               class="p-inputtext p-element"
                [min]="0"
                [max]="100"
                type="number">

@@ -19,6 +19,8 @@ import {SelectItem} from 'primeng/api/selectitem';
 import {createCommodity, createDocumentParty} from '../../../util/object-factory';
 import {AbstractFormGroupDirective, NgModelGroup} from '@angular/forms';
 import {clearValidationIssuesOnFormGroupDirective} from '../../../util/validation-util';
+import {Globals} from '../../../models/globals';
+import {Config} from '../../../models/config';
 
 @Component({
   selector: 'app-booking-editor',
@@ -81,7 +83,12 @@ export class BookingEditorComponent implements OnInit {
               private messageService: MessageService,
               private confirmationService: ConfirmationService,
               private staticDataService: StaticDataService,
+              private globals: Globals,
               ) {
+  }
+
+  get config(): Config {
+    return this.globals.config!;
   }
 
   ngOnInit(): void {

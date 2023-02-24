@@ -1,0 +1,6 @@
+version: '3.5'
+services:
+  dcsa-ebl-ui:
+    build: .
+    ports:
+      - '80:80' # Port mapping
