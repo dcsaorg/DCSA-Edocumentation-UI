@@ -1,6 +1,4 @@
 import {Component, Input, TemplateRef} from '@angular/core';
-import {Globals} from '../../models/globals';
-import {Config} from '../../models/config';
 
 @Component({
   selector: 'app-ui-vs-api-component',

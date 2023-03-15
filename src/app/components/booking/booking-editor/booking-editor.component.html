@@ -533,6 +533,15 @@
           </button>
         </p-accordionTab>
       </ng-container>
+      <p-accordionTab>
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="bookingForm">
+          </app-validity-marker>
+          API payload (Technical rendering)
+        </ng-template>
+        <div>This is the JSON payload that would be used in the API</div>
+        <pre>{{booking | json}}</pre>
+      </p-accordionTab>
     </p-accordion>
 
     <p-card>
