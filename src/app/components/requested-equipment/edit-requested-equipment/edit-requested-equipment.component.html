@@ -33,6 +33,14 @@
                    name="isShipperOwned">
     </p-inputSwitch>
   </div>
+  <div class="row">
+    <label>Is Non Operating Reefer? </label>
+    <p-triStateCheckbox [ngModel]="requestedEquipment.isNonOperatingReefer"
+                        (ngModelChange)="requestedEquipment.isNonOperatingReefer = $event ?? undefined"
+                        name="isNonOperatingReefer"
+                        [label]="triState(requestedEquipment.isNonOperatingReefer)">
+    </p-triStateCheckbox>
+  </div>
   <fieldset>
     <legend>Shipper Owned Container related attributes</legend>
     <div class="row">

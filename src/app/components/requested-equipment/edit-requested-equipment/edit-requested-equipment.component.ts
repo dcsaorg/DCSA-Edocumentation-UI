@@ -41,14 +41,6 @@ export class EditRequestedEquipmentComponent {
     return this.globals.config?.features?.supportNonISO6346References ?? false
   }
 
-  get hasSOCAttributes(): boolean {
-    const requestedEquipment = this.requestedEquipment;
-    if (!requestedEquipment) {
-      return false;
-    }
-    return (requestedEquipment?.tareWeight !== undefined && requestedEquipment?.tareWeight !== null) || !!requestedEquipment?.tareWeightUnit;
-  }
-
   addEquipmentReference():void {
     const requestedEquipment = this.requestedEquipment;
     if (!requestedEquipment) {
@@ -69,6 +61,13 @@ export class EditRequestedEquipmentComponent {
 
   trackEquipmentReferenceBy<U extends T, T>(index: number, _: T & U): any {
     return index;
+  }
+
+  triState(value?: boolean|null): string {
+    if (value === undefined || value === null) {
+      return 'unset'
+    }
+    return value ? 'yes' : 'no';
   }
 
   onSOCChange(): void {

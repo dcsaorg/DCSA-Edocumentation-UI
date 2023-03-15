@@ -47,6 +47,7 @@ import { EditAddressComponent } from './components/display-location/edit-address
 import {NonEmptyLocationDirective} from './validators/non-empty-location.directive';
 import { UiVsApiComponentComponent } from './components/ui-vs-api-component/ui-vs-api-component.component';
 import {DividerModule} from 'primeng/divider';
+import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -99,6 +100,7 @@ export function ConfigLoader(configService: ConfigService) {
         InputNumberModule,
         InputSwitchModule,
         DividerModule,
+        TriStateCheckboxModule,
     ],
   providers: [
     ConfigService,
