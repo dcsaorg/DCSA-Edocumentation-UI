@@ -59,7 +59,7 @@
              class="p-inputtext p-element"
              [(ngModel)]="requestedEquipment.tareWeight"
              [disabled]="!requestedEquipment.isShipperOwned"
-             min="0"
+             [min]="0"
              type="number">
       <p-dropdown [disabled]="!requestedEquipment.isShipperOwned"
                   [(ngModel)]="requestedEquipment.tareWeightUnit"

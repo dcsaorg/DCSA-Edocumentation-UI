@@ -41,7 +41,7 @@ export function createRequestedEquipment(): RequestedEquipment {
     activeReeferSettings: undefined,
     equipmentReferences: undefined,
     isShipperOwned: false,
-    tareWeight: 0,
+    tareWeight: undefined,
     tareWeightUnit: undefined,
     units: 0
   }
