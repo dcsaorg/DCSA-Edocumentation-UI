@@ -1,0 +1,44 @@
+<div class="card">
+  <div class="grid">
+    <div class="col-5 flex align-items-center justify-content-center">
+      <div class="p-fluid">
+        <h5>API visualization</h5>
+        <ng-container *ngTemplateOutlet="apiModeTemplate ?? noTemplate">
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-2">
+      <p-divider layout="vertical">
+        <b>OR</b>
+      </p-divider>
+    </div>
+    <div class="col-5 flex align-items-center justify-content-center">
+      <div class="p-fluid">
+        <h5>A sample UI / UX version</h5>
+        <ng-container *ngTemplateOutlet="uiModeTemplate ?? noTemplate">
+      </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--ng-container>
+
+
+
+  <ng-container *ngIf="!useUIMode">
+    <ng-container *ngTemplateOutlet="apiModeTemplate ?? noTemplate">
+    </ng-container>
+  </ng-container>
+
+  <p-inputSwitch [(ngModel)]="useUIMode"
+                 [ngModelOptions]="{standalone: true}"
+                 *ngIf="uiModeToggle">
+  </p-inputSwitch>
+  <div>UI style: {{useUIMode ? 'UI' : 'API'}}</div>
+
+
+</ng-container-->
+<ng-template #noTemplate>
+  <div>Sorry, the programmer forgot to insert the relevant rendering here</div>
+</ng-template>

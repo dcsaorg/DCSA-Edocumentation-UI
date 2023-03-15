@@ -45,6 +45,8 @@ import {
 } from './components/document-party/edit-document-party/edit-document-party.component';
 import { EditAddressComponent } from './components/display-location/edit-address/edit-address.component';
 import {NonEmptyLocationDirective} from './validators/non-empty-location.directive';
+import { UiVsApiComponentComponent } from './components/ui-vs-api-component/ui-vs-api-component.component';
+import {DividerModule} from 'primeng/divider';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -70,6 +72,7 @@ export function ConfigLoader(configService: ConfigService) {
     EditDocumentPartyComponent,
     EditAddressComponent,
     NonEmptyLocationDirective,
+    UiVsApiComponentComponent,
   ],
     imports: [
         BrowserModule,
@@ -95,6 +98,7 @@ export function ConfigLoader(configService: ConfigService) {
         TagModule,
         InputNumberModule,
         InputSwitchModule,
+        DividerModule,
     ],
   providers: [
     ConfigService,

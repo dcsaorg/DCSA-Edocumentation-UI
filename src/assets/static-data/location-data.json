@@ -1,0 +1,49 @@
+[
+  {
+    "name": "Hamburg",
+    "UNLocationCode": "DEHAM",
+    "facilities": [
+      {
+        "name": "EUROGATE CONTAINER TERMINAL HAMBURG",
+        "code": "EGH",
+        "codeListProvider": "SMDG"
+      },
+      {
+        "name": "HHLA CONTAINER TERMINAL ALTENWERDER (CTA)",
+        "code": "CTA",
+        "codeListProvider": "SMDG"
+      },
+      {
+        "name": "HHLA CONTAINER TERMINAL BURCHARDKAI (CTB)",
+        "code": "CTB",
+        "codeListProvider": "SMDG"
+      },
+      {
+        "name": "HHLA CONTAINER TERMINAL TOLLERORT (CTT)",
+        "code": "CTT",
+        "codeListProvider": "SMDG"
+      }
+    ]
+  },
+  {
+    "name": "Singapore",
+    "UNLocationCode": "SGSIN",
+    "facilities": [
+      {
+        "name": "BRANI TERMINAL",
+        "code": "PSABT",
+        "codeListProvider": "SMDG"
+      },
+      {
+        "name": "JURONG PORT",
+        "code": "JPCT",
+        "codeListProvider": "SMDG"
+      },
+      {
+        "name": "KEPPEL TERMINAL",
+        "code": "PSAKT",
+        "codeListProvider": "SMDG"
+      }
+    ]
+  }
+]

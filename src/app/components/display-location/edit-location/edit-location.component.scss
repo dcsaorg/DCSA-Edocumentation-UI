@@ -1,0 +1,24 @@
+@import "DCSA-Theme";
+
+.facility {
+
+  margin: 1px;
+
+  &__name{
+    font-size: 12px;
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+
+  &__location-name {
+    color: $tealBlue;
+    text-transform: capitalize;
+    font-size: 12px;
+
+  }
+  &__code {
+    color: $darkGrey;
+    text-transform: capitalize;
+    font-size: 10px;
+  }
+}

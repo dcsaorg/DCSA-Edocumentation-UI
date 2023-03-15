@@ -28,38 +28,94 @@
       </app-edit-address>
     </ng-container>
 
-    <div class="row" *ngIf="enableUNLocationCode || enableFacility">
-      <label>UNLocationCode: </label>
-      <input type="text"
-             name="UNLocationCode"
-             [(ngModel)]="l.UNLocationCode"
-             nullValue
-             pInputText
-             minlength="5"
-             maxlength="5"
-             [required]="!!l.facilityCode || !!l.facilityCodeListProvider"
-             placeholder="Hint: DEHAM">
-    </div>
-    <ng-container *ngIf="enableFacility">
-      <div class="row">
-        <label>Facility Code: </label>
-        <input type="text"
-               name="facilityCode"
-               [(ngModel)]="l.facilityCode"
-               nullValue
-               pInputText
-               placeholder="Hint: EGH (SMDG) / EGHA (BIC) for DEHAM"
-               minlength="3"
-               [required]="!!l.facilityCodeListProvider"
-               [maxlength]="facilityCodeMaxLength">
-        <p-dropdown [(ngModel)]="l.facilityCodeListProvider"
-                    name="facilityCodeListProvider"
-                    [required]="!!l.facilityCode"
-                    [values$]="facilityCodeListProviderItems$"
-                    [nullable]="true"
-                    appEnumDropDown>
-        </p-dropdown>
-      </div>
+    <ng-container *ngIf="enableUNLocationCode || enableFacility">
+      <app-ui-vs-api-component [apiMode]="apiMode" [uiMode]="uiMode">
+        <ng-template #apiMode>
+          <div class="field" *ngIf="enableUNLocationCode || enableFacility">
+            <label>UNLocationCode: </label>
+            <input type="text"
+                   name="UNLocationCode"
+                   [(ngModel)]="l.UNLocationCode"
+                   (ngModelChange)="facilityChanged()"
+                   nullValue
+                   pInputText
+                   minlength="5"
+                   maxlength="5"
+                   [required]="!!l.facilityCode || !!l.facilityCodeListProvider"
+                   placeholder="Hint: DEHAM">
+          </div>
+          <div class="field">
+            <label>Facility Code: </label>
+            <input type="text"
+                   name="facilityCode"
+                   [(ngModel)]="l.facilityCode"
+                   (ngModelChange)="facilityChanged()"
+                   nullValue
+                   pInputText
+                   placeholder="Hint: EGH (SMDG) / EGHA (BIC) for DEHAM"
+                   [required]="!!l.facilityCodeListProvider"
+                   [minlength]="facilityCodeMinLength"
+                   [maxlength]="facilityCodeMaxLength">
+            <p-dropdown [(ngModel)]="l.facilityCodeListProvider"
+                        (ngModelChange)="facilityChanged()"
+                        name="facilityCodeListProvider"
+                        [required]="!!l.facilityCode"
+                        [values$]="facilityCodeListProviderItems$"
+                        [nullable]="true"
+                        appEnumDropDown>
+            </p-dropdown>
+          </div>
+        </ng-template>
+        <ng-template #uiMode>
+          <div class="field" *ngIf="enableUNLocationCode || enableFacility">
+            <label>City/area: </label>
+            <ng-container *ngIf="locations$ | async as locations; else loading">
+              <p-dropdown [(ngModel)]="l.UNLocationCode"
+                          name="UNLocationCode"
+                          [showClear]="true"
+                          [filter]=true
+                          filterBy="name,UNLocationCode"
+                          optionLabel="name"
+                          optionValue="UNLocationCode"
+                          placeholder="Please choose a city/area"
+                          (ngModelChange)="this.selectedLocation$.next($event)"
+                          [options]="locations">
+              </p-dropdown>
+            </ng-container>
+          </div>
+          <div class="field">
+            <label>Facility: </label>
+            <ng-container *ngIf="facilities$ | async as facilities; else loading">
+              <p-dropdown [ngModel]="currentlySelectedUIFacility$ | async"
+                          (ngModelChange)="newSelectedFacility($event)"
+                          [ngModelOptions]="{standalone: true}"
+                          [showClear]="true"
+                          [filter]=true
+                          placeholder="Choose a facility"
+                          filterBy="name,UNLocationCode,locationName,code,codeListProvider"
+                          [options]="facilities">
+                <ng-template let-facility pTemplate="selectedItem">
+                  {{facility.name}}
+                </ng-template>
+                <ng-template let-facility pTemplate="item">
+                  <div class="facility" *ngIf="facility">
+                    <div class="facility__name">{{facility.name}}</div>
+                    <div class="facility__location-name">{{facility.locationName}}</div>
+                    <div class="facility__code">{{facility.UNLocationCode}}{{facility.code}} [{{facility.codeListProvider}}]</div>
+                  </div>
+                  <div class="facility" *ngIf="!facility">
+                    <div class="facility__name">(unset)</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </ng-container>
+          </div>
+        </ng-template>
+        <ng-template #loading>
+          <p-progressSpinner></p-progressSpinner>
+        </ng-template>
+      </app-ui-vs-api-component>
+
     </ng-container>
 
     <div *ngIf="!locationContentControl.valid" class="errors">

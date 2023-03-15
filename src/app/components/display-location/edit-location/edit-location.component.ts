@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {ControlContainer, NgModelGroup} from '@angular/forms';
 import {EDocLocation} from '../../../models/location';
 import {FacilityCodeListProvider} from '../../../../../projects/bkg-swagger-client';
 import {StaticDataService} from '../../../services/static-data.service';
-import {Observable} from 'rxjs';
-import {SelectItem} from 'primeng/api/selectitem';
+import {BehaviorSubject, combineLatest, combineLatestAll, map, Observable, of, switchMap, tap} from 'rxjs';
+import {FacilityWithLocation, LocationService} from '../../../services/location.service';
 
 @Component({
   selector: 'app-edit-location',
@@ -28,7 +28,43 @@ export class EditLocationComponent {
   locationChange = new EventEmitter<EDocLocation>();
 
   hasValue: boolean = false;
-  facilityCodeListProviderItems$: Observable<SelectItem<FacilityCodeListProvider|null>[]>;
+  facilityCodeListProviderItems$ = this.staticDataService.getFacilityCodeListProviderItems();
+
+  locations$ = this.locationService.locations$;
+
+  selectedLocation$ = new BehaviorSubject<string|null>(null);
+
+  facilities$ = this.selectedLocation$.pipe(
+    tap(_ => this.facilityChanged()),
+    tap(_ => {
+      if (this.location) {
+        this.locationChange.next(this.location);
+      }
+    }),
+    switchMap(location => {
+      if (location) {
+        return this.locationService.getFacilitiesForLocation(location);
+      }
+      return this.locationService.facilities$;
+    }),
+  )
+
+
+  private facilityChange$ = new BehaviorSubject<EDocLocation|null>(null);
+
+  currentlySelectedUIFacility$ = this.facilityChange$.pipe(
+    switchMap(loc => {
+      if (!loc) {
+        return of(null);
+      }
+      return this.locationService.lookupFacility(
+        this.location?.UNLocationCode,
+        this.location?.facilityCode,
+        this.location?.facilityCodeListProvider,
+      );
+    })
+  )
+  facilityData$ = combineLatest([this.facilities$, this.currentlySelectedUIFacility$]);
 
   isRequired = false;
 
@@ -44,8 +80,8 @@ export class EditLocationComponent {
   @Input() enableUNLocationCode = true;
   @Input() enableFacility = true;
 
-  constructor(private staticDataService: StaticDataService) {
-    this.facilityCodeListProviderItems$ = staticDataService.getFacilityCodeListProviderItems()
+  constructor(private locationService: LocationService,
+              private staticDataService: StaticDataService) {
   }
 
   get needsContent(): boolean {
@@ -62,9 +98,12 @@ export class EditLocationComponent {
     return !!this.location?.facilityCode || !!this.location?.facilityCodeListProvider;
   }
 
+  get facilityCodeMinLength(): number {
+    return this.location?.facilityCodeListProvider == FacilityCodeListProvider.SMDG ? 3 : 4;
+  }
 
   get facilityCodeMaxLength(): number {
-    return this.location?.facilityCodeListProvider == FacilityCodeListProvider.SMDG ? 3 : 4;
+    return this.location?.facilityCodeListProvider == FacilityCodeListProvider.SMDG ? 6 : 4;
   }
 
   onLocationSlideToggleChange(): void {
@@ -72,6 +111,24 @@ export class EditLocationComponent {
     if (this.hasValue && !this.location) {
       this.location = {};
     }
+    this.facilityChanged();
     this.locationChange.emit(this.hasValue ? this.location! : undefined);
+  }
+
+  newSelectedFacility(facility: FacilityWithLocation | null) {
+    const location = this.location;
+    if (!location) {
+      return;
+    }
+    location.UNLocationCode = facility?.UNLocationCode;
+    location.facilityCode = facility?.code;
+    location.facilityCodeListProvider = facility?.codeListProvider;
+    this.facilityChange$.next(location);
+    this.locationChange.emit(location);
+  }
+
+  facilityChanged(): void {
+    console.log(this.location);
+    this.facilityChange$.next(this.location ?? null);
   }
 }
