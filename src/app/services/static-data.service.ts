@@ -77,6 +77,7 @@ export class StaticDataService {
     new Map()
       .set(VolumeUnit.MTQ, 'Cubic meter')
       .set(VolumeUnit.FTQ, 'Cubic foot')
+      .set(VolumeUnit.LTR, 'Litre')
   ).asObservable();
 
   private referenceType$ = new BehaviorSubject(
