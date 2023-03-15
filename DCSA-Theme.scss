@@ -110,6 +110,10 @@ $tableSize: 12pt;
   box-shadow: 0 0 0 0.2rem $tealBlue;
 }
 
+.p-divider .p-divider-content {
+  background-color: $foamWhite;
+}
+
 .p-autocomplete .p-autocomplete-loader {
   right: 0.75rem;
 }
