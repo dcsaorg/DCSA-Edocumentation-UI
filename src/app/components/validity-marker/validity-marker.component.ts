@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {AbstractControlDirective} from '@angular/forms';
+import {AbstractControl, AbstractControlDirective} from '@angular/forms';
 
 @Component({
   selector: 'app-validity-marker',
@@ -8,6 +8,6 @@ import {AbstractControlDirective} from '@angular/forms';
 })
 export class ValidityMarkerComponent {
 
-  @Input() controlStatus: AbstractControlDirective|null = null;
+  @Input() controlStatus: AbstractControlDirective|AbstractControl|null = null;
 
 }
