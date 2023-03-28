@@ -52,7 +52,7 @@
       <app-edit-address [(address)]="party.address">
       </app-edit-address>
 
-      <ng-container ngModelGroup="partyContractDetails" #partyContactDetailsListControl="ngModelGroup">
+      <ng-container ngModelGroup="partyContactDetails" #partyContactDetailsListControl="ngModelGroup">
         <p-accordionTab>
           <ng-template pTemplate="header">
             <app-validity-marker [controlStatus]="partyContactDetailsListControl">
@@ -67,7 +67,7 @@
                 <ng-template pTemplate="header">
                   <app-validity-marker [controlStatus]="partyContactDetailsControl">
                   </app-validity-marker>
-                  Party Contract Details
+                  Party Contact Details
                   <button pButton
                           appDebounceClick
                           class="p-button-danger tab-header-discard-button"
@@ -124,7 +124,7 @@
                     iconPos="left"
                     icon="pi pi-plus"
                     class="p-button-secondary"
-                    label="Add party contract details">
+                    label="Add party contact details">
             </button>
           </ng-container>
         </p-accordionTab>
