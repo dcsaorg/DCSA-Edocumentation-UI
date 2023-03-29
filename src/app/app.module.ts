@@ -48,6 +48,7 @@ import {NonEmptyLocationDirective} from './validators/non-empty-location.directi
 import { UiVsApiComponentComponent } from './components/ui-vs-api-component/ui-vs-api-component.component';
 import {DividerModule} from 'primeng/divider';
 import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
+import { ConstraintVisualizationComponent } from './components/constraint-visualization-note/constraint-visualization.component';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -74,6 +75,7 @@ export function ConfigLoader(configService: ConfigService) {
     EditAddressComponent,
     NonEmptyLocationDirective,
     UiVsApiComponentComponent,
+    ConstraintVisualizationComponent,
   ],
     imports: [
         BrowserModule,
