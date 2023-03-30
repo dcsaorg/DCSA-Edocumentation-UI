@@ -1,16 +1,16 @@
 <div class="row">
   <label>How is the party defined? </label>
-  <p-dropdown [(ngModel)]="partyType"
+  <p-dropdown [ngModel]="partyType$ | async"
               [required]="required"
               [showClear]="allowUndefined || !required"
               [options]="['existing-party', 'new-party']"
               name="_partyDefined"
               placeholder="Choose a definition type (leave blank for undefined)"
-              (ngModelChange)="newPartyType($event)">
+              (ngModelChange)="partyType$.next($event)">
   </p-dropdown>
   <app-constraint-visualization-note></app-constraint-visualization-note>
 </div>
-<ng-container *ngIf="_party as party">
+<ng-container *ngIf="party$| async as party">
   <ng-container *ngIf="isDocumentPartyReference(party)">
     <app-ui-vs-api-component [apiMode]="apiMode" [uiMode]="uiMode">
       <ng-template #apiMode>

@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 import {BookingPartyOrReference, DocumentPartyReference, ShipperOrReference} from '../../../models/ndoc-party';
 import {createBookingParty} from '../../../util/object-factory';
 import {ControlContainer, NgModelGroup} from '@angular/forms';
 import {DocumentPartyReferenceService} from '../../../services/document-party-reference.service';
+import {BehaviorSubject, map, Observable} from 'rxjs';
 
 
 type PartyType = 'existing-party' | 'new-party';
@@ -20,8 +21,6 @@ type PartyType = 'existing-party' | 'new-party';
   ]
 })
 export class EditBookingPartyComponent {
-
-  _party?: BookingPartyOrReference
 
   private savedReference: DocumentPartyReference = {
     carrierPartyReference: '',
@@ -41,44 +40,57 @@ export class EditBookingPartyComponent {
 
   @Input()
   set party(p: BookingPartyOrReference|undefined) {
-    this._party = p;
     if (!p) {
-      this.partyType = undefined
+      this.previousPartyType = null;
     } else if (this.isDocumentPartyReference(p)) {
-      this.partyType = 'existing-party';
+      this.previousPartyType = 'existing-party';
       this.savedReference = p;
     } else {
-      this.partyType = 'new-party';
+      this.previousPartyType = 'new-party';
       this.savedParty = p;
     }
+    // Set previous party type to avoid emitting to the parent component
+    this.partyType$.next(this.previousPartyType);
   }
 
   @Output()
   partyChange = new EventEmitter<BookingPartyOrReference|undefined>();
 
-  partyType?: PartyType;
-
   documentPartyReferenceChoices$ = this.documentPartyReferenceService.getDocumentPartyReferences();
 
-  constructor(private documentPartyReferenceService: DocumentPartyReferenceService) {
+  partyType$ = new BehaviorSubject<PartyType | null>(null);
+  private previousPartyType : PartyType | null = this.partyType$.value;
+  party$ : Observable<BookingPartyOrReference|undefined> = this.partyType$.pipe(
+    map(partyType => {
+      let party;
+      switch (partyType) {
+        case null:
+          party = undefined;
+          break;
+        case 'existing-party':
+          party = this.savedReference;
+          break;
+        case 'new-party':
+          party = this.savedParty;
+          break;
+        default:
+          console.log("ERROR, missing case for ", partyType);
+          break;
+      }
+      if (this.previousPartyType !== partyType) {
+        this.partyChange.emit(party);
+        this.changeDetectorRef.detectChanges();
+      }
+      this.previousPartyType = partyType;
+      return party;
+    }),
+  );
+
+  constructor(private documentPartyReferenceService: DocumentPartyReferenceService,
+              private changeDetectorRef: ChangeDetectorRef) {
   }
 
   isDocumentPartyReference(p: object): p is DocumentPartyReference {
     return 'carrierPartyReference' in p;
-  }
-
-  newPartyType(newPartyType?: PartyType) {
-    switch (newPartyType) {
-      case undefined:
-        this._party = undefined;
-        break;
-      case 'existing-party':
-        this._party = this.savedReference;
-        break;
-      case 'new-party':
-        this._party = this.savedParty;
-        break;
-    }
-    this.partyChange.emit(this._party);
   }
 }

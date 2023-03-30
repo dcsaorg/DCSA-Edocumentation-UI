@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 import {DocumentPartyReference, ShipperOrReference, ShipperParty} from '../../../models/ndoc-party';
 import {ControlContainer, NgModelGroup} from '@angular/forms';
 import {createShipperParty} from '../../../util/object-factory';
 import {DocumentPartyReferenceService} from '../../../services/document-party-reference.service';
+import {BehaviorSubject, map, Observable, tap} from 'rxjs';
 
 type PartyType = 'existing-party' | 'new-party';
 
@@ -20,14 +21,11 @@ type PartyType = 'existing-party' | 'new-party';
 })
 export class EditShipperPartyComponent {
 
-  _party?: ShipperOrReference
-
   private savedReference: DocumentPartyReference = {
     carrierPartyReference: '',
   };
 
   private savedParty: ShipperParty = createShipperParty();
-
 
   @Input()
   required: boolean = false;
@@ -37,44 +35,58 @@ export class EditShipperPartyComponent {
 
   @Input()
   set party(p: ShipperOrReference|undefined) {
-    this._party = p;
     if (!p) {
-      this.partyType = undefined
+      this.previousPartyType = null;
     } else if (this.isDocumentPartyReference(p)) {
-      this.partyType = 'existing-party';
+      this.previousPartyType = 'existing-party';
       this.savedReference = p;
     } else {
-      this.partyType = 'new-party';
+      this.previousPartyType = 'new-party';
       this.savedParty = p;
     }
+    // Set previous party type to avoid emitting to the parent component
+    this.partyType$.next(this.previousPartyType);
   }
 
   @Output()
   partyChange = new EventEmitter<ShipperOrReference|undefined>();
 
-  partyType?: PartyType;
+  partyType$ = new BehaviorSubject<PartyType | null>(null);
+  private previousPartyType : PartyType | null = this.partyType$.value;
+
+  party$ : Observable<ShipperOrReference|undefined> = this.partyType$.pipe(
+    map(partyType => {
+      let party;
+      switch (partyType) {
+        case null:
+          party = undefined;
+          break;
+        case 'existing-party':
+          party = this.savedReference;
+          break;
+        case 'new-party':
+          party = this.savedParty;
+          break;
+        default:
+          console.log("ERROR, missing case for ", partyType);
+          break;
+      }
+      if (this.previousPartyType !== partyType) {
+        this.partyChange.emit(party);
+        this.changeDetectorRef.detectChanges();
+      }
+      this.previousPartyType = partyType;
+      return party;
+    }),
+  );
 
   documentPartyReferenceChoices$ = this.documentPartyReferenceService.getDocumentPartyReferences();
 
-  constructor(private documentPartyReferenceService: DocumentPartyReferenceService) {
+  constructor(private documentPartyReferenceService: DocumentPartyReferenceService,
+              private changeDetectorRef: ChangeDetectorRef) {
   }
 
   isDocumentPartyReference(p: object): p is DocumentPartyReference {
     return 'carrierPartyReference' in p;
-  }
-
-  newPartyType(newPartyType?: PartyType) {
-    switch (newPartyType) {
-      case undefined:
-        this._party = undefined;
-        break;
-      case 'existing-party':
-        this._party = this.savedReference;
-        break;
-      case 'new-party':
-        this._party = this.savedParty;
-        break;
-    }
-    this.partyChange.emit(this._party);
   }
 }
