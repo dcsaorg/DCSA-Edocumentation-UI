@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@
 import {DocumentPartyReference, ShipperOrReference, ShipperParty} from '../../../models/ndoc-party';
 import {ControlContainer, NgModelGroup} from '@angular/forms';
 import {createShipperParty} from '../../../util/object-factory';
+import {DocumentPartyReferenceService} from '../../../services/document-party-reference.service';
 
 type PartyType = 'existing-party' | 'new-party';
 
@@ -52,6 +53,11 @@ export class EditShipperPartyComponent {
   partyChange = new EventEmitter<ShipperOrReference|undefined>();
 
   partyType?: PartyType;
+
+  documentPartyReferenceChoices$ = this.documentPartyReferenceService.getDocumentPartyReferences();
+
+  constructor(private documentPartyReferenceService: DocumentPartyReferenceService) {
+  }
 
   isDocumentPartyReference(p: object): p is DocumentPartyReference {
     return 'carrierPartyReference' in p;

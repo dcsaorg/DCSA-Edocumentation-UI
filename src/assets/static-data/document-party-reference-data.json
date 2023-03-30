@@ -1,0 +1,37 @@
+[
+  {
+    "name": "IKEA Atlanta",
+    "city": "Atlanta",
+    "country": "US",
+    "carrierPartyReference": "123IA"
+  },
+
+  {
+    "name": "IKEA Brooklyn",
+    "city": "Brooklyn",
+    "country": "US",
+    "carrierPartyReference": "456IB"
+  },
+
+  {
+    "name": "Furniture'R'us",
+    "city": "Stockholm",
+    "country": "SE",
+    "carrierPartyReference": "789FR"
+  },
+
+  {
+    "name": "IKEA Accounting",
+    "city": "Las Vegas",
+    "country": "US",
+    "carrierPartyReference": "012AC"
+  },
+
+  {
+    "name": "C. MOLDOW CONSULTING ApS",
+    "city": "Virum",
+    "country": "DK",
+    "leiCode":"89450073R2PZATKEBZ08",
+    "carrierPartyReference": "345MC"
+  }
+]

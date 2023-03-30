@@ -12,18 +12,53 @@
 </div>
 <ng-container *ngIf="_party as party">
   <ng-container *ngIf="isDocumentPartyReference(party)">
-    <div class="row">
-      <label>Carrier's party reference: </label>
-      <input name="carrierPartyReference"
-             nullValue
-             pInputText
-             [(ngModel)]="party.carrierPartyReference"
-             [required]="true"
-             placeholder="Carrier's reference for this party"
-             type="text"
-             pattern="^\S+$"
-             maxlength="100">
-    </div>
+    <app-ui-vs-api-component [apiMode]="apiMode" [uiMode]="uiMode">
+      <ng-template #apiMode>
+        <div class="row">
+          <label>Carrier's party reference: </label>
+          <input name="carrierPartyReference"
+                 nullValue
+                 pInputText
+                 [(ngModel)]="party.carrierPartyReference"
+                 [required]="true"
+                 placeholder="Carrier's reference for this party"
+                 type="text"
+                 pattern="^\S+$"
+                 maxlength="100">
+        </div>
+      </ng-template>
+      <ng-template #uiMode>
+        <div class="field">
+          <label>Please choose the relevant party: </label>
+          <ng-container *ngIf="documentPartyReferenceChoices$ | async as choices; else loading">
+            <p-dropdown [(ngModel)]="party.carrierPartyReference"
+                        name="carrierPartyReference"
+                        [showClear]="true"
+                        [filter]=true
+                        filterBy="name,city,country,leiCode"
+                        optionLabel="name"
+                        optionValue="carrierPartyReference"
+                        placeholder="Please choose a party"
+                        [options]="choices">
+              <ng-template let-carrierPartyReferenceChoice pTemplate="item">
+                <div class="document-party-reference-choice" *ngIf="carrierPartyReferenceChoice">
+                  <div class="document-party-reference-choice__name">{{carrierPartyReferenceChoice.name}}</div>
+                  <div class="document-party-reference-choice__location-name">{{carrierPartyReferenceChoice.city}} {{carrierPartyReferenceChoice.country}}</div>
+                  <div class="document-party-reference-choice__code">{{carrierPartyReferenceChoice.leiCode}}</div>
+                </div>
+                <div class="document-party-reference-choice" *ngIf="!carrierPartyReferenceChoice">
+                  <div class="document-party-reference-choice__name">(unset)</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </ng-container>
+        </div>
+      </ng-template>
+      <ng-template #loading>
+        <p-progressSpinner></p-progressSpinner>
+      </ng-template>
+    </app-ui-vs-api-component>
+
   </ng-container>
   <ng-container *ngIf="!isDocumentPartyReference(party)">
     <div class="row">

@@ -24,5 +24,12 @@ export interface DocumentPartyReference {
   carrierPartyReference: string;
 }
 
+export interface BookingPartyChoice extends DocumentPartyReference {
+  partyName: string;
+  leiCode?: string;
+  city?: string;
+  country?: string;
+}
+
 export type ShipperOrReference = ShipperParty | DocumentPartyReference;
 export type BookingPartyOrReference = BookingParty | DocumentPartyReference;
