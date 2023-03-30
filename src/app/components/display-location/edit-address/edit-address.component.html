@@ -1,5 +1,5 @@
 <ng-container>
-  <div class="row">
+  <div class="row" *ngIf="!_forceAddress">
     <label>Define Address: </label>
     <p-inputSwitch [ngModel]="hasAddress"
                    (onChange)="onAddressSlideToggleChange()"
@@ -17,7 +17,9 @@
         <label>Name: </label>
         <input type="text"
                name="name"
+               placeholder="Name"
                [(ngModel)]="a.name"
+               [required]="requiredFields?.name ?? false"
                nullValue
                pInputText
                maxlength="100">
@@ -28,6 +30,7 @@
                name="street"
                placeholder="Street"
                [(ngModel)]="a.street"
+               [required]="requiredFields?.street ?? false"
                nullValue
                pInputText
                maxlength="100">
@@ -35,6 +38,7 @@
                name="streetNumber"
                placeholder="Street number"
                [(ngModel)]="a.streetNumber"
+               [required]="requiredFields?.streetNumber ?? false"
                nullValue
                pInputText
                maxlength="50">
@@ -42,6 +46,7 @@
                name="floor"
                placeholder="Floor"
                [(ngModel)]="a.floor"
+               [required]="requiredFields?.floor ?? false"
                nullValue
                pInputText
                maxlength="50">
@@ -52,6 +57,7 @@
                name="postCode"
                placeholder="Post code"
                [(ngModel)]="a.postCode"
+               [required]="requiredFields?.postCode ?? false"
                nullValue
                pInputText
                maxlength="50">
@@ -59,6 +65,7 @@
                name="city"
                placeholder="City"
                [(ngModel)]="a.city"
+               [required]="requiredFields?.city ?? false"
                nullValue
                pInputText
                maxlength="65">
@@ -69,6 +76,7 @@
                name="stateRegion"
                placeholder="State"
                [(ngModel)]="a.stateRegion"
+               [required]="requiredFields?.stateRegion ?? false"
                nullValue
                pInputText
                maxlength="65">
@@ -79,6 +87,7 @@
                name="country"
                placeholder="Country"
                [(ngModel)]="a.country"
+               [required]="requiredFields?.country ?? false"
                nullValue
                pInputText
                maxlength="75">
