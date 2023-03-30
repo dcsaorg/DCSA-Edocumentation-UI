@@ -3,13 +3,15 @@ import {
   Commodity,
   DCSAResponsibleAgencyCode,
   DocumentParty,
-  IdentifyingCode, PartyContactDetail,
+  IdentifyingCode,
+  PartyContactDetail,
   PartyFunction,
   RequestedEquipment,
   TemperatureUnit,
   WeightUnit
 } from '../../../projects/bkg-swagger-client';
 import {SelectItem} from 'primeng/api/selectitem';
+import {BookingParty, BookingPartyOrReference, DocumentPartyReference, ShipperParty} from '../models/ndoc-party';
 
 
 export function nullSelectItem<E>(): SelectItem<E|null> {
@@ -90,5 +92,37 @@ export function createIdentifyingCode(): IdentifyingCode {
   return {
    DCSAResponsibleAgencyCode: DCSAResponsibleAgencyCode.SMDG,
    partyCode: '',
+  }
+}
+
+export function createShipperParty(): ShipperParty {
+  return {
+    legalName: '',
+    partyContactDetails: {
+      name: '',
+    },
+    address: {
+
+    },
+    identifyingCodes: {
+
+    },
+    isToBeNotified: false
+  };
+}
+
+export function createBookingParty(): BookingParty {
+  return {
+    legalName: '',
+    address: {
+
+    }
+  };
+}
+
+
+export function createDocumentPartyReference(): DocumentPartyReference {
+  return {
+    carrierPartyReference: '',
   }
 }

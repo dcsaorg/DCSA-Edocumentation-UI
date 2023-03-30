@@ -1,6 +1,6 @@
-import {Directive, ElementRef, Input, Self} from '@angular/core';
+import {Directive, Input} from '@angular/core';
 import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angular/forms';
-import {IMOValidatorFn, nonEmptyLocationCheck} from './validators';
+import {nonEmptyLocationCheck} from './validators';
 import {EDocLocation} from '../models/location';
 
 @Directive({

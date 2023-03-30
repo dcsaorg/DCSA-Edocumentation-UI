@@ -48,7 +48,10 @@ import {NonEmptyLocationDirective} from './validators/non-empty-location.directi
 import { UiVsApiComponentComponent } from './components/ui-vs-api-component/ui-vs-api-component.component';
 import {DividerModule} from 'primeng/divider';
 import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
+import {DocumentPartyDemoComponent} from './components/document-party-demo/document-party-demo.component';
+import { EditShipperPartyComponent } from './components/document-party-demo/edit-shipper-party/edit-shipper-party.component';
 import { ConstraintVisualizationComponent } from './components/constraint-visualization-note/constraint-visualization.component';
+import { EditBookingPartyComponent } from './components/document-party-demo/edit-booking-party/edit-booking-party.component';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -75,7 +78,10 @@ export function ConfigLoader(configService: ConfigService) {
     EditAddressComponent,
     NonEmptyLocationDirective,
     UiVsApiComponentComponent,
+    DocumentPartyDemoComponent,
+    EditShipperPartyComponent,
     ConstraintVisualizationComponent,
+    EditBookingPartyComponent,
   ],
     imports: [
         BrowserModule,

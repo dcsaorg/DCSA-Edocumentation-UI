@@ -1,0 +1,281 @@
+<form #newForm="ngForm">
+  <p-accordion [multiple]="true">
+    <h2>Proposed solution</h2>
+    <ng-container>
+      <p-accordionTab>
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="newForm">
+          </app-validity-marker>
+          Document Parties &lt;Proposal&gt;
+        </ng-template>
+        <fieldset>
+          <legend>At least one of:</legend>
+          <ng-container ngModelGroup="originalShipper" #originalShipperControl="ngModelGroup">
+            <p-accordionTab>
+              <ng-template pTemplate="header">
+                <app-validity-marker [controlStatus]="originalShipperControl">
+                </app-validity-marker>
+                {{!originalShipperControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.originalShipper ? '' : 'No '}}Original Shipper
+
+              </ng-template>
+
+              <app-edit-shipper-party [(party)]="newDocumentParties.originalShipper"
+                                      [allowUndefined]="true"
+                                      [required]="!newDocumentParties.shipperForwardingAgent">
+
+              </app-edit-shipper-party>
+
+            </p-accordionTab>
+          </ng-container>
+          <ng-container ngModelGroup="shipperForwardingAgent" #shipperForwardingAgentControl="ngModelGroup">
+            <p-accordionTab>
+              <ng-template pTemplate="header">
+                <app-validity-marker [controlStatus]="shipperForwardingAgentControl">
+                </app-validity-marker>
+                {{!shipperForwardingAgentControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.shipperForwardingAgent ? '' : 'No '}}Shipper Forwarding Agent
+
+              </ng-template>
+
+              <app-edit-shipper-party [(party)]="newDocumentParties.shipperForwardingAgent"
+                                      [allowUndefined]="true"
+                                      [required]="!newDocumentParties.originalShipper">
+              </app-edit-shipper-party>
+
+            </p-accordionTab>
+          </ng-container>
+        </fieldset>
+
+        <ng-container ngModelGroup="consignee" #consigneeControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="consigneeControl">
+              </app-validity-marker>
+              {{!consigneeControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.consignee ? '' : 'No '}}Consignee
+
+            </ng-template>
+
+            <app-edit-shipper-party [(party)]="newDocumentParties.consignee">
+            </app-edit-shipper-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+
+        <ng-container ngModelGroup="consigneeForwardingAgent" #consigneeForwardingAgentControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="consigneeForwardingAgentControl">
+              </app-validity-marker>
+              {{!consigneeForwardingAgentControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.consigneeForwardingAgent ? '' : 'No '}}Consignee Forwarding Agent
+
+            </ng-template>
+
+            <app-edit-shipper-party [(party)]="newDocumentParties.consigneeForwardingAgent">
+            </app-edit-shipper-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+        <ng-container ngModelGroup="serviceContractOwner" #serviceContractOwnerControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="serviceContractOwnerControl">
+              </app-validity-marker>
+              {{!serviceContractOwnerControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.serviceContractOwner ? '' : 'No '}}Service Contract Owner
+
+            </ng-template>
+
+            <app-edit-shipper-party [(party)]="newDocumentParties.serviceContractOwner">
+            </app-edit-shipper-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+
+        <ng-container ngModelGroup="firstNotifyParty" #firstNotifyPartyControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="firstNotifyPartyControl">
+              </app-validity-marker>
+              {{!firstNotifyPartyControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.firstNotifyParty ? '' : 'No '}}First Notify Party
+
+            </ng-template>
+
+            <app-edit-shipper-party [(party)]="newDocumentParties.firstNotifyParty">
+            </app-edit-shipper-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+        <ng-container ngModelGroup="secondNotifyParty" #secondNotifyPartyControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="secondNotifyPartyControl">
+              </app-validity-marker>
+              {{!secondNotifyPartyControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.secondNotifyParty ? '' : 'No '}}Second Notify Party
+
+            </ng-template>
+
+            <app-edit-shipper-party [(party)]="newDocumentParties.secondNotifyParty">
+            </app-edit-shipper-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+        <ng-container ngModelGroup="otherNotifyParty" #otherNotifyPartyControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="otherNotifyPartyControl">
+              </app-validity-marker>
+              {{!otherNotifyPartyControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.otherNotifyParty ? '' : 'No '}}Other Notify Party
+
+            </ng-template>
+
+            <app-edit-shipper-party [(party)]="newDocumentParties.otherNotifyParty">
+            </app-edit-shipper-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+        <ng-container ngModelGroup="shipperInvoiceParty" #shipperInvoicePartyControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="shipperInvoicePartyControl">
+              </app-validity-marker>
+              {{!shipperInvoicePartyControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.shipperInvoiceParty ? '' : 'No '}}Shipper Invoice Party
+
+            </ng-template>
+
+            <app-edit-booking-party [(party)]="newDocumentParties.shipperInvoiceParty"
+                                    [displayedAddress]="true">
+            </app-edit-booking-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+        <ng-container ngModelGroup="consigneeInvoiceParty" #consigneeInvoicePartyControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="consigneeInvoicePartyControl">
+              </app-validity-marker>
+              {{!consigneeInvoicePartyControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.consigneeInvoiceParty ? '' : 'No '}}Consignee Invoice Party
+
+            </ng-template>
+
+            <app-edit-booking-party [(party)]="newDocumentParties.consigneeInvoiceParty"
+                                    [displayedAddress]="true">
+            </app-edit-booking-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+        <ng-container ngModelGroup="bookingParty" #bookingPartyControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="bookingPartyControl">
+              </app-validity-marker>
+              {{!bookingPartyControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.bookingParty ? '' : 'No '}}Booking Party
+            </ng-template>
+
+            <app-edit-booking-party [(party)]="newDocumentParties.bookingParty"
+                                    [displayedAddress]="false">
+            </app-edit-booking-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+        <ng-container ngModelGroup="carrierBookingOffice" #carrierBookingOfficeControl="ngModelGroup">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="carrierBookingOfficeControl">
+              </app-validity-marker>
+              {{!carrierBookingOfficeControl.valid ? '[INVALID] ' : ''}}{{newDocumentParties.carrierBookingOffice ? '' : 'No '}}Carrier Booking Office Party
+            </ng-template>
+
+            <app-edit-booking-party [(party)]="newDocumentParties.carrierBookingOffice"
+                                    [displayedAddress]="false">
+            </app-edit-booking-party>
+
+          </p-accordionTab>
+        </ng-container>
+
+
+      </p-accordionTab>
+      <p-accordionTab>
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="newForm">
+          </app-validity-marker>
+          API payload (Technical rendering)
+        </ng-template>
+        <div>This is the JSON payload that would be used in the API</div>
+        <pre>{{newDocumentParties | json}}</pre>
+      </p-accordionTab>
+    </ng-container>
+  </p-accordion>
+</form>
+    <hr>
+    <h2>Current solution</h2>
+    <hr>
+
+<form #oldForm="ngForm">
+  <p-accordion [multiple]="true">
+    <ng-container>
+      <p-accordionTab>
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="oldForm">
+          </app-validity-marker>
+          Document Parties ({{this.documentParties.length}}) [Optional] &lt;Current approach&gt;
+        </ng-template>
+
+        <div *ngFor="let documentParty of this.documentParties; index as i"
+             ngModelGroup="documentParties[{{i}}]" #documentPartyControl="ngModelGroup">
+          <p-accordionTab [selected]="documentPartySelected[i]">
+
+            <ng-template pTemplate="header">
+              <app-validity-marker [controlStatus]="documentPartyControl">
+              </app-validity-marker>
+              {{!documentPartyControl.valid ? '[INVALID] ' : ''}}{{documentParty.partyFunction}}
+              <button pButton
+                      appDebounceClick
+                      class="p-button-danger tab-header-discard-button"
+                      [debounceTime]="200"
+                      icon="pi pi-trash"
+                      (debounceClick)="removeDocumentParty(i, documentPartyControl)">
+              </button>
+            </ng-template>
+
+            <app-edit-document-party [(documentParty)]="documentParties[i]">
+            </app-edit-document-party>
+
+            <div class="row">
+              <button pButton
+                      appDebounceClick
+                      label="Close tab"
+                      class="p-button-secondary"
+                      [debounceTime]="200"
+                      (debounceClick)="documentPartySelected[i] = false">
+              </button>
+            </div>
+          </p-accordionTab>
+        </div>
+
+        <button appDebounceClick
+                pButton
+                (debounceClick)="addDocumentParty()"
+                [debounceTime]="200"
+                icon="pi pi-plus"
+                class="p-button-secondary">
+        </button>
+      </p-accordionTab>
+      <p-accordionTab>
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="oldForm">
+          </app-validity-marker>
+          API payload (Technical rendering)
+        </ng-template>
+        <div>This is the JSON payload that would be used in the API</div>
+        <pre>{{documentParties | json}}</pre>
+      </p-accordionTab>
+    </ng-container>
+  </p-accordion>
+</form>
