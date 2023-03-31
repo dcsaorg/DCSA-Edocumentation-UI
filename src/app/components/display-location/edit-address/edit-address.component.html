@@ -25,7 +25,7 @@
              maxlength="100">
     </div>
     <div class="row">
-      <label>Street, street nr. and floor: </label>
+      <label>Street: </label>
       <input type="text"
              name="street"
              placeholder="Street"
@@ -34,6 +34,10 @@
              nullValue
              pInputText
              maxlength="100">
+    </div>
+
+    <div class="row">
+      <label>Street Number: </label>
       <input type="text"
              name="streetNumber"
              placeholder="Street number"
@@ -42,6 +46,9 @@
              nullValue
              pInputText
              maxlength="50">
+    </div>
+    <div class="row">
+      <label>Floor: </label>
       <input type="text"
              name="floor"
              placeholder="Floor"
@@ -52,7 +59,7 @@
              maxlength="50">
     </div>
     <div class="row">
-      <label>Post code and city: </label>
+      <label>Post code: </label>
       <input type="text"
              name="postCode"
              placeholder="Post code"
@@ -61,6 +68,9 @@
              nullValue
              pInputText
              maxlength="50">
+    </div>
+    <div class="row">
+      <label>City: </label>
       <input type="text"
              name="city"
              placeholder="City"
@@ -71,10 +81,10 @@
              maxlength="65">
     </div>
     <div class="row">
-      <label>State (if applicable): </label>
+      <label>State: </label>
       <input type="text"
              name="stateRegion"
-             placeholder="State"
+             placeholder="State (if applicable)"
              [(ngModel)]="a.stateRegion"
              [required]="requiredFields?.stateRegion ?? false"
              nullValue
