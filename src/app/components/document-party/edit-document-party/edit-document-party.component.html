@@ -127,7 +127,7 @@
           <ng-container *ngFor="let identifyingCode of identifyingCodes; index as j"
                         ngModelGroup="identifyingCodes[j]"
                         #identifyingCodeControl="ngModelGroup">
-            <p-accordionTab>
+            <p-accordionTab [selected]="true">
               <ng-template pTemplate="header">
                 <app-validity-marker [controlStatus]="identifyingCodesListControl">
                 </app-validity-marker>
