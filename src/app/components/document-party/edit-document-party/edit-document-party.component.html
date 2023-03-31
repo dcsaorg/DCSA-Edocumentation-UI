@@ -146,7 +146,7 @@
                 <label>DCSA Responsible Agency Code: </label>
                 <p-dropdown [required]="true"
                             [(ngModel)]="identifyingCode.DCSAResponsibleAgencyCode"
-                            name="DCSAResponsibleAgencyCode"
+                            name="identifyingCodes[{{j}}].DCSAResponsibleAgencyCode"
                             [values$]="dcsaResponsibleAgencyCode$"
                             appEnumDropDown>
                 </p-dropdown>
