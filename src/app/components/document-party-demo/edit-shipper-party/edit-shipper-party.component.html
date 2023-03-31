@@ -10,6 +10,7 @@
   </p-dropdown>
   <app-constraint-visualization-note></app-constraint-visualization-note>
 </div>
+<br>
 <ng-container *ngIf="party$ | async as party">
   <ng-container *ngIf="isDocumentPartyReference(party)">
 
@@ -75,11 +76,32 @@
              pattern="^\S+(\s+\S+)*$"
              maxlength="100">
     </div>
-    <app-edit-address [(address)]="party.address"
-                      [forceAddress]="true"
-                      [requiredFields]="{name: true, country: true}"
-                      [required]="true">
-    </app-edit-address>
+    <br>
+    <ng-container ngModelGroup="partyContactDetails" #partyContactDetailsControl="ngModelGroup">
+      <p-accordionTab [selected]="true">
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="partyContactDetailsControl">
+          </app-validity-marker>
+          Party Contact Details [Required]
+        </ng-template>
+        <app-edit-party-contact-details [(partyContactDetail)]="party.partyContactDetails">
+        </app-edit-party-contact-details>
+      </p-accordionTab>
+    </ng-container>
+    <ng-container ngModelGroup="address" #addressControl="ngModelGroup">
+      <p-accordionTab [selected]="true">
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="addressControl">
+          </app-validity-marker>
+          Address [Required]
+        </ng-template>
+        <app-edit-address [(address)]="party.address"
+                          [forceAddress]="true"
+                          [requiredFields]="{name: true, country: true}"
+                          [required]="true">
+        </app-edit-address>
+      </p-accordionTab>
+    </ng-container>
     <ng-container ngModelGroup="displayedAddress" #displayedAddressListControl="ngModelGroup">
       <p-accordionTab>
         <ng-template pTemplate="header">
@@ -91,15 +113,6 @@
         </app-edit-displayed-address>
       </p-accordionTab>
     </ng-container>
-    <div class="row">
-      <label><em>Party Contact Details: </em></label>
-      <p-tag styleClass="mr-2"
-             icon="pi pi-info-circle"
-             severity="info"
-             pTooltip='There should have been an input here, which has been omitted for the sake of keeping the example simpler or smaller.'
-             value="Omitted for brevity">
-      </p-tag>
-    </div>
 
     <fieldset *ngIf="party.identifyingCodes as identifyingCodes">
       <legend>Identifying codes</legend>
@@ -156,6 +169,7 @@
                maxlength="100">
       </div>
     </fieldset>
+    <br>
     <div class="row">
       <label>Is To Be Notified: </label>
       <p-inputSwitch [(ngModel)]="party.isToBeNotified"

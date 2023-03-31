@@ -1,0 +1,45 @@
+<ng-container *ngIf="partyContactDetail as partyContactDetail; else loading">
+  <div class="row">
+    <label>Name: </label>
+    <input name="name"
+           pInputText
+           [(ngModel)]="partyContactDetail.name"
+           (ngModelChange)="partyContactDetailsChanged()"
+           [required]="true"
+           pattern="^\S+(\s+\S+)*$"
+           type="text"
+           maxlength="100">
+  </div>
+
+  <div class="row">
+    <label>Phone: </label>
+    <input name="phone"
+           pInputText
+           [(ngModel)]="partyContactDetail.phone"
+           (ngModelChange)="partyContactDetailsChanged()"
+           type="text"
+           maxlength="30">
+  </div>
+  <div class="row">
+    <label>Email: </label>
+    <input name="email"
+           pInputText
+           [(ngModel)]="partyContactDetail.email"
+           (ngModelChange)="partyContactDetailsChanged()"
+           pattern="^\S+(\s+\S+)*$"
+           type="text"
+           maxlength="100">
+  </div>
+  <div class="row">
+    <label>URL: </label>
+    <input name="url"
+           pInputText
+           [(ngModel)]="partyContactDetail.url"
+           (ngModelChange)="partyContactDetailsChanged()"
+           type="text"
+           maxlength="100">
+  </div>
+</ng-container>
+<ng-template #loading>
+  <p-progressSpinner></p-progressSpinner>
+</ng-template>

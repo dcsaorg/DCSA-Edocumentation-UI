@@ -53,6 +53,7 @@ import { EditShipperPartyComponent } from './components/document-party-demo/edit
 import { ConstraintVisualizationComponent } from './components/constraint-visualization-note/constraint-visualization.component';
 import { EditBookingPartyComponent } from './components/document-party-demo/edit-booking-party/edit-booking-party.component';
 import { EditDisplayedAddressComponent } from './components/displayed-address/edit-displayed-address/edit-displayed-address.component';
+import { EditPartyContactDetailsComponent } from './components/document-party/edit-party-contact-details/edit-party-contact-details.component';
 
 export function ConfigLoader(configService: ConfigService) {
   return () => configService.load();
@@ -84,6 +85,7 @@ export function ConfigLoader(configService: ConfigService) {
     ConstraintVisualizationComponent,
     EditBookingPartyComponent,
     EditDisplayedAddressComponent,
+    EditPartyContactDetailsComponent,
   ],
     imports: [
         BrowserModule,

@@ -10,6 +10,7 @@
   </p-dropdown>
   <app-constraint-visualization-note></app-constraint-visualization-note>
 </div>
+<br>
 <ng-container *ngIf="party$| async as party">
   <ng-container *ngIf="isDocumentPartyReference(party)">
     <app-ui-vs-api-component [apiMode]="apiMode" [uiMode]="uiMode">
