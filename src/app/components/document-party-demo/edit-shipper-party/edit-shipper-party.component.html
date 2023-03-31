@@ -114,61 +114,68 @@
       </p-accordionTab>
     </ng-container>
 
-    <fieldset *ngIf="party.identifyingCodes as identifyingCodes">
-      <legend>Identifying codes</legend>
-      <div class="row">
-        <label>Legal Name: </label>
-        <input name="identifyingCodes.carrierPartyReference"
-               nullValue
-               pInputText
-               [(ngModel)]="identifyingCodes.carrierPartyReference"
-               placeholder="Carrier's Party Reference"
-               type="text"
-               pattern="^\S+(\s+\S+)*$"
-               maxlength="100">
-        <p-tag styleClass="mr-2"
-               icon="pi pi-info-circle"
-               severity="info"
-               pTooltip='The client would normally not fill this out in the original request. If they had it, they would use the "existing-party" option instead. However, the field is present for update requests (UC3/PUT), where they use the expanded version provided by the carrier.'
-               value="Clarifying note">
-        </p-tag>
-      </div>
+    <ng-container ngModelGroup="identifyingCodes" #identifyingCodesControl="ngModelGroup"
+                  *ngIf="party.identifyingCodes as identifyingCodes">
+      <p-accordionTab>
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="identifyingCodesControl">
+          </app-validity-marker>
+          Identifying Codes [Optional]
+        </ng-template>
+        <div class="row">
+          <label>Legal Name: </label>
+          <input name="identifyingCodes.carrierPartyReference"
+                 nullValue
+                 pInputText
+                 [(ngModel)]="identifyingCodes.carrierPartyReference"
+                 placeholder="Carrier's Party Reference"
+                 type="text"
+                 pattern="^\S+(\s+\S+)*$"
+                 maxlength="100">
+          <p-tag styleClass="mr-2"
+                 icon="pi pi-info-circle"
+                 severity="info"
+                 pTooltip='The client would normally not fill this out in the original request. If they had it, they would use the "existing-party" option instead. However, the field is present for update requests (UC3/PUT), where they use the expanded version provided by the carrier.'
+                 value="Clarifying note">
+          </p-tag>
+        </div>
 
-      <div class="row">
-        <label>LEI Code: </label>
-        <input name="identifyingCodes.leiCode"
-               nullValue
-               pInputText
-               [(ngModel)]="identifyingCodes.leiCode"
-               placeholder="Legal Entity Identifier (LEI) code"
-               type="text"
-               pattern="^[0-9A-Z]{18}[0-9]{2}$"
-               minlength="20"
-               maxlength="20">
-      </div>
+        <div class="row">
+          <label>LEI Code: </label>
+          <input name="identifyingCodes.leiCode"
+                 nullValue
+                 pInputText
+                 [(ngModel)]="identifyingCodes.leiCode"
+                 placeholder="Legal Entity Identifier (LEI) code"
+                 type="text"
+                 pattern="^[0-9A-Z]{18}[0-9]{2}$"
+                 minlength="20"
+                 maxlength="20">
+        </div>
 
-      <div class="row">
-        <label><em>Tax references: </em></label>
-        <p-tag styleClass="mr-2"
-               icon="pi pi-info-circle"
-               severity="info"
-               pTooltip='There should have been an input here, which has been omitted for the sake of keeping the example simpler or smaller.'
-               value="Omitted for brevity">
-        </p-tag>
-      </div>
+        <div class="row">
+          <label><em>Tax references: </em></label>
+          <p-tag styleClass="mr-2"
+                 icon="pi pi-info-circle"
+                 severity="info"
+                 pTooltip='There should have been an input here, which has been omitted for the sake of keeping the example simpler or smaller.'
+                 value="Omitted for brevity">
+          </p-tag>
+        </div>
 
-      <div class="row">
-        <label>EBL Platform Identifier: </label>
-        <input name="identifyingCodes.eblPlatformIdentifier"
-               nullValue
-               pInputText
-               [(ngModel)]="identifyingCodes.eblPlatformIdentifier"
-               placeholder="some-local-id@some-ebl-platform.com"
-               type="text"
-               pattern="^\S+@\S+"
-               maxlength="100">
-      </div>
-    </fieldset>
+        <div class="row">
+          <label>EBL Platform Identifier: </label>
+          <input name="identifyingCodes.eblPlatformIdentifier"
+                 nullValue
+                 pInputText
+                 [(ngModel)]="identifyingCodes.eblPlatformIdentifier"
+                 placeholder="some-local-id@some-ebl-platform.com"
+                 type="text"
+                 pattern="^\S+@\S+"
+                 maxlength="100">
+        </div>
+      </p-accordionTab>
+    </ng-container>
     <br>
     <div class="row">
       <label>Is To Be Notified: </label>
