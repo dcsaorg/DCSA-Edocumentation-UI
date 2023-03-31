@@ -1,0 +1,34 @@
+<ng-container *ngIf="displayedAddress as displayedAddress">
+  <ng-container *ngFor="let _ of displayedAddress; index as j; trackBy:trackDisplayAddressBy">
+    <div class="row">
+      <label>Displayed Address line: </label>
+      <input name="displayedAddress[{{j}}]"
+             pInputText
+             [(ngModel)]="displayedAddress[j]"
+             [required]="true"
+             (ngModelChange)="displayedAddressChanged()"
+             type="text"
+             pattern="^\S*(\s+\S+)*$"
+             maxlength="35"
+             #displayedAddressControl="ngModel">
+
+      <button pButton
+              appDebounceClick
+              class="p-button-danger tab-header-discard-button"
+              [debounceTime]="200"
+              icon="pi pi-trash"
+              (debounceClick)="removeAddressLine(j, displayedAddressControl)">
+      </button>
+    </div>
+  </ng-container>
+</ng-container>
+<button appDebounceClick
+        pButton
+        (debounceClick)="addDisplayedAddressLine()"
+        [debounceTime]="200"
+        [disabled]="(displayedAddress?.length ?? 0) > 4"
+        iconPos="left"
+        icon="pi pi-plus"
+        class="p-button-secondary"
+        label="Add display address line">
+</button>

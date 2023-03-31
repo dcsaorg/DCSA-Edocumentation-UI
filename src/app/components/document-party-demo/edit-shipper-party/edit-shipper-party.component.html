@@ -80,15 +80,17 @@
                       [requiredFields]="{name: true, country: true}"
                       [required]="true">
     </app-edit-address>
-    <div class="row">
-      <label><em>Displayed Address: </em></label>
-      <p-tag styleClass="mr-2"
-             icon="pi pi-info-circle"
-             severity="info"
-             pTooltip='There should have been an input here, which has been omitted for the sake of keeping the example simpler or smaller.'
-             value="Omitted for brevity">
-      </p-tag>
-    </div>
+    <ng-container ngModelGroup="displayedAddress" #displayedAddressListControl="ngModelGroup">
+      <p-accordionTab>
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="displayedAddressListControl">
+          </app-validity-marker>
+          Displayed Address [Optional]
+        </ng-template>
+        <app-edit-displayed-address [(displayedAddress)]="party.displayedAddress">
+        </app-edit-displayed-address>
+      </p-accordionTab>
+    </ng-container>
     <div class="row">
       <label><em>Party Contact Details: </em></label>
       <p-tag styleClass="mr-2"

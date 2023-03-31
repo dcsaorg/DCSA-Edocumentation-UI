@@ -38,24 +38,6 @@ export class EditDocumentPartyComponent {
     this.dcsaResponsibleAgencyCode$ = staticDataService.getDCSAResponsibleAgencyCodeItems();
   }
 
-  trackDisplayAddressBy<U extends T, T>(index: number, _: T & U): any {
-    return index;
-  }
-
-  removeAddressLine(j: number, modelGroup: NgControl): void {
-    this.documentParty!.displayedAddress!.splice(j, 1);
-    clearValidationIssuesOnNgControl(modelGroup);
-  }
-
-  addDisplayedAddressLine(): void {
-    const documentParty = this.documentParty;
-    if (!documentParty) {
-      return;
-    }
-    documentParty.displayedAddress ??= []
-    documentParty.displayedAddress.push('');
-  }
-
   removeIdentifyingCode(j: number, control: AbstractFormGroupDirective): void {
     this.documentParty!.party!.identifyingCodes!.splice(j, 1);
     clearValidationIssuesOnFormGroupDirective(control);
