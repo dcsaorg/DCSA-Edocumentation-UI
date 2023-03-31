@@ -74,11 +74,21 @@
              pattern="^\S+(\s+\S+)*$"
              maxlength="100">
     </div>
-    <app-edit-address [(address)]="party.address"
-                      [forceAddress]="true"
-                      [requiredFields]="{name: true, country: true}"
-                      [required]="true">
-    </app-edit-address>
+    <br>
+    <ng-container ngModelGroup="address" #addressControl="ngModelGroup">
+      <p-accordionTab [selected]="true">
+        <ng-template pTemplate="header">
+          <app-validity-marker [controlStatus]="addressControl">
+          </app-validity-marker>
+          Address [Required]
+        </ng-template>
+        <app-edit-address [(address)]="party.address"
+                          [forceAddress]="true"
+                          [requiredFields]="{name: true, country: true}"
+                          [required]="true">
+        </app-edit-address>
+      </p-accordionTab>
+    </ng-container>
     <ng-container ngModelGroup="displayedAddress" #displayedAddressListControl="ngModelGroup">
       <p-accordionTab>
         <ng-template pTemplate="header">
