@@ -1,4 +1,4 @@
-<p-accordion *ngIf="documentParty as documentParty">
+<p-accordion [multiple]="true" *ngIf="documentParty as documentParty">
   <div class="row">
     <label>Party Function</label>
     <p-dropdown [(ngModel)]="documentParty.partyFunction"
