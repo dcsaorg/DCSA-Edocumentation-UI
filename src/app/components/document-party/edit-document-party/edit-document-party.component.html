@@ -146,7 +146,15 @@
                 <ng-template pTemplate="header">
                   <app-validity-marker [controlStatus]="identifyingCodesListControl">
                   </app-validity-marker>
-                  Identifying Code [Optional]
+                  Identifying Code {{identifyingCode.DCSAResponsibleAgencyCode}}
+
+                  <button pButton
+                          appDebounceClick
+                          class="p-button-danger tab-header-discard-button"
+                          [debounceTime]="200"
+                          icon="pi pi-trash"
+                          (debounceClick)="removeIdentifyingCode(j, identifyingCodeControl)">
+                  </button>
                 </ng-template>
 
                 <div class="row">
@@ -177,27 +185,18 @@
                          maxlength="100">
                 </div>
 
-                <div class="row">
-                  <button pButton
-                          appDebounceClick
-                          class="p-button-danger tab-header-discard-button"
-                          [debounceTime]="200"
-                          icon="pi pi-trash"
-                          (debounceClick)="removeIdentifyingCode(j, identifyingCodeControl)">
-                  </button>
-                </div>
               </p-accordionTab>
             </ng-container>
-            <button appDebounceClick
-                    pButton
-                    (debounceClick)="addIdentifyingCode()"
-                    [debounceTime]="200"
-                    iconPos="left"
-                    icon="pi pi-plus"
-                    class="p-button-secondary"
-                    label="Add Identifying party code">
-            </button>
           </ng-container>
+          <button appDebounceClick
+                  pButton
+                  (debounceClick)="addIdentifyingCode()"
+                  [debounceTime]="200"
+                  iconPos="left"
+                  icon="pi pi-plus"
+                  class="p-button-secondary"
+                  label="Add Identifying party code">
+          </button>
         </p-accordionTab>
       </ng-container>
 
