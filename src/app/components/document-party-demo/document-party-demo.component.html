@@ -101,7 +101,8 @@
 
             </ng-template>
 
-            <app-edit-shipper-party [(party)]="newDocumentParties.firstNotifyParty">
+            <app-edit-shipper-party [(party)]="newDocumentParties.firstNotifyParty"
+                                    [notifiableOption]="false">
             </app-edit-shipper-party>
 
           </p-accordionTab>
@@ -116,7 +117,8 @@
 
             </ng-template>
 
-            <app-edit-shipper-party [(party)]="newDocumentParties.secondNotifyParty">
+            <app-edit-shipper-party [(party)]="newDocumentParties.secondNotifyParty"
+                                    [notifiableOption]="false">
             </app-edit-shipper-party>
 
           </p-accordionTab>
@@ -131,7 +133,8 @@
 
             </ng-template>
 
-            <app-edit-shipper-party [(party)]="newDocumentParties.otherNotifyParty">
+            <app-edit-shipper-party [(party)]="newDocumentParties.otherNotifyParty"
+                                    [notifiableOption]="false">
             </app-edit-shipper-party>
 
           </p-accordionTab>

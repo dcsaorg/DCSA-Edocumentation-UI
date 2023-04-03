@@ -31,6 +31,9 @@ export class EditShipperPartyComponent {
   required: boolean = false;
 
   @Input()
+  notifiableOption: boolean = true;
+
+  @Input()
   allowUndefined: boolean = false;
 
   @Input()
