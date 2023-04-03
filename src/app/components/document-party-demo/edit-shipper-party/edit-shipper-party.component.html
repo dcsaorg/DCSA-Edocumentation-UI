@@ -3,7 +3,7 @@
   <p-dropdown [ngModel]="partyType$ | async"
               [required]="required"
               [showClear]="allowUndefined || !required"
-              [options]="['existing-party', 'new-party']"
+              [options]="['by-reference', 'by-data']"
               name="_partyDefined"
               placeholder="Choose a definition type (leave blank for undefined)"
               (ngModelChange)="partyType$.next($event)">

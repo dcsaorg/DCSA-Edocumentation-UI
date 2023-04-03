@@ -5,7 +5,7 @@ import {createShipperParty} from '../../../util/object-factory';
 import {DocumentPartyReferenceService} from '../../../services/document-party-reference.service';
 import {BehaviorSubject, map, Observable, tap} from 'rxjs';
 
-type PartyType = 'existing-party' | 'new-party';
+type PartyType = 'by-reference' | 'by-data';
 
 @Component({
   selector: 'app-edit-shipper-party',
@@ -38,10 +38,10 @@ export class EditShipperPartyComponent {
     if (!p) {
       this.previousPartyType = null;
     } else if (this.isDocumentPartyReference(p)) {
-      this.previousPartyType = 'existing-party';
+      this.previousPartyType = 'by-reference';
       this.savedReference = p;
     } else {
-      this.previousPartyType = 'new-party';
+      this.previousPartyType = 'by-data';
       this.savedParty = p;
     }
     // Set previous party type to avoid emitting to the parent component
@@ -61,10 +61,10 @@ export class EditShipperPartyComponent {
         case null:
           party = undefined;
           break;
-        case 'existing-party':
+        case 'by-reference':
           party = this.savedReference;
           break;
-        case 'new-party':
+        case 'by-data':
           party = this.savedParty;
           break;
         default:

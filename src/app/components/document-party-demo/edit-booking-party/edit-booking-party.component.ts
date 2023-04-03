@@ -6,7 +6,7 @@ import {DocumentPartyReferenceService} from '../../../services/document-party-re
 import {BehaviorSubject, map, Observable} from 'rxjs';
 
 
-type PartyType = 'existing-party' | 'new-party';
+type PartyType = 'by-reference' | 'by-data';
 
 @Component({
   selector: 'app-edit-booking-party',
@@ -43,10 +43,10 @@ export class EditBookingPartyComponent {
     if (!p) {
       this.previousPartyType = null;
     } else if (this.isDocumentPartyReference(p)) {
-      this.previousPartyType = 'existing-party';
+      this.previousPartyType = 'by-reference';
       this.savedReference = p;
     } else {
-      this.previousPartyType = 'new-party';
+      this.previousPartyType = 'by-data';
       this.savedParty = p;
     }
     // Set previous party type to avoid emitting to the parent component
@@ -67,10 +67,10 @@ export class EditBookingPartyComponent {
         case null:
           party = undefined;
           break;
-        case 'existing-party':
+        case 'by-reference':
           party = this.savedReference;
           break;
-        case 'new-party':
+        case 'by-data':
           party = this.savedParty;
           break;
         default:
