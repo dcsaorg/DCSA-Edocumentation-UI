@@ -128,7 +128,6 @@ export class EditLocationComponent {
   }
 
   facilityChanged(): void {
-    console.log(this.location);
     this.facilityChange$.next(this.location ?? null);
   }
 }

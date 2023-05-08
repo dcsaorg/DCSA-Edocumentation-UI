@@ -5,6 +5,9 @@ export interface Config {
   eblBackendURL?: string | null;
   bkgBackendURL?: string | null;
 
+  eblUnofficialBackendURL?: string | null;
+  bkgUnofficialBackendURL?: string | null;
+
   dateTimeFormat: string;
   dateFormat: string;
   authRegion?: string | null;

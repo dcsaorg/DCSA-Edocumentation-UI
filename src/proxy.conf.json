@@ -13,5 +13,15 @@
     "target": "http://localhost:9090/",
     "secure": false,
     "logLevel": "debug"
+  },
+  "/unofficial/ebl/v3": {
+    "target": "http://localhost:9090/",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/unofficial/bkg/v2": {
+    "target": "http://localhost:9090/",
+    "secure": false,
+    "logLevel": "debug"
   }
 }

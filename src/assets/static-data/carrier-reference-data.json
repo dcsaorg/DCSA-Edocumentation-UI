@@ -1,0 +1,100 @@
+[
+  {
+    "partyName": "CMA CGM",
+    "identifyingCodes": [
+      {
+        "partyCode": "CMA",
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "codeListName": "LCL"
+      }
+    ]
+  },
+
+  {
+    "partyName": "Evergreen Marine Corporation",
+    "identifyingCodes": [
+      {
+        "partyCode": "EMC",
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "codeListName": "LCL"
+      }
+    ]
+  },
+
+  {
+    "partyName": "Hapag Lloyd",
+    "identifyingCodes": [
+      {
+        "partyCode": "HLC",
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "codeListName": "LCL"
+      }
+    ]
+  },
+
+  {
+    "partyName": "Hyundai",
+    "identifyingCodes": [
+      {
+        "partyCode": "HMM",
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "codeListName": "LCL"
+      }
+    ]
+  },
+
+  {
+    "partyName": "Maersk",
+    "identifyingCodes": [
+      {
+        "partyCode": "MSK",
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "codeListName": "LCL"
+      }
+    ]
+  },
+
+  {
+    "partyName": "Mediterranean Shipping Company",
+    "identifyingCodes": [
+      {
+        "partyCode": "MSC",
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "codeListName": "LCL"
+      }
+    ]
+  },
+
+  {
+    "partyName": "Ocean Network Express Pte. Ltd.",
+    "identifyingCodes": [
+      {
+        "partyCode": "ONE",
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "codeListName": "LCL"
+      }
+    ]
+  },
+
+  {
+    "partyName": "Yang Ming Line",
+    "identifyingCodes": [
+      {
+        "partyCode": "YML",
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "codeListName": "LCL"
+      }
+    ]
+  },
+
+  {
+    "partyName": "Zim Israel Navigation Company",
+    "identifyingCodes": [
+      {
+        "partyCode": "ZIM",
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "codeListName": "LCL"
+      }
+    ]
+  }
+]

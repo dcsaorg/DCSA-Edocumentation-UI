@@ -1,0 +1,208 @@
+<h1>Perform a carrier action</h1>
+<p>On this page, you can simulate the carrier side of the DCSA standardized EDocumentation API.</p>
+
+<div class="row">
+  <label for="chooseCarrierAction">Which action do you wish to perform? </label>
+  <p-dropdown [required]="true"
+              [(ngModel)]="selectedCarrierActionOption"
+              id="chooseCarrierAction"
+              [ngModelOptions]="{ standalone: true }"
+              optionLabel="label"
+              [filter]="true"
+              filterValue="label"
+              [showClear]="true"
+              placeholder="Please choose an action"
+              (onBlur)="maybeLoadDocument()"
+              [options]="carrierOptions">
+  </p-dropdown>
+</div>
+<div class="row">
+  <label for="chooseCarrierAction">Which document do you wish to act on? </label>
+  <input [required]="true"
+         pInputText
+         [disabled]="!selectedCarrierActionOption"
+         [(ngModel)]="documentReference"
+         id="documentReference"
+         [ngModelOptions]="{ standalone: true }"
+         (blur)="maybeLoadDocument()"
+         placeholder="Reference: Text or an UUID">
+  <p-tag styleClass="mr-2"
+         icon="pi pi-info-circle"
+         *ngIf="selectedCarrierActionOption?.value?.documentTypeName as documentTypeName"
+         severity="info"
+         pTooltip='This action requires the reference for {{documentTypeName}}'
+         value="{{documentTypeName}}">
+  </p-tag>
+</div>
+
+<div class="row">
+  <p-button [loading]="loadingDocument"
+            (onClick)="maybeLoadDocument()">
+    <ng-container *ngIf="!loadingDocument">Load document</ng-container>
+    <ng-container *ngIf="loadingDocument">Loading document </ng-container>
+  </p-button>
+</div>
+
+<br>
+
+<p-card>
+  <h3>Document details</h3>
+  <ng-container *ngIf="documentSummary$ | async as documentSummary; else maybeLoadingDocument">
+    <div class="row">
+      {{documentSummary.documentTypeName}}: {{documentReference}}
+    </div>
+    <div class="row" [class.obsolete]="documentNeedsReload">
+      Document Status: {{documentSummary.documentStatus}}
+    </div>
+
+    <fieldset *ngIf="documentStatusUpdate as documentStatusUpdate">
+      <ng-container *ngIf="newDocumentIssued">
+        <legend>New document issued</legend>
+        <div class="row">
+          Document Reference: {{documentStatusUpdate.documentReference}}
+        </div>
+        <div class="row">
+          Document Status: {{documentStatusUpdate.documentStatus}}
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!newDocumentIssued">
+        <legend>Document status updated</legend>
+        <div class="row">
+          Document Reference: {{documentStatusUpdate.documentReference}}
+        </div>
+        <div class="row">
+          Document Status (after change): {{documentStatusUpdate.documentStatus}}
+        </div>
+      </ng-container>
+
+    </fieldset>
+
+    <ng-container *ngIf="documentSummary.issuesWithTheDocument as issues">
+      <p-tag styleClass="mr-2"
+             icon="pi pi-warning-circle"
+             severity="warning"
+             value="Action cannot be performed">
+      </p-tag>
+      <ul>
+        <li *ngFor="let issue of issues">{{issue}}</li>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="!documentSummary.issuesWithTheDocument">
+      <p-tag styleClass="mr-2"
+             icon="pi pi-info-circle"
+             severity="info"
+             value="No issues were detected">
+      </p-tag>
+      <ng-container *ngIf="selectedCarrierActionOption?.value?.actionType as actionType">
+        <ng-container [ngSwitch]="actionType">
+          <ng-container *ngSwitchCase="CarrierAction.ISSUE_TD">
+            <br>
+            <div class="row">
+              <p-button (onClick)="changeTDState(documentSummary.documentReference, 'ISSU')"
+                        [disabled]="documentNeedsReload"
+                        [loading]="submittingAction">
+                Issue document
+              </p-button>
+            </div>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="CarrierAction.ISSUE_DRAFT_TD">
+            <br>
+            <h3>Please fill out this form to continue with the action</h3>
+            <form #issueDraftForm="ngForm">
+              <div class="row">
+                <label>Shipping Instruction Reference: </label>
+                <input type="text"
+                       [disabled]="true"
+                       [(ngModel)]="documentSummary.documentReference"
+                       pInputText
+                       [required]="true"
+                       name="shippingInstructionReference">
+              </div>
+              <div class="row">
+                <label>Issuing carrier: </label>
+                <ng-container *ngIf="issuers$ | async as issuers; else loadingSpinner">
+                  <p-dropdown optionLabel="partyName"
+                              filterBy="partyName"
+                              placeholder="Please choose the carrier"
+                              [options]="issuers"
+                              (onChange)="issuingTDDetails.issuingTDDraftParty = $event.value"
+                              [showClear]="true"
+                              [required]="true"
+                              [filter]="true">
+                  </p-dropdown>
+                </ng-container>
+              </div>
+              <fieldset>
+                <legend>Party Contact Details of issuing Carrier</legend>
+                <div class="row">
+                  <label>Name: </label>
+                  <input type="text"
+                         [(ngModel)]="issuingTDDetails.partyContactDetail.name"
+                         pInputText
+                         [required]="true"
+                         name="issuingParty.partyContactDetails[0].name">
+                </div>
+                <div class="row">
+                  <label>Email: </label>
+                  <input type="text"
+                         [(ngModel)]="issuingTDDetails.partyContactDetail.email"
+                         pInputText
+                         [required]="true"
+                         name="issuingParty.partyContactDetails[0].email">
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Optional fields</legend>
+                <div class="row">
+                  <label>Shipped On Board Date (if known/applicable): </label>
+                  <input type="date"
+                         [(ngModel)]="issuingTDDetails.shippedOnBoardDate"
+                         name="shippedOnBoardDate">
+                </div>
+                <div class="row">
+                  <label>Received For Shipment Date (if known/applicable): </label>
+                  <input type="date"
+                         [(ngModel)]="issuingTDDetails.receivedForShipmentDate"
+                         name="receivedForShipmentDate">
+                </div>
+              </fieldset>
+
+              <div class="row">
+                <p-button (onClick)="issueDraftTD(documentSummary.documentReference)"
+                          [disabled]="documentNeedsReload || !issuingTDDetails.issuingTDDraftParty || !issueDraftForm.valid"
+                          [loading]="submittingAction">
+                  Issue draft
+                </p-button>
+              </div>
+            </form>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <p>Sorry, this action has not been implemented yet. :'(</p>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+
+    <div *ngIf="documentStatusUpdate as documentStatusUpdate" class="row">
+      <p>Action completed.</p>
+    </div>
+
+  </ng-container>
+  <ng-template #maybeLoadingDocument>
+    <ng-container *ngIf="loadingDocument">
+      <p-progressSpinner></p-progressSpinner>
+    </ng-container>
+    <ng-container *ngIf="!loadingDocument">
+      <p>Please fill in the form above to see the document details.</p>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #loadingSpinner>
+    <p-progressSpinner></p-progressSpinner>
+  </ng-template>
+</p-card>
+
+<p-toast></p-toast>

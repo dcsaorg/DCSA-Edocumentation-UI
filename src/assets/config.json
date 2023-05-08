@@ -4,6 +4,8 @@
   "supportBackendURL": null,
   "eblBackendURL": "/ebl/v3",
   "bkgBackendURL": "/bkg/v2",
+  "eblUnofficialBackendURL": "/unofficial/ebl/v3",
+  "bkgUnofficialBackendURL": "/unofficial/bkg/v2",
   "authentication": false,
   "useBackend": false,
   "features": {

@@ -51,7 +51,6 @@ export class EditReeferComponent implements OnChanges {
 
   get totalAtmosphere(): number {
     const reefer = this.activeReeferSettings;
-    console.log(reefer);
     return (reefer?.o2Setpoint ?? 0) + (reefer?.co2Setpoint ?? 0);
   }
 

@@ -4,6 +4,7 @@ import {BookingListComponent} from './components/booking-list/booking-list.compo
 import {BookingComponent} from './components/booking/booking.component';
 import {BookingEditorComponent} from './components/booking/booking-editor/booking-editor.component';
 import {DocumentPartyDemoComponent} from './components/document-party-demo/document-party-demo.component';
+import {CarrierActionsComponent} from './components/carrier-actions/carrier-actions.component';
 
 
 const guards: any[] = [];
@@ -11,6 +12,7 @@ const guards: any[] = [];
 const routes: Routes = [
   {path: '', redirectTo: '/latest-bookings', pathMatch: 'full'},
   {path: 'latest-bookings', component: BookingListComponent, canActivate: guards},
+  {path: 'carrier-actions', component: CarrierActionsComponent, canActivate: guards},
   {path: 'bookings/new', component: BookingEditorComponent, canActivate: guards},
   {path: 'bookings/:cbrr/edit', component: BookingEditorComponent, canActivate: guards},
   {path: 'bookings/:cbrr', component: BookingComponent, canActivate: guards},
