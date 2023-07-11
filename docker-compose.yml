@@ -6,7 +6,7 @@ services:
     build: 
       context: .
       args: 
-        - BASE_URI_ARG=/edoc-ui/
+        - BASE_URI_ARG=/
     ports:
       - '80:80' # Port mapping
     
