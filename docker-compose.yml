@@ -1,10 +1,12 @@
+#BASE_URI_ARG argument is passed to dockerfile from command line to rebase the ui path For eg: BASE_URI_AR=/my-ui/. 
+#If passed empty, then / is appended. The Uri must begin and end with / 
 version: '3.5'
 services:
   dcsa-ebl-ui:
     build: 
       context: .
       args: 
-        - BASE_URI_ARG=/ebl-ui/
+        - BASE_URI_ARG=/edoc-ui/
     ports:
       - '80:80' # Port mapping
     

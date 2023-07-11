@@ -14,7 +14,7 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-  BASE_URI_ENV: /ebl-ui/
+  BASE_URI_ENV: /edoc-ui/
 
 
 jobs:
