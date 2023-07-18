@@ -1,5 +1,5 @@
-#BASE_URI argument is passed to dockerfile from command line to rebase the ui path For eg: BASE_URI=/my-ui/. 
-#If passed empty, then / is appended. The Uri must begin and end with / 
+#BASE_URI argument is passed to dockerfile from command line to rebase the ui path For eg: BASE_URI=my-ui. 
+#If passed empty, then / is appended. 
 version: '3.5'
 services:
   dcsa-ebl-ui:
