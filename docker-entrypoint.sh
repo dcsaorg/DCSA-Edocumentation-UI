@@ -7,8 +7,9 @@ set -eu
 # NOTE: Trailing and leading slashes in base href are important!
 # Using `~` separator to avoid problems with forward slashes
 
-if [-z "$BASE_URI"]; then
-BASE_URI="/"
+if test -z "$BASE_URI"
+then
+    BASE_URI="/"
 fi 
 if [ $BASE_URI != "/" ]; then 
     mkdir -p /usr/share/nginx/$BASE_URI
