@@ -5,6 +5,10 @@ on:
     branches:
       - master
       - live-*
+  pull_request:
+    branches:
+      - master
+
   create:
     tags:
       - v*
