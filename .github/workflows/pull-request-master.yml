@@ -1,0 +1,68 @@
+name: Publish Docker image
+
+on:
+  pull_request:
+    branches:
+      - master
+
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+
+      - name: Build and  microservices
+        run:  docker-compose up -d -V --build
+
+      - name: Check UI Status
+        run: |
+          sleep 10
+          status=$(curl -s -o /dev/null -I -w "%{http_code}" http://localhost/edoc/index.html)
+          retries=12
+
+          while [[ "$status" != "200" ]] && [[ $retries -gt 0 ]]; do
+            echo "Status is '$status' - waiting 5 secs ($retries retries left)"
+            sleep 5
+            retries=$((retries - 1))
+            status=$(curl -s -o /dev/null -I -w "%{http_code}" http://localhost/edoc/index.html)
+          done
+
+          echo "Final status is '$status'"
+          if [[ "$status" != "200" ]]; then
+            curl -v http://localhost/edoc/index.html || :
+            docker ps || :
+            docker logs dcsa-edocumentation-ui-dcsa-ebl-ui-1 || :
+            exit 1
+          fi
+
+          echo "::set-output name=STATUS::$status"
+        id: healthcheck 
