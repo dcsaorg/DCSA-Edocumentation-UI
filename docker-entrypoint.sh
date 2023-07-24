@@ -11,6 +11,9 @@ if test -z "$BASE_URI"
 then
     BASE_URI="/"
 fi 
+if [ "$(ls -A /usr/share/nginx/$BASE_URI)" ]; then
+    echo "/usr/share/nginx/$BASE_URI already exist"
+fi
 if [ $BASE_URI != "/" ]; then 
     mkdir -p /usr/share/nginx/$BASE_URI
     mv /usr/share/nginx/html/* /usr/share/nginx/$BASE_URI/ 
